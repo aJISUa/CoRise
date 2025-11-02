@@ -1,0 +1,196 @@
+/* auth 공통 */
+.logo-auth {
+  font-family: "Righteous";
+  font-size: 68px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: #000;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* 회원가입 */
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-out {
+  width: 62rem;
+  transform: translateY(-4rem);
+}
+
+.signup-in {
+  width: 43rem;
+  margin: 0 auto;
+}
+
+.signup-in > div {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.signup-in > div > label {
+  width: 5.5rem;
+  text-align: right;
+  font-size: 0.875rem;
+  color: var(--label);
+  flex: 0 0 auto;
+  line-height: 1.4;
+}
+
+.signup-in > div > label span {
+  color: red;
+  margin-left: 0.15rem;
+}
+
+.signup-in > div > input[type="text"],
+.signup-in > div > input[type="password"],
+.signup-in > div > input[type="email"],
+.signup-in > div > input[type="tel"] {
+  font-family: "Pretendard";
+  font-size: 0.875rem;
+  flex: 1 1 auto;
+  max-width: 26rem;
+  height: 2.5rem;
+  border: 1px solid;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0 0.75rem;
+  outline: none;
+}
+
+.signup-check-btn {
+  font-family: "Pretendard";
+  font-size: 0.8rem;
+  height: 2.5rem;
+  background: var(--dark-green);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0 1.25rem;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.signup-in > div:last-child {
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+#signup-btn {
+  font-family: "Pretendard";
+  font-size: 1rem;
+  width: 8.75rem;
+  height: 2.75rem;
+  background: var(--dark-green);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 0.8rem;
+}
+
+/* 로그인 */
+.login-out {
+  width: 34rem;
+  transform: translateY(-4rem);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-field label {
+  font-family: "Pretendard";
+  font-size: 0.875rem;
+  color: #1f1f1f;
+}
+
+.login-field input {
+  font-family: "Pretendard";
+  font-size: 0.875rem;
+  height: 3rem;
+  border: 1px solid #a7a2a2;
+  border-radius: 0.5rem;
+  padding: 0 1rem;
+  background: #fff;
+  outline: none;
+}
+
+.login-btn {
+  font-family: "Pretendard";
+  font-size: 0.875rem;
+  height: 3rem;
+  background: var(--dark-green);
+  border: none;
+  border-radius: 0.5rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+.login-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkbox-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: #1f1f1f;
+}
+
+.login-link {
+  font-size: 0.75rem;
+  color: #6e6a6a;
+  text-decoration: none;
+}
+
+.login-bottom {
+  position: relative;
+  width: 100%;
+  margin-top: 1rem;
+  height: 2rem;
+}
+
+.login-signup-btn {
+  font-family: "Pretendard";
+  font-size: 0.8125rem;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 2rem;
+  padding: 0 2.4rem;
+  border: 1px solid var(--dark-green);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--dark-green);
+  cursor: pointer;
+}
+
+.login-text {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(-5rem, -50%);
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  color: #6e6a6a;
+}

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../static/auth_style.css" />
+  </head>
+
+  <body>
+    {% block section %} {% with mesg = get_flashed_messages() %} {% if mesg !=
+    [] %}
+    <script>
+      alert("{{ mesg[0] }}");
+    </script>
+    {% endif %} {% endwith %}
+    <div class="signup-out">
+      <h1 class="logo-auth">CoRise</h1>
+      <form method="post" action="/signup_post">
+        <div class="signup-in">
+          <div>
+            <label>아이디<span>*</span></label>
+            <input
+              type="text"
+              name="id"
+              placeholder="아이디를 입력해 주세요"
+              required
+            />
+            <button type="button" class="signup-check-btn" onclick="checkId()">
+              중복확인
+            </button>
+          </div>
+          <br />
+          <div>
+            <label>닉네임<span>*</span></label>
+            <input
+              type="text"
+              name="nickname"
+              placeholder="닉네임을 입력해 주세요"
+              required
+            />
+            <button type="button" class="signup-check-btn" onclick="checkNickname()">중복확인</button>
+          </div>
+          <br />
+          <div>
+            <label>비밀번호<span>*</span></label>
+            <input
+              type="password"
+              name="pw"
+              placeholder="비밀번호를 입력해 주세요"
+              required
+            />
+          </div>
+          <br />
+          <!-- TODO: 이벤트 처리 추가 -->
+          <div>
+            <label>비밀번호 확인<span>*</span></label>
+            <input
+              type="password"
+              name="pw_confirm"
+              placeholder="비밀번호를 다시 입력해 주세요"
+              required
+            />
+          </div>
+          <br />
+          <div>
+            <label>이메일 주소<span>*</span></label>
+            <input
+              type="email"
+              name="email"
+              placeholder="이메일을 입력해 주세요"
+              required
+            />
+          </div>
+          <br />
+          <div>
+            <label>전화번호</label>
+            <input type="tel" name="phone" />
+          </div>
+          <br />
+          <div>
+            <input type="submit" id="signup-btn" value="가입하기" /><b></b>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    {% endblock section %}
+    <script>
+      // TODO: 아이디 중복 JS 추가
+      function checkId() {
+        alert("아이디 중복확인");
+      }
+      // TODO: 닉네임 중복 JS 추가
+      function checkNickname() {
+        alert("닉네임 중복확인");
+      }
+    </script>
+  </body>
+</html>

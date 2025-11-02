@@ -48,5 +48,14 @@ def reg_item_submit_post():
         img_path="static/images/{}".format(image_file.filename),
     )
 
+@application.route("/signup")
+def signup():
+    return render_template("signup.html")
+
+@application.route("/login")
+def login():
+    return render_template("login.html")
+
+
 if __name__ == "__main__":
     application.run(host='0.0.0.0')

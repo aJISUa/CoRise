@@ -7,6 +7,10 @@
   --warm-beige: #f1dab0;
 }
 
+:root {
+  --page-bg: #f4f0e9;
+}
+
 /* 공통 폰트 */
 @font-face {
   font-family: "Pretendard";
@@ -16,6 +20,16 @@
 @font-face {
   font-family: "SUIT";
   src: url("/static/fonts/SUIT-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Righteous";
+  src: url("/static/fonts/Righteous-Regular.ttf") format("truetype");
+}
+
+
+body {
+  background: var(--page-bg);
 }
 
 /********** week7 실습, 추후 수정 필요**********/
