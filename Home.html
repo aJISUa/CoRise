@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoRise 상품 전체조회</title>
+  <link rel="stylesheet" href="item_style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <!-- 상단 네비게이션 -->
+    <header class="header">
+        <nav class="nav">
+            <!-- 왼쪽: 로고 -->
+            <a href="#" class="logo">CoRise</a>
+
+            <!-- 중앙: 네비게이션 메뉴 -->
+            <ul class="nav-menu">
+            <li><a href="#" class="nav-style">전체 상품</a></li>
+            <li><a href="#" class="nav-style">상품 등록</a></li>
+            <li><a href="#" class="nav-style">전체 리뷰</a></li>
+            <li><a href="#" class="nav-style">마이페이지</a></li>
+            </ul>
+
+            <!-- 오른쪽: 로그아웃 -->
+            <button class="icon-btn" aria-label="로그아웃">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <path d="M11.25 26.25H6.25C5.58696 26.25 4.95107 25.9866 4.48223 25.5178C4.01339 25.0489 3.75 24.413 3.75 23.75V6.25C3.75 5.58696 4.01339 4.95107 4.48223 4.48223C4.95107 4.01339 5.58696 3.75 6.25 3.75H11.25M20 21.25L26.25 15M26.25 15L20 8.75M26.25 15H11.25" stroke="#1E1E1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- 필터 영역 -->
+    <section class="filters">
+      <!-- 검색창: 시안처럼 길게, 왼쪽 정렬 -->
+      <div class="search-box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none" aria-hidden="true">
+          <path d="M20.4167 21L13.8542 14.7C13.3333 15.1 12.7344 15.4167 12.0573 15.65C11.3802 15.8833 10.6597 16 9.89583 16C8.00347 16 6.40191 15.3708 5.09115 14.1125C3.78038 12.8542 3.125 11.3167 3.125 9.5C3.125 7.68333 3.78038 6.14583 5.09115 4.8875C6.40191 3.62917 8.00347 3 9.89583 3C11.7882 3 13.3898 3.62917 14.7005 4.8875C16.0113 6.14583 16.6667 7.68333 16.6667 9.5C16.6667 10.2333 16.5451 10.925 16.3021 11.575C16.059 12.225 15.7292 12.8 15.3125 13.3L21.875 19.6L20.4167 21ZM9.89583 14C11.1979 14 12.3047 13.5625 13.2161 12.6875C14.1276 11.8125 14.5833 10.75 14.5833 9.5C14.5833 8.25 14.1276 7.1875 13.2161 6.3125C12.3047 5.4375 11.1979 5 9.89583 5C8.59375 5 7.48698 5.4375 6.57552 6.3125C5.66406 7.1875 5.20833 8.25 5.20833 9.5C5.20833 10.75 5.66406 11.8125 6.57552 12.6875C7.48698 13.5625 8.59375 14 9.89583 14Z" fill="#1D1B20"/>
+        </svg>
+        <input type="text" placeholder="상품명 검색" />
+      </div>
+
+        <!-- ✅ 카테고리 -->
+      <label class="select-pill">
+        <select name="category" aria-label="카테고리">
+          <option>카테고리</option>
+          <option>가전</option>
+          <option>의류</option>
+          <option>생활</option>
+          <option>도서</option>
+          <option>기타</option>
+        </select>
+        <svg class="chev" width="22" height="16" viewBox="0 0 28 19" fill="none">
+          <path d="M13.2826 18.1387C13.4826 18.4042 13.8813 18.404 14.0814 18.1387L26.7621 1.30078C27.0102 0.97129 26.7751 0.5 26.3627 0.5H1.00134C0.589257 0.500359 0.354175 0.971424 0.601929 1.30078L13.2826 18.1387Z" fill="#FBFAF4" stroke="black"/>
+        </svg>
+      </label>
+
+      <!-- ✅ 최신순 -->
+      <label class="select-pill">
+        <select name="sort" aria-label="정렬">
+          <option>최신순</option>
+          <option>인기순</option>
+        </select>
+        <svg class="chev" width="22" height="16" viewBox="0 0 28 19" fill="none" aria-hidden="true">
+          <path d="M13.2826 18.1387C13.4826 18.4042 13.8813 18.404 14.0814 18.1387L26.7621 1.30078C27.0102 0.97129 26.7751 0.5 26.3627 0.5H1.00134C0.589257 0.500359 0.354175 0.971424 0.601929 1.30078L13.2826 18.1387Z" fill="#FBFAF4" stroke="black"/>
+        </svg>
+      </label>
+
+      <!-- 낮은 가격 순 -->
+      <label class="select-pill">
+        <select name="price" aria-label="가격 정렬">
+          <option>낮은 가격 순</option>
+          <option>높은 가격 순</option>
+        </select>
+        <svg class="chev" width="22" height="16" viewBox="0 0 28 19" fill="none" aria-hidden="true">
+          <path d="M13.2826 18.1387C13.4826 18.4042 13.8813 18.404 14.0814 18.1387L26.7621 1.30078C27.0102 0.97129 26.7751 0.5 26.3627 0.5H1.00134C0.589257 0.500359 0.354175 0.971424 0.601929 1.30078L13.2826 18.1387Z" fill="#FBFAF4" stroke="black"/>
+        </svg>
+      </label>
+    </section>
+
+
+    <!-- 상품 목록 -->
+    <main class="product-grid">
+      <div class="product-card">
+        <div class="hm-thumb"></div>
+        <div class="info">
+          <div class="text">
+          <p class="product-name">공기청정기</p>
+          <p class="price">50,500원</p>
+          </div>
+          <button class="heart">
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 동일 구조로 나머지 7개 -->
+      <article class="product-card">
+        <div class="hm-thumb"></div>
+          <div class="info">
+            <div class="text">
+            <p class="product-name">립글로스</p>
+            <p class="price">10,000원</p>
+            </div>
+            <button class="heart">
+              <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+      </article>
+
+      <article class="product-card">
+        <div class="hm-thumb"></div>
+        <div class="info">
+          <div class="text">
+          <p class="product-name">카디건</p>
+          <p class="price">40,000원</p>
+          </div>
+          <button class="heart">
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="hm-thumb"></div>
+        <div class="info">
+          <div class="text">
+          <p class="product-name">뜨개질 인형</p>
+          <p class="price">5,000원</p>
+          </div>
+          <button class="heart">
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="hm-thumb"></div>
+        <div class="info">
+          <div class="text">
+          <p class="product-name">식기 세트</p>
+          <p class="price">20,000원</p>
+          </div>
+          <button class="heart">
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="hm-thumb"></div>
+        <div class="info">
+          <div class="text">
+          <p class="product-name">후드집업</p>
+          <p class="price">60,000원</p>
+          </div>
+          <button class="heart">
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="hm-thumb"></div>
+        <div class="info">
+          <div class="text">
+          <p class="product-name">학잠</p>
+          <p class="price">30,000원</p>
+          </div>
+          <button class="heart">
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="hm-thumb"></div>
+        <div class="info">
+          <div class="text">
+          <p class="product-name">아이섀도우</p>
+          <p class="price">11,000원</p>
+          </div>
+          <button class="heart">
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+
+    <!-- 페이지네이션 -->
+    <footer class="pagination">
+    <button class="page-nav prev" aria-label="이전 페이지">‹</button>
+
+    <a href="#" class="page is-active" aria-current="page">1</a>
+    <a href="#" class="page">2</a>
+    <a href="#" class="page">3</a>
+    <span class="page dots" aria-hidden="true">…</span>
+    <a href="#" class="page">10</a>
+
+    <button class="page-nav next" aria-label="다음 페이지">›</button>
+    </footer>
+
+
+  </div>
+</body>
+</html>
+

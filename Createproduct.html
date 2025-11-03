@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoRise 상품 전체조회</title>
+  <link rel="stylesheet" href="item_style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- 상단 네비게이션 -->
+    <header class="header">
+        <nav class="nav">
+            <!-- 왼쪽: 로고 -->
+            <a href="#" class="logo">CoRise</a>
+
+            <!-- 중앙: 네비게이션 메뉴 -->
+            <ul class="nav-menu">
+            <li><a href="#" class="nav-style">전체 상품</a></li>
+            <li><a href="#" class="nav-style">상품 등록</a></li>
+            <li><a href="#" class="nav-style">전체 리뷰</a></li>
+            <li><a href="#" class="nav-style">마이페이지</a></li>
+            </ul>
+
+            <!-- 오른쪽: 로그아웃 -->
+            <button class="icon-btn" aria-label="로그아웃">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <path d="M11.25 26.25H6.25C5.58696 26.25 4.95107 25.9866 4.48223 25.5178C4.01339 25.0489 3.75 24.413 3.75 23.75V6.25C3.75 5.58696 4.01339 4.95107 4.48223 4.48223C4.95107 4.01339 5.58696 3.75 6.25 3.75H11.25M20 21.25L26.25 15M26.25 15L20 8.75M26.25 15H11.25" stroke="#1E1E1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+        </nav>
+    </header>
+
+
+<!--상품 등록-->
+    <main class="product-create">
+    <div class="pc-container">
+        <h1 class="pc-title">상품 등록</h1>
+        <div class="pc-divider"></div>
+
+        <form class="pc-card pc-form" action="#" method="post" enctype="multipart/form-data">
+        <!-- 상품명 -->
+        <div class="pc-field">
+            <label for="pc-title" class="pc-label">상품명</label>
+            <div class="pc-control">
+            <input id="pc-title" name="title" type="text" class="pc-input" />
+            </div>
+        </div>
+
+        <!-- 가격 -->
+        <div class="pc-field">
+            <label for="pc-price" class="pc-label">가격</label>
+            <div class="pc-control">
+            <input id="pc-price" name="price" type="number" inputmode="numeric" class="pc-input"/>
+            </div>
+        </div>
+
+        <!-- 주소 -->
+        <div class="pc-field">
+            <label for="pc-address" class="pc-label">주소</label>
+            <div class="pc-control">
+            <input id="pc-address" name="address" type="text" class="pc-input pc-input--full"/>
+            </div>
+        </div>
+
+        <!-- 카테고리 -->
+        <div class="pc-field">
+            <span class="pc-label">카테고리</span>
+            <div class="pc-control">
+            <div class="pc-select-wrap">
+                <select name="category" class="pc-input pc-select">
+                <option value="">카테고리</option>
+                <option>가전</option>
+                <option>의류</option>
+                <option>생활</option>
+                <option>도서</option>
+                <option>기타</option>
+                </select>
+                <!-- 화살표 -->
+                <svg class="pc-select-icon" xmlns="http://www.w3.org/2000/svg" width="21" height="13" viewBox="0 0 21 13" fill="none">
+                    <path d="M10.0514 11.6084C10.2495 11.8242 10.5896 11.8242 10.7877 11.6084L20.2057 1.33789C20.4996 1.0173 20.2724 0.50029 19.8375 0.5H1.00159C0.566743 0.50029 0.33948 1.0173 0.633423 1.33789L10.0514 11.6084Z" fill="#fff" stroke="black"/>
+                </svg>
+            </div>
+            </div>
+        </div>
+
+        <!-- 사진 등록 -->
+        <div class="pc-field2">
+            <span class="pc-label">사진 등록</span>
+            <div class="pc-control">
+            <div class="pc-upload-row">
+                <label for="pc-images" class="pc-btn">Choose file</label>
+                <input id="pc-images" name="images" type="file" accept="image/*" multiple hidden />
+                <span class="pc-hint">*최대 5장까지</span>
+            </div>
+
+            <!-- 프리뷰 슬롯(정적) -->
+            <div class="pc-thumb-grid">
+                <div class="pc-thumb"></div>
+                <div class="pc-thumb"></div>
+                <div class="pc-thumb"></div>
+                <div class="pc-thumb"></div>
+                <div class="pc-thumb"></div>
+            </div>
+            </div>
+        </div>
+
+        <!-- 상품 설명 -->
+        <div class="pc-field2">
+            <label for="pc-desc" class="pc-label">상품 설명</label>
+            <div class="pc-control">
+            <textarea id="pc-desc" name="description" rows="6" class="pc-input pc-textarea pc-input--full"
+                placeholder="상품에 대한 정보를 남겨주시면 구매자들께 큰 도움이 됩니다."></textarea>
+            </div>
+        </div>
+
+        <!-- 제출 -->
+        <div class="pc-actions">
+            <button type="submit" class="pc-submit">등록 완료</button>
+        </div>
+        </form>
+    </div>
+    </main>
+</body>    
+</html>
