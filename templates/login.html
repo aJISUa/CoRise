@@ -7,15 +7,14 @@
     <link rel="stylesheet" type="text/css" href="../static/auth_style.css" />
   </head>
   <body>
-    {% block section %} {% with mesg = get_flashed_messages() %} {% if mesg !=
-    [] %}
-    <script>
-      alert("{{ mesg[0] }}");
-    </script>
-    {% endif %} {% endwith %} {% endblock section %}
+    {% block section %} {% with mesg = get_flashed_messages() %} 
+    {% if mesg !=[] %}
+      <script>alert("{{ mesg[0] }}")</script>
+    {% endif %} {% endwith %}{% endblock section %}
+    
     <div class="login-out">
       <h1 class="logo-auth">CoRise</h1>
-      <form method="post" action="/login_post" class="login-form">
+      <form method="post" action="/login_confirm" class="login-form">
         <div class="login-field">
           <label for="login-id">아이디</label>
           <input
@@ -49,7 +48,7 @@
 
         <div class="login-bottom">
           <span class="login-text">지금 바로 시작해 보세요</span>
-          <button class="login-signup-btn" onclick="location.href='/signup'">회원가입</button>
+          <button type="button" class="login-signup-btn" onclick="location.href='/signup'">회원가입</button>
         </div>
       </form>
     </div>
