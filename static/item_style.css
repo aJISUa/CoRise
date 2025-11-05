@@ -1,119 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
-@import url('https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css');
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-
-body {
-  margin: 0;
-  background-color: #fbfaf4;
-  font-family: Pretendard, sans-serif;
-}
-
-/* 헤더 전체 영역 */
-.header {
-  width: 100%;
-  background-color: #fbfaf4;
-  border-bottom: 1px solid #d9d9d9;
-  display: flex;
-  justify-content: center; /* nav를 중앙에 배치 */
-}
-
-/* 네비게이션 */
-.nav {
-  width:1336px;
-  height:66px;
-  margin:0 auto;
-  display:flex;
-  align-items:center;     /* center */
-  justify-content:space-between;
-  padding:10px;           /* Figma */
-  gap:70px;               /* Figma */
-  box-sizing:border-box;
-}
-
-/* 로고 */
-.logo {
-  width:141px;              /* 레이아웃 패널 width */
-  height:66px;              /* 헤더 높이와 동일 */
-  flex-shrink:0;            /* 줄어들지 않게 고정 */
-  display:flex;             /* 수직/수평 가운데 */
-  align-items:center;
-  justify-content:center;
-  font-family:"Righteous", system-ui, sans-serif;
-  font-size:40px;
-  font-weight:400;
-  line-height:60px;         /* 150% of 40px = 60px */
-  color:#000;
-  text-align:center;
-  text-decoration:none;
-}
-
-/* 네비게이션 메뉴 */
-.nav-menu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 70px; 
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.nav-style{
-  color: #000;
-  font-family: SUIT;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-}
-
-.nav-link{
-  font-family:"SUIT", sans-serif; /* SUIT */
-  font-size:24px;         /* Figma */
-  font-weight:700;        /* Figma */
-  line-height:normal;     /* Figma */
-  color:#000;
-  text-decoration: none;
-  padding-inline:24px 30px;  /* 좌 24px, 우 30px (Figma 값) */
-  position:relative;
-}
-
-.nav-link.active::after,
-.nav-link:hover::after{
-  content:"";
-  position:absolute;
-  left:0; right:0; bottom:-8px;
-  height:3px;
-  background:#000;
-  border-radius:2px;
-}
-
-/* 오른쪽 버튼 */
-.icon-btn {
-  width: 48px;
-  height: 48px;
-  border: none;
-  background: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-  transition: transform 0.2s ease;
-}
-
 /*-------------------------------------------------------------------*/
 
 /*필터*/
 .filters{
   /* 캡슐의 폭/정렬 */
   width: 1283px;              /* 시안 폭 */
-  margin: 24px auto 32px;     /* 가운데 정렬 */
+  margin: 1.5rem auto 1.5rem;     /* 가운데 정렬 */
   /*배치*/
   display: flex;
   align-items: center;
@@ -122,13 +13,13 @@ a {
   background: #B9DBC8;       
   border: 1px solid #21452D; 
   border-radius: 20px;       
-  padding: 17px 25px;       
+  padding: 7px 20px;       
   box-sizing: border-box;
 }
 
 .search-box{
   width: 227px;
-  height:46px;
+  height:32px;
   display:flex; 
   align-items:center; 
   gap:10px;
@@ -144,7 +35,7 @@ a {
   outline:none; 
   width:100%;
   font-family:"Righteous",sans-serif; 
-  font-size:24px; 
+  font-size:18px; 
   line-height: 1; 
   color:#000;
   background:transparent;
@@ -159,7 +50,7 @@ a {
   background: #fff;
   border: 1px solid #000;
   border-radius: 12px;
-  height: 46px;
+  height: 30px;
   padding: 0 17px;
   cursor: pointer;
 }
@@ -181,7 +72,7 @@ a {
   border: none;
   background: transparent;
   font-family: "Righteous", sans-serif;
-  font-size: 24px;
+  font-size: 18px;
   color: #000;
 
   width:100%; 
@@ -214,12 +105,12 @@ a {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 55px 37.5px; 
+  gap: 25px 37.5px; 
 }
 
 .product-card {
   width: 225px;
-  height: 301.5px;
+  height: 250px;
   background: #fff;
   border: 2px solid #B9DBC8;
   display: flex;
@@ -232,7 +123,8 @@ a {
 }
 
 .hm-thumb{
-  width: 200px;    
+  width: 200px;   
+  height: 160px; 
   aspect-ratio: 1/1;
   background-color: #D9D9D9;
   border-radius: 0;
@@ -259,7 +151,7 @@ a {
 .product-name {
   font-family: "Pretendard";
   font-style: normal;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 400;
   color: #000;
   line-height: 140%;
@@ -269,7 +161,7 @@ a {
 .price {
   font-family: "Pretendard";
   font-style: normal;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   color: #000;
   margin: 0;
@@ -289,61 +181,31 @@ a {
   flex-shrink: 0; 
 }
 
-/*페이지네이션*/
-.pagination{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap: 24px;               
-  padding: 0;
-  user-select:none;
-  font-family: Pretendard, system-ui, sans-serif;
+/* 페이지네이션 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  align-items: center;
 }
 
-/* 공통 버튼/링크 스타일 */
-.pagination .page,
-.pagination .page-nav{
-  border:none;
-  background:transparent;
-  padding: 0;
-  font-size: 20px;
-  line-height: 1;
-  color: #294b3b;            /* 녹색 톤(원하는 색으로 바꿔도 됨) */
-  text-decoration:none;
-  cursor:pointer;
+.page-number,
+.page-btn {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--dark-green);
+  font-size: 0.85rem;
 }
 
-/* 숫자 기본은 옅게 */
-.pagination .page{
-  opacity:.35;
-}
-
-/* 현재 페이지 */
-.pagination .page.is-active{
-  font-weight: 700;
-  opacity: 1;
-}
-
-/* 점 3개 */
-.pagination .dots{
-  opacity:.35;
-  cursor: default;
-}
-
-/* 좌/우 화살표 */
-.pagination .page-nav{
-  font-weight: 600;
-  opacity:.8;
-}
-
-/* 상태 */
-.pagination .page:hover{ opacity:.6; }
-.pagination .page-nav:hover{ opacity:1; }
-.pagination .page[aria-disabled="true"],
-.pagination .page-nav[disabled]{
-  opacity:.25;
-  pointer-events:none;
-  cursor:default;
+.page-number.active {
+  background: var(--mint-green);
+  color: var(--dark-green);
 }
 
 /*----------------------------------------------------*/
@@ -364,10 +226,11 @@ a {
   color: #000;
   text-align: center;
   font-family: Pretendard;
-  font-size: 40px;
+  font-size: 35px;
   font-style: normal;
   font-weight: 400;
-  line-height: 150%; 
+  padding: 0;
+  margin: 1rem;
  }
 
  .pc-divider {
@@ -377,7 +240,8 @@ a {
   width: 960.005px;
   height: 1px;
   background: #000;
-  margin: 40px 0;
+  margin: 1rem 0;
+  margin-bottom: 2rem;
 }
 
 .pc-card{
@@ -385,23 +249,24 @@ a {
   border: none;
   box-shadow: none;
   padding: 0;
+  margin-top: 20px;
 }
 
 .pc-form
 .pc-field{
   display:grid; 
   grid-template-columns: 88px 1fr;
-  gap:16px; 
+  gap:20px; 
   align-items: center; 
-  margin-bottom:18px;
+  margin-bottom:1.5rem;
 }
 
 .pc-field2{
   display:grid; 
   grid-template-columns: 88px 1fr;
-  gap:16px; 
+  gap:20px; 
   align-items: start; 
-  margin-bottom:18px;
+  margin-bottom:15px;
 }
 
 
@@ -409,7 +274,7 @@ a {
   padding-top:10px; 
   color: var(--text, #010104);
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -418,8 +283,8 @@ a {
 
 /* 공통 입력 */
 .pc-input{
-  width: 240px;
-  height: 42px;
+  width: 220px;
+  height: 32px;
   padding: 10px 14px;
   align-items: center;
   flex-shrink: 0;
@@ -427,7 +292,7 @@ a {
   color:#1e1e1e;
   border:1px solid #000; 
   border-radius:12px;
-  font-size:18px; 
+  font-size:15px; 
   outline:none;
   box-sizing: border-box; 
 }
@@ -457,8 +322,8 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   -moz-appearance: none;
   width: 100%;
-  height: 42px;
-  padding: 10px 40px 10px 24px;  
+  height: 30px;
+  padding: 0rem 2rem 0rem 2em;  
   border: 1px solid #000;
   border-radius: 12px;
   background-color: #fff;
@@ -495,11 +360,11 @@ input::-webkit-inner-spin-button {
   user-select:none;
   background:#fff; 
   border:1px solid #000;
-  padding:8px 14px; 
+  padding:5px 10px; 
   border-radius:10px; 
   color: var(--text, #010104);
-  font-family: Pretendard;
-  font-size: 18px;
+  font-family: "Pretendard";
+  font-size: 15px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -519,7 +384,7 @@ input::-webkit-inner-spin-button {
 .pc-thumb-grid{ 
   margin-top:10px; 
   display:grid; 
-  grid-template-columns:repeat(5,1fr); 
+  grid-template-columns: repeat(5, 50px);
   gap:10px; }
   
 .pc-thumb{
@@ -531,21 +396,21 @@ input::-webkit-inner-spin-button {
   align-items:center; 
   justify-content:center;
   color:rgba(0,0,0,.45); 
-  font-size:12px;
+  font-size:7px;
 }
 
 /* 텍스트 영역 */
 .pc-textarea{ 
   resize:vertical; 
-  min-height: 165px;     
-  height: 165px;  
+  min-height: 120px;     
+  height: 120px;  
 }
 
 /* 제출 버튼 */
 .pc-actions{ 
   display:flex; 
   justify-content:center; 
-  margin-top: 46px; 
+  margin-top: 2.5rem; 
 }
 
 .pc-submit {
@@ -554,13 +419,13 @@ input::-webkit-inner-spin-button {
   align-items: center;
 
   width: 151px;          /* Figma 기준 크기 */
-  height: 53px;
+  height: 45px;
   background: #214520;   /* 짙은 초록색 */
   color: #FFFFFF;        /* 글자색 흰색 */
 
-  /* ✅ 글씨 스타일 */
+  /* 글씨 스타일 */
   font-family: Pretendard, sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   font-style: normal;
   line-height: normal;
@@ -592,17 +457,11 @@ input::-webkit-inner-spin-button {
 }
 
 *{ box-sizing:border-box; }
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--ink);
-  font-family: Pretendard, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-}
 
 /* ===== 메인 래퍼 ===== */
 .pd-wrap{
   max-width: 1001px;           /* 953 + padding 24*2 */
-  margin: 72px auto 80px;
+  margin: 60px auto 80px;
   padding: 0 24px;
   display:grid;
   grid-template-columns: 458px 1fr;
@@ -673,8 +532,8 @@ body{
 
 .pd-title{ 
   color:#000;
-  font-family: Pretendard, sans-serif;
-  font-size: 35px;       /* H:52.5 기준 */
+  font-family: "Pretendard", sans-serif;
+  font-size: 30px;       /* H:52.5 기준 */
   font-weight: 400;
   line-height: 150%;     /* 52.5px */
   margin: 0 0 12px;
@@ -683,7 +542,7 @@ body{
 .pd-price{ 
   color:#000;
   font-family: Pretendard, sans-serif;
-  font-size: 24px;       /* H:36 */
+  font-size: 22px;       /* H:36 */
   font-weight: 400;
   line-height: 150%;
   margin: 0 0 24px;
@@ -721,7 +580,7 @@ body{
   gap: 6px;
   color:#000;
   font-family: Pretendard, sans-serif;
-  font-size: 20px;       /* H:30 */
+  font-size: 18px;       /* H:30 */
   font-weight: 400;
   line-height: 150%;
 }
@@ -758,7 +617,7 @@ body{
 
 .btn{
   width: 164px;
-  height: 48px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;

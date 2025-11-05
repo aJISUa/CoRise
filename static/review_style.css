@@ -3,11 +3,12 @@
   background: var(--mint-green);
   border: 1px solid var(--dark-green);
   border-radius: 1rem;
-  padding: 0.1rem 1.5rem;
+  padding: 0.1rem 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 /* 리뷰 개수 + 정렬 */
@@ -170,7 +171,7 @@ select.rvall-sort-cat {
 /* ------------- review_by_item.html 상품별 전체 리뷰 조회 -------------*/
 .rvbyitem-top-bar {
   width: 100%;
-  margin: 0 2rem 1.5rem;
+  margin: 1.2rem 2rem 1.5rem;
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -237,6 +238,7 @@ select.rvbyitem-sort-cat {
   font-size: 2.2rem;
   font-weight: 100;
   margin: 0.5rem auto 0.5rem;
+  margin-top: 1.5rem;
   color: #000;
 }
 

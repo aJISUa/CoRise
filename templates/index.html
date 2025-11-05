@@ -1,40 +1,36 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
-    {% block head %}{% endblock head %}
-  </head>
-  <body>
-    <nav class="navbar">
-      <div class="navbar_logo">
-        <a href="">EwhaMarket</a>
-      </div>
-      <ul class="navbar_menu">
-        {% if session['id'] %}
-        <li><a href="/logout"><b>{{session['id']}}님 반갑습니다!</b> logout</a></li>
-        {% else %}
-        <li><a href="/login">login</a></li>
-        {% endif %}
-        <li><a href="/list">List</a></li>
-        <li><a href="/review">Review</a></li>
-        <li><a href="/reg_items">Register Items</a></li>
-        <li><a href="/reg_reviews">Register Reviews</a></li>
-      </ul>
-      <a href="#" class="navbar_toggleBtn">
-        <i class="fas fa-bars"></i>
-      </a>
-    </nav>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link rel="stylesheet"  href="{{ url_for('static', filename='style.css') }}">
+  {% block head %} {% endblock head %}
+</head>
+<body>
+    <header class="header">
+        <nav class="header-nav">
+            <a href="#" class="header-logo">CoRise</a>
+
+            <!-- API 완성될 때 href 수정 -->
+            <ul class="header-nav-menu">
+              <li><a href="/items" class="nav-style">전체 상품</a></li>
+              <li><a href="/item_post" class="nav-style">상품 등록</a></li>
+              <li><a href="/reviews" class="nav-style">전체 리뷰</a></li>
+              <li><a href="/mypage" class="nav-style">마이페이지</a></li>
+            </ul>
+
+            <button class="header-icon-btn" aria-label="로그아웃" onclick="location.href='/log_in'">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <path d="M11.25 26.25H6.25C5.58696 26.25 4.95107 25.9866 4.48223 25.5178C4.01339 25.0489 3.75 24.413 3.75 23.75V6.25C3.75 5.58696 4.01339 4.95107 4.48223 4.48223C4.95107 4.01339 5.58696 3.75 6.25 3.75H11.25M20 21.25L26.25 15M26.25 15L20 8.75M26.25 15H11.25" stroke="#1E1E1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+        </nav>
+    </header>
     <section>
         {% block section %}
 
         {% endblock section %}
     </section>
-  </body>
+</body>
 </html>

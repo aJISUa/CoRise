@@ -9,23 +9,19 @@ DB = DBhandler()
 
 @application.route("/")
 def hello():
-    return render_template("index.html")
+    return render_template("login.html")
 
-@application.route("/list")
-def view_list():
-    return render_template("list.html")
-
-@application.route("/review")
-def view_review():
-    return render_template("review.html")
-
-@application.route("/reg_items")
+@application.route("/item_post")
 def reg_item():
     return render_template("reg_items.html")
 
-@application.route("/reg_reviews")
-def reg_review():
-    return render_template("reg_reviews.html")
+@application.route("/items")
+def view_list():
+    return render_template("items.html")
+
+@application.route("/item_detail")
+def item_detail():
+    return render_template("item_detail.html")
 
 @application.route("/submit/item")
 def reg_item_submit():
@@ -49,7 +45,15 @@ def reg_item_submit_post():
     DB.insert_item(data['name'], data, image_file.filename)
     return render_template("submit_item_result.html",data=data,img_path="static/images/{}".format(image_file.filename))
 
-@application.route("/login")
+@application.route("/review_post")
+def reg_review():
+    return render_template("reg_reviews.html")
+
+@application.route("/reviews")
+def view_review():
+    return render_template("reviews.html")
+
+@application.route("/log_in")
 def login():
     return render_template("login.html")
 
@@ -65,7 +69,7 @@ def login_user():
         flash("Wrong ID or PW!")
         return render_template("login.html")
 
-@application.route("/signup")
+@application.route("/sign_up")
 def signup():
     return render_template("signup.html")
 
@@ -80,7 +84,7 @@ def register_user():
         flash("user id already exist!")
         return render_template("signup.html")
     
-@application.route("/logout")
+@application.route("/log_out")
 def logout_user():
     session.clear()
     return redirect(url_for('list_restaurants'))

@@ -1,38 +1,10 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CoRise 상품 전체조회</title>
-  <link rel="stylesheet" href="item_style.css" />
-</head>
+{% extends "index.html" %} 
+{% block head %} 
+{{ super() }}
+    <link rel="stylesheet"  href="{{ url_for('static', filename='item_style.css') }}">
+{% endblock head %} 
 
-<!--헤더-->
-<body>
-  <div class="container">
-    <!-- 상단 네비게이션 -->
-    <header class="header">
-        <nav class="nav">
-            <!-- 왼쪽: 로고 -->
-            <a href="#" class="logo">CoRise</a>
-
-            <!-- 중앙: 네비게이션 메뉴 -->
-            <ul class="nav-menu">
-            <li><a href="#" class="nav-style">전체 상품</a></li>
-            <li><a href="#" class="nav-style">상품 등록</a></li>
-            <li><a href="#" class="nav-style">전체 리뷰</a></li>
-            <li><a href="#" class="nav-style">마이페이지</a></li>
-            </ul>
-
-            <!-- 오른쪽: 로그아웃 -->
-            <button class="icon-btn" aria-label="로그아웃">
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
-                <path d="M11.25 26.25H6.25C5.58696 26.25 4.95107 25.9866 4.48223 25.5178C4.01339 25.0489 3.75 24.413 3.75 23.75V6.25C3.75 5.58696 4.01339 4.95107 4.48223 4.48223C4.95107 4.01339 5.58696 3.75 6.25 3.75H11.25M20 21.25L26.25 15M26.25 15L20 8.75M26.25 15H11.25" stroke="#1E1E1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-        </nav>
-    </header>
-
+{% block section %}
 <!--상품 상세 설명-->
 <main class="pd-wrap" aria-label="상품 상세">
   <!-- 좌측: 이미지 갤러리 -->
@@ -114,5 +86,4 @@
         </ul>
         </div>
     </section>
-</body>    
-</html>
+{% endblock section %}

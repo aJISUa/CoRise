@@ -1,56 +1,98 @@
-{% extends "index.html" %} {% block section %}
-<form action="/submit_item_post" method="post" enctype="multipart/form-data">
-  <div>
-    <br /><br />
-    <label for="name"> Item name: </label>
-    <input type="text" name="name" id="name" required /><br /><br />
-  </div>
-  <div>
-    <label for="seller"> Seller ID: </label>
-    <input type="text" name="seller" id="seller" required /><br /><br />
-  </div>
-  <div>
-    <label for="addr"> Address: </label>
-    <input type="text" name="addr" id="addr" required /><br /><br />
-  </div>
-  <div>
-    <label for="email"> Email: </label>
-    <input type="text" name="email" id="email" required /><br /><br />
-  </div>
-  <div>
-    <label for="category"> Category: </label>
-    <br />
-    <select id="category" name="category">
-      <option value="Clothes" selected>Clothes</option>
-      <option value="Beauty">Beauty</option>
-      <option value="Books">Books</option></select
-    ><br /><br />
-  </div>
-  <div>
-    <label for="card"> Credit Card? (Y/N): </label>
-    <br />
-    <select id="card" name="card">
-      <option value="Y" selected>Yes</option>
-      <option value="N">No</option></select
-    ><br /><br />
-  </div>
-  <div>
-    <label for="status"> Status? </label>
-    <br />
-    <select id="status" name="status">
-      <option value="new" selected>New</option>
-      <option value="lnew">Likely New</option>
-      <option value="used">Used</option></select
-    ><br /><br />
-  </div>
-  <div>
-    <label for="phone"> Phone : </label>
-    <input type="text" name="phone" id="phone" /><br /><br />
-  </div>
-  <div>
-    <label for="img">Representative Image upload : </label>
-    <input type="file" name="file" id="img" /><br /><br />
-  </div>
-  <div><input type="submit" value="Submit!" /><br /><br /></div>
-</form>
+{% extends "index.html" %} 
+{% block head %} 
+{{ super() }}
+  <link rel="stylesheet"  href="{{ url_for('static', filename='item_style.css') }}">
+{% endblock head %} 
+
+{% block section %}
+<!--상품 등록-->
+    <main class="product-create">
+    <div class="pc-container">
+        <h1 class="pc-title">상품 등록</h1>
+        <div class="pc-divider"></div>
+
+        <form class="pc-card pc-form" action="#" method="post" enctype="multipart/form-data">
+        <!-- 상품명 -->
+        <div class="pc-field">
+            <label for="pc-title" class="pc-label">상품명</label>
+            <div class="pc-control">
+            <input id="pc-title" name="title" type="text" class="pc-input" />
+            </div>
+        </div>
+
+        <!-- 가격 -->
+        <div class="pc-field">
+            <label for="pc-price" class="pc-label">가격</label>
+            <div class="pc-control">
+            <input id="pc-price" name="price" type="number" inputmode="numeric" class="pc-input"/>
+            </div>
+        </div>
+
+        <!-- 주소 -->
+        <div class="pc-field">
+            <label for="pc-address" class="pc-label">주소</label>
+            <div class="pc-control">
+            <input id="pc-address" name="address" type="text" class="pc-input pc-input--full"/>
+            </div>
+        </div>
+
+        <!-- 카테고리 -->
+        <div class="pc-field">
+            <span class="pc-label">카테고리</span>
+            <div class="pc-control">
+            <div class="pc-select-wrap">
+                <select name="category" class="pc-input pc-select">
+                <option value="">카테고리</option>
+                <option>가전</option>
+                <option>의류</option>
+                <option>생활</option>
+                <option>도서</option>
+                <option>기타</option>
+                </select>
+                <!-- 화살표 -->
+                <svg class="pc-select-icon" xmlns="http://www.w3.org/2000/svg" width="21" height="13" viewBox="0 0 21 13" fill="none">
+                    <path d="M10.0514 11.6084C10.2495 11.8242 10.5896 11.8242 10.7877 11.6084L20.2057 1.33789C20.4996 1.0173 20.2724 0.50029 19.8375 0.5H1.00159C0.566743 0.50029 0.33948 1.0173 0.633423 1.33789L10.0514 11.6084Z" fill="#fff" stroke="black"/>
+                </svg>
+            </div>
+            </div>
+        </div>
+
+        <!-- 사진 등록 -->
+        <div class="pc-field2">
+            <span class="pc-label">사진 등록</span>
+            <div class="pc-control">
+            <div class="pc-upload-row">
+                <label for="pc-images" class="pc-btn">Choose file</label>
+                <input id="pc-images" name="images" type="file" accept="image/*" multiple hidden />
+                <span class="pc-hint">*최대 5장까지</span>
+            </div>
+
+            <!-- 프리뷰 슬롯(정적) -->
+            <div class="pc-thumb-grid">
+                <div class="pc-thumb"></div>
+                <div class="pc-thumb"></div>
+                <div class="pc-thumb"></div>
+                <div class="pc-thumb"></div>
+                <div class="pc-thumb"></div>
+            </div>
+            </div>
+        </div>
+
+        <!-- 상품 설명 -->
+        <div class="pc-field2">
+            <label for="pc-desc" class="pc-label">상품 설명</label>
+            <div class="pc-control">
+            <textarea id="pc-desc" name="description" rows="6" class="pc-input pc-textarea pc-input--full"
+                placeholder="상품에 대한 정보를 남겨주시면 구매자들께 큰 도움이 됩니다."></textarea>
+            </div>
+        </div>
+
+        <!-- 제출 -->
+        <div class="pc-actions">
+            <button type="submit" class="pc-submit">등록 완료</button>
+        </div>
+        </form>
+    </div>
+    </main>
+
 {% endblock section %}
