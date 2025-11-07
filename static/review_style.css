@@ -1,0 +1,477 @@
+/* ------------- review.html 리뷰 전체 조회 -------------*/
+.rvall-top {
+  background: var(--mint-green);
+  border: 1px solid var(--dark-green);
+  border-radius: 1rem;
+  padding: 0.1rem 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+/* 리뷰 개수 + 정렬 */
+.rvall-count {
+  font-family: "Pretendard";
+  font-size: 0.9rem;
+  color: #000;
+  margin-left: 2rem;
+}
+
+.rvall-sorts {
+  display: flex;
+  gap: 1rem;
+  margin-right: 1rem;
+}
+
+.rvall-sort-cat {
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 0.6rem;
+  padding: 0.35rem 1.5rem 0.35rem 1.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+select.rvall-sort-cat {
+  text-align: center;
+}
+
+/* 리뷰 카드 */
+.rvall-card {
+  width: 100%;
+  padding: 0.5rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+}
+
+.rvall-card-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10rem;
+  margin-bottom: 0;
+}
+
+.rvall-main-content {
+  flex-grow: 1;
+  margin-left: 3rem;
+}
+
+.rvall-review-header {
+  margin-bottom: 0.5rem;
+}
+
+.rvall-user-info {
+  display: flex;
+  align-items: center;
+}
+
+.rvall-avatar {
+  width: 30px;
+  height: 30px;
+  background-color: var(--mint-green);
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.rvall-user-name {
+  font-family: "Pretendard";
+  color: #555;
+}
+
+.rvall-product-info {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 0.4rem;
+}
+
+.rvall-label {
+  margin-right: 5px;
+}
+
+.rvall-review-title-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 0.2rem;
+}
+
+.rvall-review-title {
+  font-family: "Pretendard";
+  margin: 0;
+}
+
+.rvall-rating {
+  color: #ffc107;
+  font-size: 22px;
+  letter-spacing: 2px;
+  display: inline-block;
+}
+
+.rvall-review-text {
+  font-family: "Pretendard";
+  flex-grow: 1;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+  color: #444;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  text-overflow: ellipsis;
+}
+
+.rvall-media-placeholder {
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  margin-right: 5rem;
+}
+
+.rvall-divider {
+  width: 94%;
+  border: none;
+  height: 1px;
+  background-color: rgba(33, 69, 45, 0.5);
+  margin-top: 0.8rem;
+}
+
+/* 페이지네이션 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.8rem;
+  align-items: center;
+}
+
+.page-number,
+.page-btn {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--dark-green);
+  font-size: 0.85rem;
+}
+
+.page-number.active {
+  background: var(--mint-green);
+  color: var(--dark-green);
+}
+
+/* ------------- review_by_item.html 상품별 전체 리뷰 조회 -------------*/
+.rvbyitem-top-bar {
+  width: 100%;
+  margin: 1.2rem 2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.rvbyitem-info-box {
+  min-width: 300px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1.5px solid var(--mint-green);
+  background: #fff;
+  border-radius: 14px;
+  padding: 0.5rem 2rem;
+  min-height: 50px;
+  flex: 0 0 23rem;
+  margin-left: 1rem;
+}
+
+.rvbyitem-sorts {
+  margin-left: auto;
+  margin-right: 6rem;
+  display: flex;
+  gap: 1rem;
+}
+.rvbyitem-label {
+  font-family: "Pretendard";
+  font-size: 1rem;
+}
+
+.rvbyitem-divider {
+  color: #888;
+}
+
+.rvbyitem-score {
+  font-family: "Pretendard";
+  font-size: 2.1rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.rvbyitem-sort-cat {
+  font-family: "Pretendard";
+  color: rgb(83, 82, 82);
+  background: var(--mint-green);
+  border: 1px solid var(--dark-green);
+  border-radius: 0.5rem;
+  padding: 0.4rem 1.5rem 0.4rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 200;
+  position: relative;
+  background-position: right 0.7rem center;
+  cursor: pointer;
+}
+
+select.rvbyitem-sort-cat {
+  text-align: center;
+}
+
+/* ------------- reg_review.html 리뷰 등록 -------------*/
+.rvreg-h1 {
+  font-family: "Pretendard";
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 100;
+  margin: 0.5rem auto 0.5rem;
+  margin-top: 1.5rem;
+  color: #000;
+}
+
+.rvreg-page {
+  max-width: 900px;
+  margin-top: 0;
+  margin: 0 auto;
+}
+
+.rvreg-product-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  border: 1px solid var(--dark-green);
+  border-radius: 12px;
+  background: #f7f6f2;
+  padding: 0.5rem 2rem;
+  margin-top: 20px;
+}
+
+.rvreg-product-left {
+  flex: 1 1 auto;
+}
+
+.rvreg-product-name {
+  font-family: "Pretendard";
+  font-size: 1rem;
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid #d7d7d7;
+  padding-bottom: 0.3rem;
+}
+
+.rvreg-ask {
+  font-family: "Pretendard";
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.rvreg-stars {
+  display: flex;
+  gap: 0.7rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.rvreg-stars .star {
+  font-size: 2rem;
+  cursor: pointer;
+  color: transparent;
+  -webkit-text-stroke: 1.2px #ffad33;
+  transition: 0.15s;
+}
+
+.rvreg-stars .star.filled {
+  color: #ffad33;
+  -webkit-text-stroke: 2px #ffad33;
+}
+
+.rvreg-media {
+  width: 110px;
+  height: 110px;
+  background: #d9d9d9;
+}
+
+.reg-review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.rvreg-label {
+  font-family: "Pretendard";
+  font-weight: 300;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+textarea {
+  font-family: "Pretendard";
+  max-width: 900px;
+  width: 100%;
+  border: 1px solid #b8b6b1;
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+  box-sizing: border-box;
+  background: #fff;
+  font-size: 0.95rem;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* photo row */
+.photo-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.photo-hint {
+  font-size: 0.7rem;
+  color: #d25a4b;
+}
+
+.photo-preview-wrap {
+  display: flex;
+  gap: 0.55rem;
+  margin-top: 0.7rem;
+}
+
+.photo-box {
+  width: 50px;
+  height: 50px;
+  background: #e1dfdb;
+  border-radius: 4px;
+}
+
+/* button */
+.review-submit-btn {
+  font-family: "Pretendard";
+  font-size: 1rem;
+  width: 8.75rem;
+  height: 2.75rem;
+  background: var(--dark-green);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: block;
+  margin: 0.6rem auto 0;
+}
+
+.review-submit-btn:hover {
+  opacity: 0.9;
+}
+
+/* ------------- review_detail.html 리뷰 상세 -------------*/
+.rvdetail-container {
+  display: flex;
+  justify-content: center;
+}
+.rvdetail-page {
+  max-width: 1100px;
+  width: 100%;
+  margin: 4rem auto;
+  background: #ffffff;
+  border: 2.5px solid var(--mint-green);
+  border-radius: 30px;  
+  padding: 5rem 3rem;
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
+
+.rvdetail-left {
+  flex: 1 1 auto;
+}
+
+.rvdetail-user-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.rvdetail-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  background: #cfe3d5;
+  position: relative;
+}
+
+.rvdetail-user-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #111;
+}
+
+.rvdetail-product-name {
+  font-size: 0.9rem;
+  color: #7f8c85;
+  margin-bottom: 0.7rem;
+}
+
+.rvdetail-stars {
+  color: #f3a826;
+  font-size: 1.5rem;
+  letter-spacing: 0.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.rvdetail-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  color: #111;
+}
+
+.rvdetail-text {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: #333;
+  max-width: 520px;
+}
+
+.rvdetail-right {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  align-items: flex-end;
+}
+
+.rvdetail-img {
+  width: 240px;
+  height: 260px;
+  background: #d9d9d9;
+}
+
+.rvdetail-thumb-row {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.rvdetail-thumb {
+  width: 52px;
+  height: 56px;
+  background: #d9d9d9;
+}

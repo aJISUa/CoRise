@@ -1,34 +1,36 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
-  </head>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link rel="stylesheet"  href="{{ url_for('static', filename='style.css') }}">
+  {% block head %} {% endblock head %}
+</head>
+
   <body>
     <nav class="navbar">
       <div class="navbar_logo">
-        <a href="">EwhaMarket</a>
+        <a href="">CoRise</a>
       </div>
       <ul class="navbar_menu">
-        {% if session['id'] %}
-        <li><a href="/logout"><b>{{session['id']}}님 반갑습니다!</b> logout</a></li>
-        {% else %}
-        <li><a href="/login">login</a></li>
-        {% endif %}
-        <li><a href="/list">List</a></li>
-        <li><a href="/review">Review</a></li>
-        <li><a href="/reg_items">Register Items</a></li>
-        <li><a href="/reg_reviews">Register Reviews</a></li>
+        <li><a href="/list">전체 상품</a></li>
+        <li><a href="/reg_items">상품 등록</a></li>
+        <li><a href="/reg_reviews">리뷰 등록</a></li>
+        <li><a href="/mypage">마이페이지</a></li>
       </ul>
-      <a href="#" class="navbar_toggleBtn">
-        <i class="fas fa-bars"></i>
-      </a>
+
+      <div>
+        {% if session['id'] %}
+        <a href="/logout" class="navbar_logout_icon">
+          <img src="{{ url_for('static', filename='icons/logout.svg') }}" alt="로그아웃 아이콘" />
+        </a>
+        {% else %}
+        <a href="/login" class="navbar_login_icon">
+          <img src="{{ url_for('static', filename='icons/login.svg') }}" alt="로그인 아이콘" />
+        </a>
+        {% endif %}
+      </div>
     </nav>
     <section>
         {% block section %}
