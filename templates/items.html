@@ -54,145 +54,81 @@
       </label>
     </section>
 
+  {% if total > 0 %}
+  <main class="product-grid">
 
-    <!-- 상품 목록 -->
-    <main class="product-grid">
-      <div class="product-card">
-        <div class="hm-thumb"></div>
-        <div class="info">
-          <div class="text">
-          <p class="product-name">공기청정기</p>
-          <p class="price">50,500원</p>
-          </div>
-          <button class="heart">
-            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
+    <!-- Row 1 -->
+    {% for key, value in row1 %}
+    <article class="product-card" onclick="location.href='/view_detail/{{ key }}/';" style="cursor: pointer;">
+      <div class="hm-thumb">
+          <img src="static/images/{{value.img_path}}" width="140" height="200" alt="{{ key }}">
       </div>
-
-      <!-- 동일 구조로 나머지 7개 -->
-      <article class="product-card">
-        <div class="hm-thumb"></div>
-          <div class="info">
-            <div class="text">
-            <p class="product-name">립글로스</p>
-            <p class="price">10,000원</p>
-            </div>
-            <button class="heart">
-              <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
-      </article>
-
-      <article class="product-card">
-        <div class="hm-thumb"></div>
-        <div class="info">
-          <div class="text">
-          <p class="product-name">카디건</p>
-          <p class="price">40,000원</p>
-          </div>
-          <button class="heart">
-            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
-            </svg>
-          </button>
+      <div class="info">
+        <div class="text">
+          <p class="product-name">{{ key }}</p>
+          <p class="price">{{ value.price }}원</p>
         </div>
-      </article>
+        <button class="heart">
+          <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </article>
+    {% endfor %}
 
-      <article class="product-card">
-        <div class="hm-thumb"></div>
-        <div class="info">
-          <div class="text">
-          <p class="product-name">뜨개질 인형</p>
-          <p class="price">5,000원</p>
-          </div>
-          <button class="heart">
-            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
-            </svg>
-          </button>
+    <!-- Row 2 -->
+    {% for key, value in row2 %}
+    <article class="product-card" onclick="location.href='/view_detail/{{ key }}/';" style="cursor: pointer;">
+      <div class="hm-thumb">
+        <img src="static/images/{{value.img_path}}" width="140" height="200" alt="{{ key }}">
+      </div>
+      <div class="info">
+        <div class="text">
+          <p class="product-name">{{ key }}</p>
+          <p class="price">{{ value.price }}원</p>
         </div>
-      </article>
-
-      <article class="product-card">
-        <div class="hm-thumb"></div>
-        <div class="info">
-          <div class="text">
-          <p class="product-name">식기 세트</p>
-          <p class="price">20,000원</p>
-          </div>
-          <button class="heart">
-            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-      </article>
-
-      <article class="product-card">
-        <div class="hm-thumb"></div>
-        <div class="info">
-          <div class="text">
-          <p class="product-name">후드집업</p>
-          <p class="price">60,000원</p>
-          </div>
-          <button class="heart">
-            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-      </article>
-
-      <article class="product-card">
-        <div class="hm-thumb"></div>
-        <div class="info">
-          <div class="text">
-          <p class="product-name">학잠</p>
-          <p class="price">30,000원</p>
-          </div>
-          <button class="heart">
-            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-      </article>
-
-      <article class="product-card">
-        <div class="hm-thumb"></div>
-        <div class="info">
-          <div class="text">
-          <p class="product-name">아이섀도우</p>
-          <p class="price">11,000원</p>
-          </div>
-          <button class="heart">
-            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-              <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-      </article>
-    </main>
+        <button class="heart">
+          <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </article>
+    {% endfor %}
+  </main>
 
     <!-- 페이지네이션 -->
     <nav class="pagination">
-      {# if current_page > 1 #}
-      <a class="page-btn" href="#">&lsaquo;</a>
-      {# endif #} {# for p in pages #}
-      <a class="page-number active" href="#">1</a>
-      <a class="page-number" href="#">2</a>
-      <a class="page-number" href="#">3</a>
-      <span>…</span>
-      <a class="page-number" href="#">10</a>
-      {# endfor #} {# if current_page < total_pages #}
-      <a class="page-btn" href="#">&rsaquo;</a>
-      {# endif #}
+
+      <!-- 이전 페이지 버튼 -->
+      {% if page > 0 %}
+        <a class="page-btn" href="{{ url_for('view_list', page=page-1) }}">&lsaquo;</a>
+      {% else %}
+        <span class="page-btn" style="opacity:0.4; pointer-events:none;">&lsaquo;</span>
+      {% endif %}
+
+      <!-- 페이지 번호 반복 -->
+      {% for i in range(page_count) %}
+        <a class="page-number {% if i == page %}active{% endif %}" 
+          href="{{ url_for('view_list', page=i) }}">
+          {{ i + 1 }}
+        </a>
+      {% endfor %}
+
+      <!-- 다음 페이지 버튼 -->
+      {% if page < page_count - 1 %}
+        <a class="page-btn" href="{{ url_for('view_list', page=page+1) }}">&rsaquo;</a>
+      {% else %}
+        <span class="page-btn" style="opacity:0.4; pointer-events:none;">&rsaquo;</span>
+      {% endif %}
+
     </nav>
+
+
+  {% else %}
+    <p>등록된 상품이 없습니다.</p>
+  {% endif %}
 
 
   </div>

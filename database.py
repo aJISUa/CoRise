@@ -87,6 +87,19 @@ class DBhandler:
             return items.val()
         return {}
     
+    #상품이름으로 item 테이블에서 정보 가져오기
+    def get_item_byname(self, name):
+        items = self.db.child("item").get()
+        target_value=""
+        print("###########",name)
+
+        for res in items.each():
+            key_value = res.key()
+            if key_value == name:
+                target_value=res.val()
+                
+        return target_value
+    
     #카테고리 초기 데이터 삽입
     def insert_categories(self):
         categories_data = [

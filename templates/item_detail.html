@@ -5,9 +5,87 @@
 {% endblock head %} 
 
 {% block section %}
-<!--상품 상세 설명-->
+
 <main class="pd-wrap" aria-label="상품 상세">
   <!-- 좌측: 이미지 갤러리 -->
+  <section class="pd-gallery">
+    <!-- 썸네일 버튼 -->
+        <div class="thumbs">
+        <button class="thumb" aria-label="대표 이미지 썸네일"></button>
+        <button class="thumb" aria-label="보조 이미지 1"></button>
+        <button class="thumb" aria-label="보조 이미지 2"></button>
+        <button class="thumb" aria-label="보조 이미지 3"></button>
+        </div>
+
+    <!-- 대표 이미지 -->
+    <div class="hero">
+      <img id="heroImage" src="../../static/images/{{data.img_path}}" alt="{{ name }}" width="350" height="350">
+    </div>
+  </section>
+
+  <!-- 우측: 상품 기본 정보 -->
+  <section class="pd-meta">
+    <div class="meta-line">
+      <span class="label">카테고리:</span>
+      <span class="value">{{ data.category }}</span>
+    </div>
+
+    <div class="meta-divider"></div>
+
+    <h1 class="pd-title">{{ name }}</h1>
+    <div class="pd-price">{{ data.price }}원</div>
+
+    <div class="meta-bottom">
+      <div class="seller-block">
+        <div class="seller-line">
+          <span class="seller-label">판매자:</span>
+          <span class="seller-value">{{ data.seller }}</span>
+        </div>
+        <div class="seller-line">
+          <span class="seller-label">주소:</span>
+          <span class="seller-value">{{ data.addr }}</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="wish" aria-label="찜하기">
+        
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <path
+                    d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8166 7.15662 17.0181 5.99742 14.1 5.99742C11.1819 5.99742 8.38338 7.15662 6.31999 9.22C4.25661 11.2834 3.09741 14.0819 3.09741 17C3.09741 19.9181 4.25661 22.7166 6.31999 24.78L24 42.46L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z"
+                    stroke="#1E1E1E"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        </button>
+        <button class="btn primary">구매하기</button>
+        <button class="btn">리뷰 보기</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 하단: 상품 정보 -->
+  <section class="pd-info">
+    <h2>상품 정보</h2>
+    <div class="info-card">
+      <p>{{ data.info }}</p>
+    </div>
+  </section>
+</main>
+
+<!-- 🔹 JS: 썸네일 클릭 시 대표 이미지 변경 -->
+<script>
+  function changeHero(imageSrc) {
+    const heroImg = document.getElementById("heroImage");
+    heroImg.src = imageSrc;
+  }
+</script>
+
+<!--상품 상세 설명-->
+<!--
+<main class="pd-wrap" aria-label="상품 상세">
     <section class="pd-gallery">
         <div class="thumbs">
         <button class="thumb" aria-label="대표 이미지 썸네일"></button>
@@ -19,7 +97,7 @@
         <div class="hero"></div>
     </section>
 
-    <!-- 우측: 상품 메타 -->
+
     <section class="pd-meta">
     <div class="meta-line">
         <span class="label">카테고리:</span>
@@ -45,7 +123,7 @@
 
     <div class="actions">
     <button class="wish" aria-label="찜하기">
-        <!-- 하트 아이콘 (48×48) -->
+        
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
         <path
             d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8166 7.15662 17.0181 5.99742 14.1 5.99742C11.1819 5.99742 8.38338 7.15662 6.31999 9.22C4.25661 11.2834 3.09741 14.0819 3.09741 17C3.09741 19.9181 4.25661 22.7166 6.31999 24.78L24 42.46L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z"
@@ -62,11 +140,11 @@
         </div>
     </div>
     <div class="meta-bottom-line"></div>
-    <!-- ↑↑↑ meta-bottom 닫힘 -->
+
     </section>
 
 
-    <!-- 하단: 상품 정보 카드 -->
+
     <section class="pd-info">
         <h2>상품 정보</h2>
         <div class="info-card">
@@ -86,4 +164,5 @@
         </ul>
         </div>
     </section>
+-->
 {% endblock section %}

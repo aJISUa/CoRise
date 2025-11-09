@@ -9,7 +9,8 @@ DB = DBhandler()
 
 @application.route("/")
 def hello():
-    return render_template("login.html")
+    #return render_template("login.html")
+    return redirect(url_for('view_list'))
 
 @application.route("/item_post")
 def reg_item():
@@ -17,21 +18,64 @@ def reg_item():
 
 @application.route("/items")
 def view_list():
-    return render_template("items.html")
+    page = request.args.get("page", 0, type=int)
+    per_page=8
+    per_row=4
+    row_count=int(per_page/per_row)
+    start_idx=per_page*page
+    end_idx=per_page*(page+1)
+    data = DB.get_item_list()
+    item_counts = len(data)
+    data = dict(list(data.items())[start_idx:end_idx])
+    tot_count = len(data)
+    for i in range(row_count):
+        if (i == row_count-1) and (tot_count%per_row != 0):
+            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:])
+        else:
+            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])
+    return render_template (
+        "items.html", 
+        datas=data.items(), 
+        row1 = locals()['data_0'].items(),
+        row2 = locals()['data_1'].items(),
+        limit=per_page,
+        page=page,
+        page_count=int((item_counts/per_page)+1),
+        total=item_counts
+    )    
+
+@application.route('/view_detail/<name>/')
+def view_item_detail(name):
+    print("###name:",name)
+    data = DB.get_item_byname(str(name))
+    print("###data:",data)
+    return render_template("item_detail.html", name=name, data=data)
+
 
 @application.route("/item_detail")
 def item_detail():
     return render_template("item_detail.html")
 
-@application.route("/submit/item")
+@application.route("/submit_item")
 def reg_item_submit():
-    name = request.args.get("name")
-    cost = request.args.get("cost")
-    addr = request.args.get("addr")
-    category = request.args.get("category")
-    description = request.args.get("description")
+    name=request.args.get("name")
+    seller=request.args.get("seller")
+    addr=request.args.get("addr")
+    email=request.args.get("email")
+    category=request.args.get("category")
+    card=request.args.get("card")
+    status=request.args.get("status")
+    phone=request.args.get("phone")
+                           
+    print(name,seller,addr,email,category,card,status,phone)
+    
+#    name = request.args.get("name")
+#    cost = request.args.get("cost")
+#   addr = request.args.get("addr")
+#    category = request.args.get("category")
+#    description = request.args.get("description")
 
-    print(name, cost, addr, category, description)
+#    print(name, cost, addr, category, description)
     return render_template("reg_item.html")
 
 @application.route("/submit_item_post", methods=['POST'])
@@ -84,7 +128,7 @@ def register_user():
 @application.route("/log_out")
 def logout_user():
     session.clear()
-    return redirect(url_for('list_restaurants'))
+    return redirect(url_for('view_list'))
 
 
 if __name__ == "__main__":
