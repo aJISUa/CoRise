@@ -52,7 +52,6 @@
             />
           </div>
           <br />
-          <!-- TODO: 이벤트 처리 추가 -->
           <div>
             <label>비밀번호 확인<span>*</span></label>
             <input
@@ -95,6 +94,20 @@
       function checkNickname() {
         alert("닉네임 중복확인");
       }
+
+      // 비밀번호 확인
+      document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+          const pw  = form.querySelector('input[name="pw"]').value;
+          const pw2 = form.querySelector('input[name="pw_confirm"]').value;
+          if (pw !== pw2) {
+            e.preventDefault();
+            alert('비밀번호가 일치하지 않습니다.');
+            form.querySelector('input[name="pw_confirm"]').focus();
+          }
+        });
+      });
     </script>
   </body>
 </html>

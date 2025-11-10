@@ -56,7 +56,7 @@ class DBhandler:
             value = res.val()
             if value['id'] == id_ and value['pw'] == pw_:
                 return True
-            return False
+        return False
 #----------------------------------------------------------------------------
 #Item/Product 관련 CRUD 
 #----------------------------------------------------------------------------        
