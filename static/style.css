@@ -98,6 +98,13 @@ body {
   transform: scale(1.15);
 }
 
+.navbar_hi {
+  text-decoration: none;
+  font-family: "Pretendard";
+  display: inline-block; 
+  transform: translateY(-0.5rem);
+  margin-right: 0.5rem;
+}
 
 section {
   display: block;

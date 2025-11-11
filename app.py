@@ -9,14 +9,13 @@ DB = DBhandler()
 
 @application.route("/")
 def hello():
-    #return render_template("login.html")
     return redirect(url_for('view_list'))
 
-@application.route("/item_post")
+@application.route("/reg_items")
 def reg_item():
     return render_template("reg_items.html")
 
-@application.route("/items")
+@application.route("/list")
 def view_list():
     page = request.args.get("page", 0, type=int)
     per_page=8
@@ -51,11 +50,6 @@ def view_item_detail(name):
     print("###data:",data)
     return render_template("item_detail.html", name=name, data=data)
 
-
-@application.route("/item_detail")
-def item_detail():
-    return render_template("item_detail.html")
-
 @application.route("/submit_item")
 def reg_item_submit():
     name=request.args.get("name")
@@ -86,7 +80,7 @@ def reg_item_submit_post():
     DB.insert_item(data['name'], data, image_file.filename)
     return render_template("submit_item_result.html",data=data,img_path="static/images/{}".format(image_file.filename))
 
-@application.route("/review_post")
+@application.route("/reg_reviews")
 def reg_review():
     return render_template("reg_reviews.html")
 
@@ -94,7 +88,11 @@ def reg_review():
 def view_review():
     return render_template("reviews.html")
 
-@application.route("/log_in")
+@application.route("/reviews_by_item")
+def view_review_by_item():
+    return render_template("reviews_by_item.html")
+
+@application.route("/login")
 def login():
     return render_template("login.html")
 
@@ -110,7 +108,7 @@ def login_user():
         flash("Wrong ID or PW!")
         return render_template("login.html")
 
-@application.route("/sign_up")
+@application.route("/signup")
 def signup():
     return render_template("signup.html")
 
@@ -125,7 +123,7 @@ def register_user():
         flash("user id already exist!")
         return render_template("signup.html")
     
-@application.route("/log_out")
+@application.route("/logout")
 def logout_user():
     session.clear()
     return redirect(url_for('view_list'))

@@ -14,16 +14,23 @@
         <a href="">CoRise</a>
       </div>
       <ul class="navbar_menu">
-        <li><a href="/list">전체 상품</a></li>
-        <li><a href="/reg_items">상품 등록</a></li>
-        <li><a href="/reg_reviews">리뷰 등록</a></li>
-        <li><a href="/mypage">마이페이지</a></li>
+        <li><a href="{{ url_for('view_list') }}">전체 상품</a></li>
+        <li><a href="{{ url_for('reg_item') }}">상품 등록</a></li>
+        <li><a href="{{ url_for('view_review') }}">전체 리뷰</a></li>
+        <li><a href="#">마이페이지</a></li>
       </ul>
 
       <div>
-        <a href="/logout" class="navbar_logout_icon">
+        {% if session['id'] %}
+        <a class="navbar_hi">{{session['id']}}님 반갑습니다!</a>
+        <a href="{{ url_for('logout_user') }}" class="navbar_logout_icon">
           <img src="{{ url_for('static', filename='icons/logout.svg') }}" alt="로그아웃 아이콘" />
         </a>
+        {% else %}
+        <a href="{{ url_for('login') }}" class="navbar_login_icon">
+          <img src="{{ url_for('static', filename='icons/login.svg') }}" alt="로그인 아이콘" />
+        </a>
+        {% endif %}
       </div>
     </nav>
     <section>
