@@ -133,6 +133,9 @@ def logout_user():
 def mypage():
     return render_template("mypage/mypage.html")
 
+@application.route("/mypage_edit")
+def mypage_edit():
+    return render_template("mypage/mypage_edit.html")
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0')

@@ -1,3 +1,4 @@
+/*-----------마이페이지-----------*/
 /* 페이지 전체 정렬 */
 .mypage {
     display: flex;
@@ -84,16 +85,16 @@
 
 /* 소개글 박스 */
 .profile-intro {
-    display: flex;                      /* 가로 배치 */
-    align-items: stretch;             /* 위쪽 정렬 */
-    gap: 10px;                           /* 라벨과 내용 사이 간격 */
+    display: flex;                    
+    align-items: stretch;         
+    gap: 10px;                           
     background-color: #FBFAF4;
     border: 1px solid var(--mint-green);
     border-radius: 8px;
     padding: 14px 16px;
     font-size: 14px;
-    color: #333;
-    margin: 0 auto 20px auto;
+    color: #000;
+    margin: 0 auto 25px auto;
     width: 90%;
     box-sizing: border-box;
 }
@@ -101,28 +102,36 @@
 /* 왼쪽 라벨 */
 .intro-label {
     font-weight: 500;
-    color: #555;
     white-space: nowrap;                
     border-right: 1px solid var(--mint-green);    
-    padding-right: 10px;
+    padding-right: 15px;
     display: flex;
     align-items: flex-start;           
-    padding-top: 2px;   
+    padding-top: 2px; 
 }
 
 /* 오른쪽 내용 */
 .intro-content {
-    flex: 1;                             /* 남은 공간 채우기 */
-    padding-left: 10px;
+    flex: 1;                            
+    padding-left: 15px;
     line-height: 1.6;
     display: flex;
     align-items: flex-start; 
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+
 }
 
 .intro-content p {
-    margin: 0;           /* 위아래 기본 여백 제거 */
-    padding: 0;          /* 혹시 모를 내부 여백 제거 */
-    line-height: 1.6;    /* 줄 간격은 유지 */
+    margin: 0;         
+    padding: 0;          
+    line-height: 1.6;    
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+
+
 }
 
 .more {
@@ -133,26 +142,47 @@
 
 .profile-info-card {
     display: flex;
-    flex-direction: column;              /* 세로 배치 */
-    align-items: center;                 /* 내부 콘텐츠 가운데 정렬 */
+    flex-direction: column;            
+    align-items: center;               
     gap: 12px;
     background-color: #FBFAF4;
     border: 1px solid var(--mint-green);
     border-radius: 8px;
-    padding: 18px 20px;
+    padding: 28px 20px;
     font-size: 14px;
     color: #333;
     margin: 0 auto 20px auto;
     width: 90%;
     box-sizing: border-box;
+    
 }
 
 /* 이메일 */
 .profile-contact {
-    text-align: center;
-    font-size: 14px;
-    color: #444;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;   
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 10px;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.profile-contact img{
+    position: relative;
+    width: 18px;  
+    height: 18px;
+    vertical-align: middle; 
+    margin-right: 6px;
+    top: -1px;
+}
+
+.profile-contact .email {
+    margin: 0;                 
+    color: #000;
 }
 
 /* 버튼 리스트 */
@@ -188,4 +218,118 @@
 
 .action-btn:hover {
     background-color: #edf6eb;
+}
+
+/*-------------마이페이지 편집-------------*/
+
+.profile-header2 {
+    position: relative;
+    text-align: center;
+    margin-bottom: -10px;
+}
+
+/* 입력 폼 */
+.edit-form {
+  width: 100%;
+  margin-top: -20px;
+}
+
+.form-group {
+    display: flex;                    
+    align-items: center;     
+    gap: 10px;                           
+    background-color: #FBFAF4;
+    border: 1px solid var(--mint-green);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #000;
+    margin: 0 auto 25px auto;
+    width: 90%;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.form-group label {
+    width: 60px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #000;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.form-group input,
+.form-group textarea {
+    border: none;          
+    outline: none;  
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 14px;
+    background-color: #fbfaf4;
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+    color: #000;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.form-group:nth-of-type(1) label,
+.form-group:nth-of-type(2) label {
+  position: relative;
+  top: 2px; 
+}
+
+.form-group:nth-of-type(3) label {
+  align-self: flex-start; 
+  position: relative;
+  top: 7px; 
+}
+
+.form-group:focus-within {
+  border-color: #8bb67a; /* 초록색 테두리 강조 */
+  box-shadow: 0 0 0 2px rgba(143, 187, 116, 0.2); /* 은은한 초록 그림자 */
+  background-color: #fcfdfb; /* 살짝 밝게 */
+}
+
+
+/* 버튼 */
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.cancel-btn,
+.save-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cancel-btn {
+  background-color: #e4ebe0;
+  color: #333;
+}
+
+.save-btn {
+  background-color: #314e28;
+  color: #fff;
+}
+
+.cancel-btn:hover {
+  background-color: #dbe5d6;
+}
+
+.save-btn:hover {
+  background-color: #2a4523;
 }
