@@ -1,0 +1,65 @@
+{% extends "index.html" %} 
+{% block head %} 
+{{ super() }}
+    <link rel="stylesheet"  href="{{ url_for('static', filename='mypage1_1.css') }}">
+{% endblock head %} 
+
+{% block section %}
+<main class="purchase-history1">
+    <h2><span class="user-name1">박이화</span> 님의 판매 내역</h2>
+
+    <!-- 구매 내역 카드 리스트 -->
+    <div class="purchase-list1">
+
+        <!-- 카드 1 -->
+        <div class="purchase-card1">
+            <div class="item-image1"></div>
+            <div class="item-content1">
+                <div class="item-info1">
+                    <p class="seller1">판매자: 박이화</p>
+                    <p class="item-name1">라운드넥 카디건</p>
+                    <p class="item-price1">40,000원</p>
+                </div>
+                <div class="btns">
+                    <button class="correct-btn">삭제</button>
+                    <button class="delete-btn">수정</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 카드 2 -->
+        <div class="purchase-card1">
+            <div class="item-image1"></div>
+            <div class="item-content1">
+                <div class="item-info1">
+                    <p class="seller1">판매자: 박이화</p>
+                    <p class="item-name1">립글로스</p>
+                    <p class="item-price1">10,000원</p>
+                </div>
+                <div class="btns">
+                    <button class="correct-btn">삭제</button>
+                    <button class="delete-btn">수정</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 카드 3 -->
+        <div class="purchase-card1">
+            <div class="item-image1"></div>
+            <div class="item-content1">
+                <div class="item-info1">
+                    <p class="seller1">판매자: 박이화</p>
+                    <p class="item-name1">블루투스 마우스</p>
+                    <p class="item-price1">9,000원</p>
+                </div>
+                <div class="btns">
+                    <button class="correct-btn">삭제</button>
+                    <button class="delete-btn">수정</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+{% endblock section %}

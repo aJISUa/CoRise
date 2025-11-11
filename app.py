@@ -137,6 +137,18 @@ def mypage():
 def mypage_edit():
     return render_template("mypage/mypage_edit.html")
 
+@application.route("/mypage_buy")
+def mypage_buy():
+    return render_template("mypage/mypage_buy.html")
+
+@application.route("/mypage_sell")
+def mypage_sell():
+    return render_template("mypage/mypage_sell.html")
+
+@application.route("/mypage_sell_edit")
+def mypage_sell_edit():
+    return render_template("mypage/mypage_sell_edit.html")
+
 if __name__ == "__main__":
     application.run(host='0.0.0.0')
 
