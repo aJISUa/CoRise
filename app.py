@@ -130,6 +130,13 @@ def logout_user():
     session.clear()
     return redirect(url_for('view_list'))
 
+#마이페이지 관련 코드 
+@application.route("/mypage")
+def mypage():
+    return render_template("mypage/mypage.html")
+
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0')
+
+

@@ -21,15 +21,9 @@
       </ul>
 
       <div>
-        {% if session['id'] %}
         <a href="/logout" class="navbar_logout_icon">
           <img src="{{ url_for('static', filename='icons/logout.svg') }}" alt="로그아웃 아이콘" />
         </a>
-        {% else %}
-        <a href="/login" class="navbar_login_icon">
-          <img src="{{ url_for('static', filename='icons/login.svg') }}" alt="로그인 아이콘" />
-        </a>
-        {% endif %}
       </div>
     </nav>
     <section>

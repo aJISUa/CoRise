@@ -1,0 +1,192 @@
+/* 페이지 전체 정렬 */
+.mypage {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+    padding-bottom: 80px;
+}
+
+/* 프로필 카드 */
+.profile-card {
+    background-color: #fff;
+    border: 1px solid #d7e5d0;
+    border-radius: 14px;
+    width: 490px;
+    padding: 32px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* 상단 프로필 영역 */
+.profile-header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    position: relative;
+    top: -90px; 
+    display: inline-block;
+}
+
+.avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #fbfaf4;
+    border: none; 
+    box-shadow: 0 0 0 1px #d7e5d0;
+}
+
+.profile-info {
+    margin-top: -100px;  
+    text-align: center; 
+}
+
+.username {
+    margin-bottom: 7px; 
+    color: #000;
+    font-family: "SUIT";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.univ {
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-size: 14px;
+    margin: 0;
+}
+
+.edit-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.edit-btn img {
+    width: 25px;  
+    height: 25px;
+    opacity: 0.8; 
+    transition: opacity 0.2s ease;
+}
+
+.edit-btn img:hover {
+    opacity: 1; 
+}
+
+/* 소개글 박스 */
+.profile-intro {
+    display: flex;                      /* 가로 배치 */
+    align-items: stretch;             /* 위쪽 정렬 */
+    gap: 10px;                           /* 라벨과 내용 사이 간격 */
+    background-color: #FBFAF4;
+    border: 1px solid var(--mint-green);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #333;
+    margin: 0 auto 20px auto;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+/* 왼쪽 라벨 */
+.intro-label {
+    font-weight: 500;
+    color: #555;
+    white-space: nowrap;                
+    border-right: 1px solid var(--mint-green);    
+    padding-right: 10px;
+    display: flex;
+    align-items: flex-start;           
+    padding-top: 2px;   
+}
+
+/* 오른쪽 내용 */
+.intro-content {
+    flex: 1;                             /* 남은 공간 채우기 */
+    padding-left: 10px;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start; 
+}
+
+.intro-content p {
+    margin: 0;           /* 위아래 기본 여백 제거 */
+    padding: 0;          /* 혹시 모를 내부 여백 제거 */
+    line-height: 1.6;    /* 줄 간격은 유지 */
+}
+
+.more {
+    color: #999;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.profile-info-card {
+    display: flex;
+    flex-direction: column;              /* 세로 배치 */
+    align-items: center;                 /* 내부 콘텐츠 가운데 정렬 */
+    gap: 12px;
+    background-color: #FBFAF4;
+    border: 1px solid var(--mint-green);
+    border-radius: 8px;
+    padding: 18px 20px;
+    font-size: 14px;
+    color: #333;
+    margin: 0 auto 20px auto;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+/* 이메일 */
+.profile-contact {
+    text-align: center;
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+/* 버튼 리스트 */
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.action-btn {
+    width: 130px;
+    padding: 10px;
+    border: 1px solid #c8d8c0;
+    border-radius: 6px;
+    background-color: #f8fbf7;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.action-btn img {
+    position: relative;
+    width: 18px;  
+    height: 18px;
+    vertical-align: middle; 
+    margin-right: 6px;
+    top: -1px;
+}
+
+.profile-actions img[src*="heart"] {
+    width: 20px;
+    height: 20px;
+}
+
+
+.action-btn:hover {
+    background-color: #edf6eb;
+}
