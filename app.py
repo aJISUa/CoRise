@@ -39,12 +39,14 @@ def view_list():
         total=item_counts
     )    
 
+
 @application.route('/view_detail/<name>/')
 def view_item_detail(name):
     print("###name:",name)
     data = DB.get_item_byname(str(name))
     print("###data:",data)
-    return render_template("item_detail.html", name=name, data=data)
+    seller_nickname = DB.get_user_nickname(data.get('seller'))
+    return render_template("item_detail.html", name=name, data=data, nickname=seller_nickname)
 
 # 상품등록 페이지 반환 (reg_items.html)
 @application.route("/reg_items")
@@ -62,13 +64,8 @@ def reg_item_submit_post():
     image_file.save("static/images/{}".format(image_file.filename))
     data=request.form
     DB.insert_item(data['name'], data, image_file.filename, session['id'])
-    seller_nickname = DB.get_user_nickname(session['id'])
-    return render_template(
-        "item_detail.html",
-        data=data,
-        img_path="static/images/{}".format(image_file.filename),
-        nickname = seller_nickname,
-    )
+    
+    return redirect(url_for('view_item_detail', name=data['name']))
 
 @application.route("/reg_reviews")
 def reg_review():
