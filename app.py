@@ -11,10 +11,6 @@ DB = DBhandler()
 def hello():
     return redirect(url_for('view_list'))
 
-@application.route("/reg_items")
-def reg_item():
-    return render_template("reg_items.html")
-
 @application.route("/list")
 def view_list():
     page = request.args.get("page", 0, type=int)
@@ -50,35 +46,29 @@ def view_item_detail(name):
     print("###data:",data)
     return render_template("item_detail.html", name=name, data=data)
 
-@application.route("/submit_item")
-def reg_item_submit():
-    name=request.args.get("name")
-    seller=request.args.get("seller")
-    addr=request.args.get("addr")
-    email=request.args.get("email")
-    category=request.args.get("category")
-    card=request.args.get("card")
-    status=request.args.get("status")
-    phone=request.args.get("phone")
-                           
-    print(name,seller,addr,email,category,card,status,phone)
-    
-#    name = request.args.get("name")
-#    cost = request.args.get("cost")
-#   addr = request.args.get("addr")
-#    category = request.args.get("category")
-#    description = request.args.get("description")
+# 상품등록 페이지 반환 (reg_items.html)
+@application.route("/reg_items")
+def reg_item():
+    if 'id' not in session or not session['id']:
+            flash('로그인을 해주세요.')
+            return redirect(url_for('login'))
+    else:
+        return render_template("reg_items.html")
 
-#    print(name, cost, addr, category, description)
-    return render_template("reg_item.html")
-
+# reg_items.html에 입력한 값들 db에저정 -> 상품상세 페이지 념겨줌
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
     image_file=request.files["file"]
     image_file.save("static/images/{}".format(image_file.filename))
     data=request.form
-    DB.insert_item(data['name'], data, image_file.filename)
-    return render_template("submit_item_result.html",data=data,img_path="static/images/{}".format(image_file.filename))
+    DB.insert_item(data['name'], data, image_file.filename, session['id'])
+    seller_nickname = DB.get_user_nickname(session['id'])
+    return render_template(
+        "item_detail.html",
+        data=data,
+        img_path="static/images/{}".format(image_file.filename),
+        nickname = seller_nickname,
+    )
 
 @application.route("/reg_reviews")
 def reg_review():

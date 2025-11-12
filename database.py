@@ -35,6 +35,15 @@ class DBhandler:
         else:
             return False
     
+    #회원 닉네임 가져오기
+    def get_user_nickname(self, user_id):
+        snap = self.db.child("user").get()
+        data = snap.val() or {}
+        for _, user in data.items():
+            if str(user.get("id")) == str(user_id):
+                return user.get("nickname")
+        return None
+    
     #중복체크
     def user_duplicate_check(self, id_string):
         users = self.db.child("user").get()
@@ -61,20 +70,21 @@ class DBhandler:
 #Item/Product 관련 CRUD 
 #----------------------------------------------------------------------------        
     #아이템 삽입 (상품 등록)
-    def insert_item(self, name, data, img_path):
+    def insert_item(self, name, data, img_path, user_id):
         item_info ={
             "name":data['name'],
             "price": int(data['price']),
-            "seller": data['seller'],
+            "seller": user_id,
             "addr": data['addr'],
-            "email": data['email'],
+            #"email": data['email'],
             "category": data['category'],
-            "card": data['card'],
-            "status": data['status'],
-            "description": data['desc'],
-            "phone": data['phone'],
+            #"card": data['card'],
+            #"status": data['status'],
+            "description": data['description'],
+            #"phone": data['phone'],
             "img_path": img_path,
-            "addDate": pyrebase.database.ServerTimestamp
+            #"addDate": pyrebase.database.ServerTimestamp --> 에러 떠서 아래로 임시 수정
+            "addDate": {".sv": "timestamp"}
             }
         self.db.child("item").child(name).set(item_info)
         print(data,img_path)
