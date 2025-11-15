@@ -136,6 +136,18 @@ def mypage_sell():
 def mypage_sell_edit():
     return render_template("mypage/mypage_sell_edit.html")
 
+@application.route("/mypage_like")
+def mypage_like():
+    return render_template("mypage/mypage_like.html")
+
+@application.route("/mypage_review")
+def mypage_review():
+    return render_template("mypage/mypage_review.html")
+
+@application.route("/mypage_review_edit")
+def mypage_review_edit():
+    return render_template("mypage/mypage_review_edit.html")
+
 if __name__ == "__main__":
     application.run(host='0.0.0.0')
 

@@ -1,0 +1,101 @@
+<!-- mock page, 백엔드 코드 완료 후 수정 -->
+
+{% extends "index.html" %} 
+{% block head %} 
+{{ super() }}
+    <link rel="stylesheet"  href="{{ url_for('static', filename='review_style.css') }}">
+{% endblock head %} 
+
+{% block section %}
+
+<h1 class="rvreg-h1">리뷰 수정</h1>
+
+<section class="rvreg-page">
+  <section class="rvreg-product-box">
+    <div class="rvreg-product-left">
+      <!-- BE: 상품명 가져오기-->
+      <p class="rvreg-product-name">상품 : 라운드넥 가디건</p>
+      <p class="rvreg-ask">이 상품 어때요?</p>
+      <div class="rvreg-stars" data-rating="0">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+      </div>
+      <!-- BE hidden input: 선택한 별점값 (rating) 보냄 -->
+      <input type="hidden" name="rating" id="rating-input" value="0" />
+    </div>
+    <!-- BE: 상품 사진 가져오기-->
+    <div class="rvreg-media" aria-label="상품 이미지 자리"></div>
+  </section>
+
+  <form
+    action="/reg_reviews"
+    method="post"
+    enctype="multipart/form-data"
+    class="reg-review-form"
+  >
+    <div>
+      <label class="rvreg-label" for="title">리뷰 제목</label>
+      <input type="text" id="title" name="title" />
+    </div>
+
+    <div>
+      <label class="rvreg-label" for="content">리뷰 내용</label>
+      <textarea
+        id="content"
+        name="content"
+        rows="6"
+        placeholder="구매하신 상품 후기를 남겨 주시면 다른 구매자분들께 큰 도움이 됩니다."
+      ></textarea>
+    </div>
+
+    <div>
+      <label class="rvreg-label" for="photos">사진 등록</label>
+      <div class="photo-row">
+        <input type="file" id="photos" name="photos" multiple />
+        <span class="photo-hint">*최대 5장까지</span>
+      </div>
+      <div class="photo-preview-wrap">
+        <div class="photo-box"></div>
+        <div class="photo-box"></div>
+        <div class="photo-box"></div>
+        <div class="photo-box"></div>
+        <div class="photo-box"></div>
+      </div>
+    </div>
+
+    <div>
+      <button type="submit" class="review-submit-btn">수정</button>
+    </div>
+  </form>
+</section>
+
+<script>
+  const box = document.querySelector(".rvreg-stars");
+  const stars = box.querySelectorAll(".star");
+  const ratingInput = document.getElementById("rating-input");
+
+  stars.forEach((star, i) => {
+    star.onmouseenter = () => {
+      stars.forEach((s, j) => s.classList.toggle("filled", j <= i));
+    };
+
+    star.onclick = () => {
+      const val = star.dataset.value;
+      ratingInput.value = val;
+      box.dataset.rating = val;
+    };
+  });
+
+  box.onmouseleave = () => {
+    const current = box.dataset.rating || 0;
+    stars.forEach((s) =>
+      s.classList.toggle("filled", Number(s.dataset.value) <= Number(current))
+    );
+  };
+</script>
+
+
+{% endblock section %}
