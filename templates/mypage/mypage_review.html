@@ -3,12 +3,110 @@
 {% extends "index.html" %} 
 {% block head %} 
 {{ super() }}
-
+  <link rel="stylesheet"  href="{{ url_for('static', filename='mypage2.css') }}">
 {% endblock head %} 
 
 {% block section %}
 
+<main class="mypage-review-container">
+  <h2 class="user-name1"><span class="user-name2">박이화</span> 님이 작성한 리뷰</h2>
 
+    <div class="review-list">
+
+        <!-- 카드 1 -->
+        <div class="review-card">
+            <div class="review-image">
+              <!-- <img src="" alt=""> -->
+            </div>
+            <div class="review-content">
+              <div class="review-header">
+                <div class="review-title-wrap">
+                  <div class="review-title-row">
+                    <span class="review-title">카디건 한달 후기</span>
+                    <div class="review-stars">★★★★★</div>
+                  </div>
+                </div>
+                <div class="review-product">
+                  <span class="label">상품 :</span>
+                  <span class="name">라운드넥 가디건</span>
+                </div>
+              </div>
+
+              <p class="review-text">
+                167/53, 상의 S, 어깨 넓은 편, 이번 제품은 S 사이즈 착용했습니다. 결론부터 말하면 “매일 손이 가는 데일리 가디건”.
+                한 달 동안 출근/도서관/주말 카페까지 거의 3~4일에 한 번씩 돌려 입었어요~
+                <br>코디 폭이 넓어서 만족도가 높아요. 색깔도 마음에 들고 친구한테 칭찬 많이 받았어요. 다음에 이런거와 비슷한 제품이 있으면 무조건 구매할게요~!!!!!
+              </p>
+              <div class="btns">
+                <button class="correct-btn">삭제</button>
+                <button class="delete-btn">수정</button>
+              </div>          
+            </div>
+        </div>
+
+        <!-- 카드 2 -->
+        <div class="review-card">
+            <div class="review-image">
+              <!-- <img src="" alt=""> -->
+            </div>
+            <div class="review-content">
+              <div class="review-header">
+                <div class="review-title-wrap">
+                  <div class="review-title-row">
+                    <span class="review-title">최고의 마우스</span>
+                    <div class="review-stars">★★★★</div>
+                  </div>
+                </div>
+                <div class="review-product">
+                  <span class="label">상품 :</span>
+                  <span class="name">무소음 마우스</span>
+                </div>
+              </div>
+
+              <p class="review-text">
+                만족해요~~~!!!
+              </p>
+              <div class="btns">
+                <button class="correct-btn">삭제</button>
+                <button class="delete-btn">수정</button>
+              </div>          
+            </div>
+        </div>
+
+        <!-- 카드 3 -->
+        <div class="review-card">
+            <div class="review-image">
+              <!-- <img src="" alt=""> -->
+            </div>
+            <div class="review-content">
+              <div class="review-header">
+                <div class="review-title-wrap">
+                  <div class="review-title-row">
+                    <span class="review-title">사진과 달라요</span>
+                    <div class="review-stars">★</div>
+                  </div>
+                </div>
+                <div class="review-product">
+                  <span class="label">상품 :</span>
+                  <span class="name">이화 지갑</span>
+                </div>
+              </div>
+
+              <p class="review-text">
+                마음에 안 드네요
+              </p>
+              <div class="btns">
+                <button class="correct-btn">삭제</button>
+                <button class="delete-btn">수정</button>
+              </div>          
+            </div>
+        </div>
+
+    </div>
+
+  </main>
+
+    <!-- BE: 페이지네이션 가져오기  -->
     <!-- 페이지네이션 주석처리 중 -->
     {# TODO: 페이지네이션, href 수정
     <nav class="pagination">

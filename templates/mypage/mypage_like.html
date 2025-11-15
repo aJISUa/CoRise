@@ -3,27 +3,27 @@
 {% extends "index.html" %} 
 {% block head %} 
 {{ super() }}
-    <link rel="stylesheet"  href="{{ url_for('static', filename='mypage2_style.css') }}">
+  <link rel="stylesheet"  href="{{ url_for('static', filename='item_style.css') }}">
+  <link rel="stylesheet"  href="{{ url_for('static', filename='mypage2.css') }}">
 {% endblock head %} 
 
 {% block section %}
-<!-- TODO: 박이화님의 ... 박스 추가 -->
+<main class="mypage-like-container">
+<h2 class="user-name1"><span class="user-name2">박이화</span> 님의 찜 목록</h2>
 
 <div class="container">
 
-  {% if total > 0 %}
-  <main class="product-grid">
+  <div class="product-grid">
 
     <!-- Row 1 -->
-    {% for key, value in row1 %}
-    <article class="product-card" onclick="location.href='/view_detail/{{ key }}/';" style="cursor: pointer;">
+    <article class="product-card" style="cursor: pointer;">
       <div class="hm-thumb">
-          <img src="static/images/{{value.img_path}}" width="140" height="200" alt="{{ key }}">
+          <img width="140" height="200">
       </div>
       <div class="info">
         <div class="text">
-          <p class="product-name">{{ key }}</p>
-          <p class="price">{{ value.price }}원</p>
+          <p class="product-name">상품명</p>
+          <p class="price">가격</p>
         </div>
         <button class="heart">
           <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
@@ -32,18 +32,16 @@
         </button>
       </div>
     </article>
-    {% endfor %}
 
     <!-- Row 2 -->
-    {% for key, value in row2 %}
-    <article class="product-card" onclick="location.href='/view_detail/{{ key }}/';" style="cursor: pointer;">
+    <article class="product-card" style="cursor: pointer;">
       <div class="hm-thumb">
-        <img src="static/images/{{value.img_path}}" width="140" height="200" alt="{{ key }}">
+        <img width="140" height="200">
       </div>
       <div class="info">
         <div class="text">
-          <p class="product-name">{{ key }}</p>
-          <p class="price">{{ value.price }}원</p>
+          <p class="product-name">상품명</p>
+          <p class="price">가격</p>
         </div>
         <button class="heart">
           <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
@@ -52,9 +50,11 @@
         </button>
       </div>
     </article>
-    {% endfor %}
-  </main>
+  </div>
 
+</main>
+
+    <!-- BE: 페이지네이션 가져오기  -->
     <!-- 페이지네이션 주석처리 중 -->
     {# TODO: 페이지네이션, href 수정
     <nav class="pagination">
@@ -81,9 +81,9 @@
     </nav> #}
 
 
-  {% else %}
+  {# else %}
     <p>찜한 상품이 없습니다.</p>
-  {% endif %}
+  {% endif #}
 
 
   </div>
