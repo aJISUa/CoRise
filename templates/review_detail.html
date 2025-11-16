@@ -1,0 +1,37 @@
+{% extends "index.html" %} {% block head %} {{ super() }}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='review_style.css') }}"
+/>
+{% endblock head %} {% block section %}
+<div class="rvdetail-container">
+  <div class="rvdetail-page">
+    <div class="rvdetail-left">
+      <div class="rvdetail-user-row">
+        <div class="rvdetail-avatar"></div>
+        <div class="rvdetail-user-name">박이화</div>
+      </div>
+      <div class="rvdetail-product-name">상품: 라운드넥 카디건</div>
+      <div class="rvdetail-stars">★ ★ ★ ★ ★</div>
+      <div class="rvdetail-title">카디건 한달 후기</div>
+      <p class="rvdetail-text">
+        167/53, 상의 S, 어깨 넓은 편. 이번 제품은 S 사이즈 착용했습니다.
+        결론부터 말하면 “매일 손이 가는 데일리 가디건”. 한 달 동안
+        출근/도서관/주말 카페까지 거의 3~4일에 한 번씩 돌려 입었고, 코디 폭이
+        넓어서 만족도가 높아요.
+      </p>
+    </div>
+
+    <div class="rvdetail-right">
+      <div class="rvdetail-img"></div>
+      <div class="rvdetail-thumb-row">
+        <div class="rvdetail-thumb"></div>
+        <div class="rvdetail-thumb"></div>
+        <div class="rvdetail-thumb"></div>
+        <div class="rvdetail-thumb"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock section %}

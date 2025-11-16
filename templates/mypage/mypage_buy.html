@@ -1,0 +1,57 @@
+{% extends "index.html" %} 
+{% block head %} 
+{{ super() }}
+    <link rel="stylesheet"  href="{{ url_for('static', filename='mypage1_1.css') }}">
+{% endblock head %} 
+
+{% block section %}
+<main class="purchase-history">
+    <h2><span class="user-name">박이화</span> 님의 구매 내역</h2>
+
+    <!-- 구매 내역 카드 리스트 -->
+    <div class="purchase-list">
+
+        <!-- 카드 1 -->
+        <div class="purchase-card">
+            <div class="item-image"></div>
+            <div class="item-content">
+                <div class="item-info">
+                    <p class="seller">판매자: 강이화</p>
+                    <p class="item-name">라운드넥 카디건</p>
+                    <p class="item-price">40,000원</p>
+                </div>
+                <button type="button" onclick="location.href='{{ url_for('reg_review') }}'" class="review-btn">리뷰 작성</button>
+            </div>
+        </div>
+
+        <!-- 카드 2 -->
+        <div class="purchase-card">
+            <div class="item-image"></div>
+            <div class="item-content">
+                <div class="item-info">
+                    <p class="seller">판매자: 윤이화</p>
+                    <p class="item-name">립글로스</p>
+                    <p class="item-price">10,000원</p>
+                </div>
+                <button class="review-btn">리뷰 작성</button>
+            </div>
+        </div>
+
+        <!-- 카드 3 -->
+
+        <div class="purchase-card">
+            <div class="item-image"></div>
+            <div class="item-content">
+                <div class="item-info">
+                    <p class="seller">판매자: 정이화</p>
+                    <p class="item-name">블루투스 마우스</p>
+                    <p class="item-price">9,000원</p>
+                </div>
+                <button class="review-btn">리뷰 작성</button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+{% endblock section %}

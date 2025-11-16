@@ -1,0 +1,98 @@
+{% extends "index.html" %} 
+{% block head %}
+  {{ super() }}  
+  <link rel="stylesheet" href="{{ url_for('static', filename='item_style.css') }}">
+{% endblock %}
+
+{% block section %}
+
+  <div>
+    <!--상품 등록-->
+    <main class="product-create">
+    <div class="pc-container">
+        <h1 class="pc-title">상품 등록</h1>
+        <div class="pc-divider"></div>
+
+      <form class="pc-card pc-form" action="/submit_item_post" method="post" enctype="multipart/form-data">
+        <div class="pc-field">
+          <label for="name" class="pc-label">상품명</label>
+          <div class="pc-control">
+            <input type="text" name="name" id="name" class="pc-input" required/>
+          </div>
+        </div>
+        
+        <!-- 가격 -->
+        <div class="pc-field">
+          <label for="cost" class="pc-label">가격</label>
+          <div class="pc-control">
+            <input type="text" name="price" id="cost" inputmode="numeric" class="pc-input" required/>
+          </div>
+        </div>
+
+        <!-- 주소 -->
+        <div class="pc-field">
+          <label for="addr" class="pc-label">주소</label>
+          <div class="pc-control">
+            <input type="text" name="addr" id="addr" class="pc-input pc-input--full" required/>
+          </div>
+        </div>
+
+        <div class="pc-field">
+          <label for="category" class="pc-label">카테고리</label>
+          <div class="pc-control">
+            <div class="pc-select-wrap">
+              <select id="category" name="category" class="pc-input pc-select">
+                <option value="의류" selected>의류</option>
+                <option value="생활">생활</option>
+                <option value="화장품">화장품</option>
+                <option value="도서">도서</option>
+                <option value="기타">기타</option>
+              </select>
+              <!-- 화살표 -->
+              <svg class="pc-select-icon" xmlns="http://www.w3.org/2000/svg" width="21" height="13" viewBox="0 0 21 13" fill="none">
+                <path d="M10.0514 11.6084C10.2495 11.8242 10.5896 11.8242 10.7877 11.6084L20.2057 1.33789C20.4996 1.0173 20.2724 0.50029 19.8375 0.5H1.00159C0.566743 0.50029 0.33948 1.0173 0.633423 1.33789L10.0514 11.6084Z" fill="#fff" stroke="black"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 사진 등록 -->
+        <div class="pc-field2">
+          <span class="pc-label">사진 등록</span>
+          <div class="pc-control">
+            <div class="pc-upload-row">
+              <label for="img" class="pc-btn">Choose file</label>
+              <input type="file" name="file" id="img" accept="image/*" multiple hidden />
+              <span class="pc-hint">*최대 5장까지</span>
+
+            </div>
+
+            <!-- 프리뷰 슬롯(정적) -->
+            <div class="pc-thumb-grid">
+              <div class="pc-thumb"></div>
+              <div class="pc-thumb"></div>
+              <div class="pc-thumb"></div>
+              <div class="pc-thumb"></div>
+              <div class="pc-thumb"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 상품 설명 -->
+        <div class="pc-field2">
+          <label for="description" class="pc-label">상품 설명</label>
+          <div class="pc-control">
+            <textarea type="text" id="description" name="description" rows="6" class="pc-input pc-textarea pc-input--full"
+              placeholder="상품에 대한 정보를 남겨주시면 구매자들께 큰 도움이 됩니다."></textarea>
+          </div>
+        </div>
+
+        <div class="pc-actions">
+          <input type="submit" value="등록 완료" class="pc-submit" />
+        </div>        
+      </form>
+    </div>
+    </main>
+  </div>
+
+{% endblock section %}

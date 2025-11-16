@@ -1,0 +1,177 @@
+{% extends "index.html" %} {% block head %} {{ super() }}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='review_style.css') }}"
+/>
+{% endblock head %} {% block section %}
+<div class="rvall-top">
+  <!-- BE: (total) 총 리뷰의 갯수 불러오기 -->
+  <p class="rvall-count">{{ total }}개의 리뷰가 등록되었습니다!</p>
+
+  <!-- FE -> BE: order, rating 전달 -->
+  <form class="rvall-sorts" method="get" action="/reviews">
+    <select class="rvall-sort-cat" name="order" onchange="this.form.submit()">
+      <option value="최신순" {{ 'selected' if request.args.get('order','최신순') == '최신순' else '' }}>최신순</option>
+      <option value="오래된 순" {{ 'selected' if request.args.get('order')=='오래된 순' else '' }}>오래된 순</option>
+    </select>
+    <select class="rvall-sort-cat" name="rating" onchange="this.form.submit()">
+      <option value="별점높은순" {{ 'selected' if request.args.get('rating','별점높은순')=='별점높은순' else '' }}>별점높은순</option>
+      <option value="별점낮은순" {{ 'selected' if request.args.get('rating')=='별점낮은순' else '' }} >별점낮은순</option>
+    </select>
+  </form>
+</div>
+
+<!--------------------------- 리뷰 리스트 (mock) --------------------------------->
+<!-- BE: 작성자 닉네임, 상품명, 리뷰 별점, 리뷰 제목, 리뷰 내용, 리뷰 사진 불러오기 -->
+
+<div class="rvall-list">
+  {# for review in reviews: #}
+  <!-- review card 1 -->
+  <div class="rvall-card">
+    <div class="rvall-card-content-wrapper">
+      <div class="rvall-main-content">
+        <div class="rvall-review-header">
+          <div class="rvall-user-info">
+            <div class="rvall-avatar"></div>
+            <div class="rvall-user-name">박이화</div>
+          </div>
+        </div>
+
+        <div class="rvall-product-info">
+          <span class="rvall-label">상품:</span>
+          <span class="rvall-product-name">라운드넥 카디건</span>
+        </div>
+
+        <div class="rvall-review-title-section">
+          <h3 class="rvall-review-title">카디건 한달 후기</h3>
+          <div class="rvall-rating">
+            <!-- 추후 수정 -->
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+        </div>
+
+        <div class="rvall-review-text-block">
+          <p class="rvall-review-text">
+            167/53, 상의 S, 어깨 넓은 편. 이번 제품은 S 사이즈 착용했습니다.
+            결론부터 말하면 "매일 손이 가는 데일리 가디건". 한 달 동안
+            출근/도서관/주말 카페까지 거의 3~4일에 한 번씩 돌려 입었고, 코디
+            폭이 넓어서 만족도가 높아요.
+            <br> line3
+            <br> line4
+          </p>
+        </div>
+      </div>
+
+      <div class="rvall-media-placeholder"></div>
+    </div>
+    <hr class="rvall-divider" />
+  </div>
+
+  <!-- review card 2 -->
+  <div class="rvall-card">
+    <div class="rvall-card-content-wrapper">
+      <div class="rvall-main-content">
+        <div class="rvall-review-header">
+          <div class="rvall-user-info">
+            <div class="rvall-avatar"></div>
+            <div class="rvall-user-name">mock2</div>
+          </div>
+        </div>
+
+        <div class="rvall-product-info">
+          <span class="rvall-label">상품:</span>
+          <span class="rvall-product-name">자료구조 책</span>
+        </div>
+
+        <div class="rvall-review-title-section">
+          <h3 class="rvall-review-title">감사합니다</h3>
+          <div class="rvall-rating">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+        </div>
+
+        <div class="rvall-review-text-block">
+          <p class="rvall-review-text">
+            line 1
+            <br> line 2
+            <br> line 3
+            <br> line 4
+          </p>
+        </div>
+      </div>
+
+      <div class="rvall-media-placeholder"></div>
+    </div>
+    <hr class="rvall-divider" />
+  </div>
+
+  <!-- review card 3 -->
+  <div class="rvall-card">
+    <div class="rvall-card-content-wrapper">
+      <div class="rvall-main-content">
+        <div class="rvall-review-header">
+          <div class="rvall-user-info">
+            <div class="rvall-avatar"></div>
+            <div class="rvall-user-name">mock3</div>
+          </div>
+        </div>
+
+        <div class="rvall-product-info">
+          <span class="rvall-label">상품:</span>
+          <span class="rvall-product-name">무소음 마우스</span>
+        </div>
+
+        <div class="rvall-review-title-section">
+          <h3 class="rvall-review-title">만족합니다</h3>
+          <div class="rvall-rating">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+        </div>
+
+        <div class="rvall-review-text-block">
+          <p class="rvall-review-text">
+            line 1
+            <br> line 2
+            <br> line 3
+            <br> line 4
+          </p>
+        </div>
+      </div>
+
+      <div class="rvall-media-placeholder"></div>
+    </div>
+    <hr class="rvall-divider" />
+  </div>
+
+  <!-- 페이지네이션 mock, 코드 추후 수정 -->
+
+  <!-- BE: page_count 불러오기 -->
+  <!-- FE -> BE: order, rating, page 전달 -->
+   
+  <nav class="pagination">
+    {# if current_page > 1 #}
+    <a class="page-btn" href="#">&lsaquo;</a>
+    {# endif #} {# for p in pages #}
+    <a class="page-number active" href="#">1</a>
+    <a class="page-number" href="#">2</a>
+    <a class="page-number" href="#">3</a>
+    <span>…</span>
+    <a class="page-number" href="#">10</a>
+    {# endfor #} {# if current_page < total_pages #}
+    <a class="page-btn" href="#">&rsaquo;</a>
+    {# endif #}
+  </nav>
+</div>
+{% endblock section %}

@@ -1,0 +1,344 @@
+:root {
+  
+  --dark-green: #21452d;
+  --mint-green: #b9dbc8;
+  --soft-ivory: #fbfaf4;
+  --white: #ffffff;
+  --warm-beige: #f1dab0;
+}
+
+/*-----------마이페이지 시작-----------*/
+/* 페이지 전체 정렬 */
+.mypage {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+    padding-bottom: 80px;
+}
+
+/* 프로필 카드 */
+.profile-card {
+    background-color: #fff;
+    border: 1px solid #d7e5d0;
+    border-radius: 14px;
+    width: 490px;
+    padding: 32px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* 상단 프로필 영역 */
+.profile-header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    position: relative;
+    top: -90px; 
+    display: inline-block;
+}
+
+.avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #fbfaf4;
+    border: none; 
+    box-shadow: 0 0 0 1px #d7e5d0;
+}
+
+.profile-info {
+    margin-top: -100px;  
+    text-align: center; 
+}
+
+.username {
+    margin-bottom: 7px; 
+    color: #000;
+    font-family: "SUIT";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.univ {
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-size: 14px;
+    margin: 0;
+}
+
+.edit-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.edit-btn img {
+    width: 25px;  
+    height: 25px;
+    opacity: 0.8; 
+    transition: opacity 0.2s ease;
+}
+
+.edit-btn img:hover {
+    opacity: 1; 
+}
+
+/* 소개글 박스 */
+.profile-intro {
+    display: flex;                    
+    align-items: stretch;         
+    gap: 10px;                           
+    background-color: #FBFAF4;
+    border: 1px solid var(--mint-green);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #000;
+    margin: 0 auto 25px auto;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+/* 왼쪽 라벨 */
+.intro-label {
+    font-weight: 500;
+    white-space: nowrap;                
+    border-right: 1px solid var(--mint-green);    
+    padding-right: 15px;
+    display: flex;
+    align-items: flex-start;           
+    padding-top: 2px; 
+}
+
+/* 오른쪽 내용 */
+.intro-content {
+    flex: 1;                            
+    padding-left: 15px;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start; 
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+
+}
+
+.intro-content p {
+    margin: 0;         
+    padding: 0;          
+    line-height: 1.6;    
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+
+
+}
+
+.more {
+    color: #999;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.profile-info-card {
+    display: flex;
+    flex-direction: column;            
+    align-items: center;               
+    gap: 12px;
+    background-color: #FBFAF4;
+    border: 1px solid var(--mint-green);
+    border-radius: 8px;
+    padding: 28px 20px;
+    font-size: 14px;
+    color: #333;
+    margin: 0 auto 20px auto;
+    width: 90%;
+    box-sizing: border-box;
+    
+}
+
+/* 이메일 */
+.profile-contact {
+    display: flex;
+    align-items: center;
+    gap: 6px;   
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 10px;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.profile-contact img{
+    position: relative;
+    width: 18px;  
+    height: 18px;
+    vertical-align: middle; 
+    margin-right: 6px;
+    top: -1px;
+}
+
+.profile-contact .email {
+    margin: 0;                 
+    color: #000;
+}
+
+/* 버튼 리스트 */
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.action-btn {
+    width: 130px;
+    padding: 10px;
+    border: 1px solid #c8d8c0;
+    border-radius: 6px;
+    background-color: #f8fbf7;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.action-btn img {
+    position: relative;
+    width: 18px;  
+    height: 18px;
+    vertical-align: middle; 
+    margin-right: 6px;
+    top: -1px;
+}
+
+.profile-actions img[src*="heart"] {
+    width: 20px;
+    height: 20px;
+}
+
+.action-btn:hover {
+    background-color: #edf6eb;
+}
+
+/*-------------마이페이지 편집-------------*/
+
+.profile-header2 {
+    position: relative;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+/* 입력 폼 */
+.edit-form {
+  width: 100%;
+  margin-top: -20px;
+}
+
+.form-group {
+    display: flex;                    
+    align-items: center;     
+    gap: 10px;                           
+    background-color: #FBFAF4;
+    border: 1px solid var(--mint-green);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #000;
+    margin: 0 auto 25px auto;
+    width: 90%;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.form-group label {
+    width: 60px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #000;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.form-group input,
+.form-group textarea {
+    border: none;          
+    outline: none;  
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 14px;
+    background-color: #fbfaf4;
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+    color: #000;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.form-group:nth-of-type(1) label,
+.form-group:nth-of-type(2) label {
+  position: relative;
+  top: 2px; 
+}
+
+.form-group:nth-of-type(3) label {
+  align-self: flex-start; 
+  position: relative;
+  top: 7px; 
+}
+
+.form-group:focus-within {
+  border-color: #8bb67a; /* 초록색 테두리 강조 */
+  box-shadow: 0 0 0 2px rgba(143, 187, 116, 0.2); /* 은은한 초록 그림자 */
+  background-color: #fcfdfb; /* 살짝 밝게 */
+}
+
+
+/* 버튼 */
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.cancel-btn,
+.save-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cancel-btn {
+  background-color: #e4ebe0;
+  color: #333;
+}
+
+.save-btn {
+  background-color: #314e28;
+  color: #fff;
+}
+
+.cancel-btn:hover {
+  background-color: #dbe5d6;
+}
+
+.save-btn:hover {
+  background-color: #2a4523;
+}
