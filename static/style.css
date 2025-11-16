@@ -32,7 +32,7 @@ body {
   src: url("/static/fonts/Righteous-Regular.ttf") format("truetype");
 }
 
-/* -------------------------- 좋아요 ------------------------- */
+/* -------------------------- 좋아요(찜) ------------------------- */
 #heart {
 color: grey;
 font-size: 50px;
