@@ -10,7 +10,8 @@
   <section class="rvreg-product-box">
     <div class="rvreg-product-left">
       <!-- BE: 상품명 가져오기-->
-      <p class="rvreg-product-name">상품 : 라운드넥 가디건</p>
+      <p class="rvreg-product-name">상품 : {{name}}</p>
+      
       <p class="rvreg-ask">이 상품 어때요?</p>
       <div class="rvreg-stars" data-rating="0">
         <span class="star" data-value="1">★</span>
@@ -19,19 +20,22 @@
         <span class="star" data-value="4">★</span>
         <span class="star" data-value="5">★</span>
       </div>
-      <!-- BE hidden input: 선택한 별점값 (rating) 보냄 -->
-      <input type="hidden" name="rating" id="rating-input" value="0" />
+      
     </div>
     <!-- BE: 상품 사진 가져오기-->
     <div class="rvreg-media" aria-label="상품 이미지 자리"></div>
   </section>
 
   <form
-    action="/reg_reviews"
+    action="/reg_review"
     method="post"
     enctype="multipart/form-data"
     class="reg-review-form"
   >
+    <input type="hidden" name="name" value="{{ name }}" />
+    <!-- BE hidden input: 선택한 별점값 (rating) 보냄 -->
+    <input type="hidden" name="rating" id="rating-input" value="0" />
+
     <div>
       <label class="rvreg-label" for="title">리뷰 제목</label>
       <input type="text" id="title" name="title" />

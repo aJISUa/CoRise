@@ -142,6 +142,25 @@ class DBhandler:
         print("Review data inserted:", review_info)
         return True
     
+    # 12주차 리뷰 등록
+    def reg_review(self, data, img_path):
+        review_info ={
+            "title": data['title'],
+            "rate": data['reviewStar'],
+            "review": data['reviewContents'],
+            "img_path": img_path
+        }
+        self.db.child("review").child(data['name']).set(review_info)
+        return True
+    
+    # 12주차 리뷰 조회를 위한 함수
+    def get_reviews(self):
+        # "review" 테이블의 모든 데이터를 가져오기
+        reviews = self.db.child("review").get().val()
+        # 데이터가 없는 경우 빈 딕셔너리를 반환
+        return reviews if reviews else {}
+
+
     # 상품별 리뷰 조회 (정렬 포함)
     def get_reviews_by_product(self, product_id, sort_by='addDate', order='desc'):
         reviews_ref = self.db.child("Review")
@@ -212,3 +231,26 @@ class DBhandler:
         self.db.child("Like").child(like_id).set(like_info)
         print("Like data inserted:", like_info)
         return True
+    
+    # 하트(찜)
+    def get_heart_byname(self, uid, name):
+        hearts = self.db.child("heart").child(uid).get()
+        target_value=""
+        if hearts.val() == None:
+            return target_value
+        
+        for res in hearts.each():
+            key_value = res.key()
+            if key_value == name:
+                target_value=res.val()
+        return target_value
+    
+    def update_heart(self, user_id, isHeart, item):
+        heart_info ={
+            "interested": isHeart
+        }
+        self.db.child("heart").child(user_id).child(item).set(heart_info)
+        return True
+    
+
+
