@@ -6,18 +6,29 @@
 {% endblock head %} {% block section %}
 <div class="rvall-top">
   <!-- BE: (total) 총 리뷰의 갯수 불러오기 -->
-  <p class="rvall-count">{{ total }}개의 리뷰가 등록되었습니다!</p>
+  <p class="rvall-count"><span class="rvall-total">{{ total }}</span> 개의 리뷰가 등록되었습니다!</p>
 
   <!-- FE -> BE: order, rating 전달 -->
   <form class="rvall-sorts" method="get" action="/reviews">
-    <select class="rvall-sort-cat" name="order" onchange="this.form.submit()">
-      <option value="최신순" {{ 'selected' if request.args.get('order','최신순') == '최신순' else '' }}>최신순</option>
-      <option value="오래된 순" {{ 'selected' if request.args.get('order')=='오래된 순' else '' }}>오래된 순</option>
-    </select>
-    <select class="rvall-sort-cat" name="rating" onchange="this.form.submit()">
-      <option value="별점높은순" {{ 'selected' if request.args.get('rating','별점높은순')=='별점높은순' else '' }}>별점높은순</option>
-      <option value="별점낮은순" {{ 'selected' if request.args.get('rating')=='별점낮은순' else '' }} >별점낮은순</option>
-    </select>
+    <label class="select-pill">
+      <select class="rvall-sort-cat" name="order" onchange="this.form.submit()">
+        <option value="최신순" {{ 'selected' if request.args.get('order','최신순') == '최신순' else '' }}>최신순</option>
+        <option value="오래된 순" {{ 'selected' if request.args.get('order')=='오래된 순' else '' }}>오래된 순</option>
+      </select>
+      <svg class="chev" width="22" height="16" viewBox="0 0 28 19" fill="none" aria-hidden="true">
+        <path d="M13.2826 18.1387C13.4826 18.4042 13.8813 18.404 14.0814 18.1387L26.7621 1.30078C27.0102 0.97129 26.7751 0.5 26.3627 0.5H1.00134C0.589257 0.500359 0.354175 0.971424 0.601929 1.30078L13.2826 18.1387Z" fill="#FBFAF4" stroke="black"/>
+      </svg>
+    </label>
+
+    <label class="select-pill">
+      <select class="rvall-sort-cat" name="rating" onchange="this.form.submit()">
+        <option value="별점높은순" {{ 'selected' if request.args.get('rating','별점높은순')=='별점높은순' else '' }}>별점높은순</option>
+        <option value="별점낮은순" {{ 'selected' if request.args.get('rating')=='별점낮은순' else '' }} >별점낮은순</option>
+      </select>
+      <svg class="chev" width="22" height="16" viewBox="0 0 28 19" fill="none" aria-hidden="true">
+          <path d="M13.2826 18.1387C13.4826 18.4042 13.8813 18.404 14.0814 18.1387L26.7621 1.30078C27.0102 0.97129 26.7751 0.5 26.3627 0.5H1.00134C0.589257 0.500359 0.354175 0.971424 0.601929 1.30078L13.2826 18.1387Z" fill="#FBFAF4" stroke="black"/>
+      </svg>
+    </label>
   </form>
 </div>
 
