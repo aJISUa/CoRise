@@ -13,11 +13,13 @@
           <img src="{{ url_for('static', filename='icons/profile.svg') }}" alt="프로필 아이콘" />
       </div>
       <div class="profile-info">
-        <h2 class="username">박이화</h2>
-        <p class="univ">이화여자대학교 컴퓨터공학과</p>
+        <h2 class="username">{{ user.nickname }}</h2>
+        <p class="univ">{{ user.univ }}</p>
       </div>
       <button class="edit-btn" title="프로필 수정">
-        <img src="{{ url_for('static', filename='icons/edit.svg') }}" alt="프로필 수정 아이콘" />
+        <a href="{{ url_for('mypage_edit') }}">
+          <img src="{{ url_for('static', filename='icons/edit.svg') }}" alt="프로필 수정 아이콘" />
+        </a>
       </button>
     </div>
 
@@ -25,13 +27,7 @@
     <div class="profile-intro">
       <div class="intro-label">소개글</div>
       <div class="intro-content">
-        <p>
-          옷과 아기자기한 것들을 좋아해요.<br>
-          판매도 많이 하고 있으니 둘러보세요!<br>
-          컴퓨터 공학과에서 배우는 교재 판매 중<br>
-        <span class="more">...더보기</span>
-        </p>
-
+        <p>{{ user.intro or '' }}</p>
       </div>
     </div>    
   
@@ -39,27 +35,27 @@
       <!-- 이메일 -->
       <div class="profile-contact">
         <img src="{{ url_for('static', filename='icons/email.svg') }}" alt="이메일 아이콘" />
-        <p class="email">ewhapark@ewha.ac.kr</p>
+        <p class="email">{{ user.email }}</p>
       </div>
 
       <!-- 버튼 목록 -->
       <div class="profile-actions">
-        <button class="action-btn">
+        <button class="action-btn"  onclick="location.href='{{ url_for('mypage_buy') }}'">
           <img src="{{ url_for('static', filename='icons/purchase_his.svg') }}" alt="구매 내역 아이콘" />
           구매 내역
         </button>
-        <button class="action-btn">
+        <button class="action-btn" onclick="location.href='{{ url_for('mypage_sell') }}'">
           <img src="{{ url_for('static', filename='icons/sales_his.png') }}" alt="판매 내역 아이콘" />
           판매 내역
         </button>
-        <button class="action-btn">
+        <button class="action-btn" onclick="location.href='{{ url_for('mypage_like') }}'">
           <img src="{{ url_for('static', filename='icons/heart.svg') }}" alt="찜 아이콘" />
           찜 목록
         </button>
         <button
           type="button" 
           class="action-btn"
-          onclick="location.href='{{ url_for('mypage_buy') }}'"
+          onclick="location.href='{{ url_for('mypage_review') }}'"
         >
           <img src="{{ url_for('static', filename='icons/review.svg') }}" alt="주문 내역 아이콘" />
           작성한 리뷰

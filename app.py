@@ -52,7 +52,6 @@ def view_list():
         total=item_counts
     )    
 
-
 @application.route('/view_detail/<name>/')
 def view_item_detail(name):
     print("###name:",name)
@@ -60,6 +59,30 @@ def view_item_detail(name):
     print("###data:",data)
     seller_nickname = DB.get_user_nickname(data.get('seller'))
     return render_template("item_detail.html", name=name, data=data, nickname=seller_nickname)
+
+# 상품 구매  (임시 - 수정해주세요!)
+@application.route("/order_item/<name>/")
+def order_item(name):
+    if 'id' not in session or not session['id']:
+        flash('로그인을 해주세요.')
+        return redirect(url_for('login'))
+
+    user_id = session['id']
+    item_data = DB.get_item_byname(str(name))
+    address = item_data.get("addr", "임시 주소")
+
+    order_id = f"{name}_{user_id}"
+
+    order_data = {
+        "buyerID": user_id,
+        "productID": name,
+        "address": address,
+    }
+
+    DB.insert_order(order_id, order_data)
+    flash("구매가 완료되었습니다.")
+
+    return redirect(url_for("mypage_buy"))
 
 # 상품등록 페이지 반환 (reg_items.html)
 @application.route("/reg_items")
@@ -110,7 +133,8 @@ def reg_review():
         "name": form_data['name'],
         "title": form_data['title'],
         "reviewStar": form_data['rating'],
-        "reviewContents": form_data['content']
+        "reviewContents": form_data['content'],
+        "buyerID": session['id'] 
     }
     DB.reg_review(mapped_data, img_path)
     
@@ -209,13 +233,34 @@ def register_user():
     if DB.insert_user(data,pw_hash):
         return render_template("login.html")
     else:
-        flash("user id already exist!")
+        flash("중복 확인이 필요합니다.")
         return render_template("signup.html")
     
 @application.route("/logout")
 def logout_user():
     session.clear()
     return redirect(url_for('view_list'))
+
+# auth 중복 확인 -> 버튼에 연결하실 때는 얘를 사용해주시면 될 것 같습니다.
+#ID 중복 확인
+@application.route("/check_id", methods=["GET"])
+def check_id():
+    user_id = request.args.get("id", "")
+    available = DB.user_duplicate_check(user_id)
+    if available:
+        return jsonify({"ok": True, "available": True, "message": "사용 가능한 아이디입니다."})
+    else:
+        return jsonify({"ok": True, "available": False, "message": "이미 사용 중인 아이디입니다."})
+
+#닉네임 중복 확인    
+@application.route("/check_nickname", methods=["GET"])
+def check_nickname():
+    nickname = request.args.get("nickname", "")
+    available = DB.nickname_duplicate_check(nickname)
+    if available:
+        return jsonify({"ok": True, "available": True, "message": "사용 가능한 닉네임입니다."})
+    else:
+        return jsonify({"ok": True, "available": False, "message": "이미 사용 중인 닉네임입니다."})
 
 # 12주차 좋아요 기능
 @application.route('/show_heart/<name>/', methods=['GET'])
@@ -233,37 +278,235 @@ def unlike(name):
 
 
 #마이페이지 관련 코드 
+#마이페이지(9.1)
 @application.route("/mypage")
 def mypage():
-    return render_template("mypage/mypage.html")
+    if 'id' not in session or not session['id']:
+            flash('로그인을 해주세요.')
+            return redirect(url_for('login'))
+    user_id = session['id']
+    user_info = DB.get_user_info(user_id)
+    return render_template("mypage/mypage.html", user=user_info) 
 
-@application.route("/mypage_edit")
+#마이페이지편집(9.1)/GET
+@application.route("/mypage_edit", methods=["GET"])
 def mypage_edit():
-    return render_template("mypage/mypage_edit.html")
+    if 'id' not in session or not session['id']:
+            flash('로그인을 해주세요.')
+            return redirect(url_for('login'))
+    user_id = session['id']
+    user_info = DB.get_user_info(user_id)
+    return render_template("mypage/mypage_edit.html", user=user_info)
 
+#마이페이지편집(9.1)/POST -> mypage_edit.html에서 입력한 값들 넘겨줌
+@application.route("/mypage_edit_post", methods=["POST"])
+def mypage_edit_post():
+    if 'id' not in session or not session['id']:
+            flash('로그인을 해주세요.')
+            return redirect(url_for('login'))
+    user_id = session['id']
+    new_nickname = request.form.get("nickname")
+    new_univ = request.form.get("univ")
+    new_intro = request.form.get("intro")
+    DB.edit_user_info(user_id, new_nickname, new_univ, new_intro)
+    flash("회원 정보가 수정되었습니다.")
+    return redirect(url_for('mypage'))
+
+#구매내역페이지(9.2)
 @application.route("/mypage_buy")
 def mypage_buy():
-    return render_template("mypage/mypage_buy.html")
+    if 'id' not in session or not session['id']:
+            flash('로그인을 해주세요.')
+            return redirect(url_for('login'))
+    user_id = session['id']
+    user_name = DB.get_user_nickname(user_id) or user_id
 
+    orders = DB.get_orders_by_buyer(user_id)
+    data = { o['orderID']: o for o in orders }
+    #페이지네이션
+    page = request.args.get("page", 0, type=int)
+    per_page = 3
+    #per_row = 3
+    #row_count = int(per_page / per_row)
+    total = len(orders)
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+    item_counts = len(data)
+    data_list = list(data.items())        
+    data_paged = dict(data_list[start_idx:end_idx])
+    locals_data = {}
+    tot_count = len(data_paged)
+    locals_data['data_0'] = data_paged
+
+    #for i in range(row_count):
+    #    start = i * per_row
+    #    end = (i + 1) * per_row
+
+    #    if i == row_count - 1 and tot_count % per_row != 0:
+    #        current_data = dict(data_list[start_idx + start:])
+    #    else:
+    #        current_data = dict(data_list[start_idx + start: start_idx + end])
+
+    #    locals_data[f'data_{i}'] = current_data
+    #작동 확인용  -> 프론트 구현 후 삭제
+    # print("=== mypage_buy: data_list ===")
+    # print(data_list)
+    return render_template(
+        "mypage/mypage_buy.html",
+        # data_0, data_1을 reviews.html에 row1, row2로 전달
+        user_name=user_name,
+        row1=locals_data.get('data_0', {}).items(), 
+        row2=locals_data.get('data_1', {}).items(),
+        limit=per_page,
+        page=page,
+        page_count=max(1,int((item_counts + per_page - 1) / per_page)),
+        total=item_counts
+    )
+
+
+#판매내역페이지(9.3)
 @application.route("/mypage_sell")
 def mypage_sell():
-    return render_template("mypage/mypage_sell.html")
+    if 'id' not in session or not session['id']:
+            flash('로그인을 해주세요.')
+            return redirect(url_for('login'))
+    user_id = session['id']
+    user_name = DB.get_user_nickname(user_id) or user_id
 
+    items = DB.get_items_by_seller(user_id)
+    data = { str(idx): item for idx, item in enumerate(items) }
+    #페이지네이션
+    page = request.args.get("page", 0, type=int)
+    per_page = 3
+    #per_row = 3
+    #row_count = int(per_page / per_row)
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+    item_counts = len(data)
+    data_list = list(data.items())        
+    data_paged = dict(data_list[start_idx:end_idx])
+    locals_data = {}
+    locals_data['data_0'] = data_paged
+
+    # for i in range(row_count):
+    #    start = i * per_row
+    #    end = (i + 1) * per_row
+
+    #    if i == row_count - 1 and tot_count % per_row != 0:
+    #        current_data = dict(data_list[start_idx + start:])
+    #    else:
+    #        current_data = dict(data_list[start_idx + start: start_idx + end])
+
+    #    locals_data[f'data_{i}'] = current_data
+    #작동 확인용  -> 프론트 구현 후 삭제
+    print("=== mypage_sell: data_list ===")
+    print(data_list)
+    return render_template(
+        "mypage/mypage_sell.html",
+        # data_0, data_1을 reviews.html에 row1, row2로 전달
+        user_name=user_name,
+        row1=locals_data.get('data_0', {}).items(), 
+        row2=locals_data.get('data_1', {}).items(),
+        limit=per_page,
+        page=page,
+        page_count=max(1, int((item_counts + per_page - 1) / per_page)),
+        total=item_counts
+    )
+
+#찜목록페이지(9.4)
+@application.route("/mypage_like")
+def mypage_like():
+    if 'id' not in session or not session['id']:
+            flash('로그인을 해주세요.')
+            return redirect(url_for('login'))
+    user_id = session['id']
+    user_name = DB.get_user_nickname(user_id) or user_id
+
+    data = DB.get_likes_by_user(user_id)
+    #페이지네이션
+    page = request.args.get("page", 0, type=int)
+    per_page = 8
+    per_row = 4
+    row_count = int(per_page / per_row)
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+    item_counts = len(data)
+    data_list = list(data.items())        
+    data_paged = dict(data_list[start_idx:end_idx])
+    locals_data = {}
+    tot_count = len(data_paged)
+
+    for i in range(row_count):
+        start = i * per_row
+        end = (i + 1) * per_row
+
+        if i == row_count - 1 and tot_count % per_row != 0:
+            current_data = dict(data_list[start_idx + start:])
+        else:
+            current_data = dict(data_list[start_idx + start: start_idx + end])
+
+        locals_data[f'data_{i}'] = current_data
+    #작동 확인용  -> 프론트 구현 후 삭제    
+    print("=== mypage_like: data_list ===")
+    print(data_list)
+    return render_template(
+        "mypage/mypage_like.html",
+        # data_0, data_1을 reviews.html에 row1, row2로 전달
+        user_name=user_name,
+        row1=locals_data.get('data_0', {}).items(), 
+        row2=locals_data.get('data_1', {}).items(),
+        limit=per_page,
+        page=page,
+        page_count=max(1,int((item_counts + per_page - 1) / per_page)),
+        total=item_counts
+    )
+
+#작성한리뷰페이지(9.5)
+@application.route("/mypage_review")
+def mypage_review():
+    if 'id' not in session or not session['id']:
+            flash('로그인을 해주세요.')
+            return redirect(url_for('login'))
+    user_id = session['id']
+    user_name = DB.get_user_nickname(user_id) or user_id
+
+    data = DB.get_reviews_by_user(user_id)
+    #페이지네이션
+    page = request.args.get("page", 0, type=int)
+    per_page = 3
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+    item_counts = len(data)
+    data_list = list(data.items())        
+    data_paged = dict(data_list[start_idx:end_idx])
+
+    #작동 확인용  -> 프론트 구현 후 삭제    
+    print("=== mypage_review: data_list ===")
+    print(data_list)
+    return render_template(
+        "mypage/mypage_review.html",
+        user_name=user_name,
+        row1=data_paged.items(), 
+        limit=per_page,
+        page=page,
+        page_count=max(1,int((item_counts + per_page - 1) / per_page)),
+        total=item_counts
+    )
+
+
+
+# mypage 추가 후: item (수정, 삭제), review (등록) 부분
+#판매내역수정페이지(9.3.1)
 @application.route("/mypage_sell_edit")
 def mypage_sell_edit():
     return render_template("mypage/mypage_sell_edit.html")
 
-@application.route("/mypage_like")
-def mypage_like():
-    return render_template("mypage/mypage_like.html")
-
-@application.route("/mypage_review")
-def mypage_review():
-    return render_template("mypage/mypage_review.html")
-
+#작성한리뷰수정페이지(9.5.1)
 @application.route("/mypage_review_edit")
 def mypage_review_edit():
     return render_template("mypage/mypage_review_edit.html")
+
+
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0')

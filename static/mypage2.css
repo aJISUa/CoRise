@@ -1,3 +1,30 @@
+/* 페이지네이션 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.page-number,
+.page-btn {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--dark-green);
+  font-size: 0.85rem;
+}
+
+.page-number.active {
+  background: var(--mint-green);
+  color: var(--dark-green);
+}
+
 /*-------------------- mypage_like ---------------------*/
 .mypage-like-container {
   width: 85%;
@@ -239,31 +266,4 @@
   background-color: var(--mint-green);
   cursor: pointer;
   transition: 0.2s ease;
-}
-
-/*-------------------- 페이지네이션 ---------------------*/
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
-  align-items: center;
-}
-
-.page-number,
-.page-btn {
-  display: inline-flex;
-  width: 32px;
-  height: 32px;
-  border-radius: 999px;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  color: var(--dark-green);
-  font-size: 0.85rem;
-}
-
-.page-number.active {
-  background: var(--mint-green);
-  color: var(--dark-green);
 }

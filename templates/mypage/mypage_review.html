@@ -1,5 +1,3 @@
-<!-- mock page, 백엔드 코드 완료 후 수정 -->
-
 {% extends "index.html" %} 
 {% block head %} 
 {{ super() }}
@@ -9,11 +7,13 @@
 {% block section %}
 
 <main class="mypage-review-container">
-  <h2 class="user-name1"><span class="user-name2">박이화</span> 님이 작성한 리뷰</h2>
+  <h2 class="user-name1"><span class="user-name2"> {{ user_name }} </span> 님이 작성한 리뷰</h2>
 
     <div class="review-list">
 
+      {% if total > 0 %}
         <!-- 카드 1 -->
+        {% for review_id, review in row1 %}
         <div class="review-card">
             <div class="review-image">
               <!-- <img src="" alt=""> -->
@@ -22,114 +22,58 @@
               <div class="review-header">
                 <div class="review-title-wrap">
                   <div class="review-title-row">
-                    <span class="review-title">카디건 한달 후기</span>
-                    <div class="review-stars">★★★★★</div>
+                    <span class="review-title">{{ review.title }}</span>
+                    {% set star = review.rate|int if review.rate is not none else 0 %}
+                      <div class="review-stars">
+                        {{ '★' * star }}{{ '☆' * (5 - star) }}
+                      </div>
                   </div>
                 </div>
                 <div class="review-product">
                   <span class="label">상품 :</span>
-                  <span class="name">라운드넥 가디건</span>
+                  <span class="name">{{ review_id }}</span>
                 </div>
               </div>
 
-              <p class="review-text">
-                167/53, 상의 S, 어깨 넓은 편, 이번 제품은 S 사이즈 착용했습니다. 결론부터 말하면 “매일 손이 가는 데일리 가디건”.
-                한 달 동안 출근/도서관/주말 카페까지 거의 3~4일에 한 번씩 돌려 입었어요~
-                <br>코디 폭이 넓어서 만족도가 높아요. 색깔도 마음에 들고 친구한테 칭찬 많이 받았어요. 다음에 이런거와 비슷한 제품이 있으면 무조건 구매할게요~!!!!!
-              </p>
+              <p class="review-text"> {{ review.review }} </p>
               <div class="btns">
                 <button class="correct-btn">삭제</button>
-                <button class="delete-btn">수정</button>
+                <button class="delete-btn" onclick="location.href='{{ url_for('mypage_review_edit') }}'">수정</button>
               </div>          
-            </div>
+            </div>  
         </div>
+        {% endfor %}
 
-        <!-- 카드 2 -->
-        <div class="review-card">
-            <div class="review-image">
-              <!-- <img src="" alt=""> -->
-            </div>
-            <div class="review-content">
-              <div class="review-header">
-                <div class="review-title-wrap">
-                  <div class="review-title-row">
-                    <span class="review-title">최고의 마우스</span>
-                    <div class="review-stars">★★★★</div>
-                  </div>
-                </div>
-                <div class="review-product">
-                  <span class="label">상품 :</span>
-                  <span class="name">무소음 마우스</span>
-                </div>
-              </div>
+      {% endif %}
+    
+    <!-- 페이지네이션 -->
+    <nav class="pagination">
 
-              <p class="review-text">
-                만족해요~~~!!!
-              </p>
-              <div class="btns">
-                <button class="correct-btn">삭제</button>
-                <button class="delete-btn">수정</button>
-              </div>          
-            </div>
-        </div>
+        <!-- 이전 페이지 버튼 -->
+        {% if page > 0 %}
+        <a class="page-btn" href="{{ url_for('mypage_review', page=page-1) }}">&lsaquo;</a>
+        {% else %}
+        <span class="page-btn" style="opacity:0.4; pointer-events:none;">&lsaquo;</span>
+        {% endif %}
 
-        <!-- 카드 3 -->
-        <div class="review-card">
-            <div class="review-image">
-              <!-- <img src="" alt=""> -->
-            </div>
-            <div class="review-content">
-              <div class="review-header">
-                <div class="review-title-wrap">
-                  <div class="review-title-row">
-                    <span class="review-title">사진과 달라요</span>
-                    <div class="review-stars">★</div>
-                  </div>
-                </div>
-                <div class="review-product">
-                  <span class="label">상품 :</span>
-                  <span class="name">이화 지갑</span>
-                </div>
-              </div>
+        <!-- 페이지 번호 반복 -->
+        {% for i in range(page_count) %}
+        <a class="page-number {% if i == page %}active{% endif %}" 
+            href="{{ url_for('mypage_review', page=i) }}">
+            {{ i + 1 }}
+        </a>
+        {% endfor %}
 
-              <p class="review-text">
-                마음에 안 드네요
-              </p>
-              <div class="btns">
-                <button class="correct-btn">삭제</button>
-                <button class="delete-btn">수정</button>
-              </div>          
-            </div>
-        </div>
+        <!-- 다음 페이지 버튼 -->
+        {% if page < page_count - 1 %}
+        <a class="page-btn" href="{{ url_for('mypage_review', page=page+1) }}">&rsaquo;</a>
+        {% else %}
+        <span class="page-btn" style="opacity:0.4; pointer-events:none;">&rsaquo;</span>
+        {% endif %}
 
-    </div>
+    </nav>
 
   </main>
 
-    <!-- BE: 페이지네이션 가져오기  -->
-    <!-- 페이지네이션 주석처리 중 -->
-    {# TODO: 페이지네이션, href 수정
-    <nav class="pagination">
-
-      {% if page > 0 %}
-        <a class="page-btn" href="#">&lsaquo;</a>
-      {% else %}
-        <span class="page-btn" style="opacity:0.4; pointer-events:none;">&lsaquo;</span>
-      {% endif %}
-
-      {% for i in range(page_count) %}
-        <a class="page-number {% if i == page %}active{% endif %}" 
-          href="#">
-          {{ i + 1 }}
-        </a>
-      {% endfor %}
-
-      {% if page < page_count - 1 %}
-        <a class="page-btn" href="#">&rsaquo;</a>
-      {% else %}
-        <span class="page-btn" style="opacity:0.4; pointer-events:none;">&rsaquo;</span>
-      {% endif %}
-
-    </nav> #}
 
 {% endblock section %}
