@@ -239,7 +239,8 @@ class DBhandler:
             "buyerID": data['buyerID'], 
             "productID": data['productID'],
             "address": data['address'],
-            "orderDate": pyrebase.database.ServerTimestamp # 서버 타임스탬프
+            "orderDate": {".sv": "timestamp"}
+            #"orderDate": pyrebase.database.ServerTimestamp # 서버 타임스탬프
         }
         self.db.child("Order").child(order_id).set(order_info)
         print("Order data inserted:", order_info)

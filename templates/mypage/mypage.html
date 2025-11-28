@@ -44,22 +44,22 @@
 
       <!-- 버튼 목록 -->
       <div class="profile-actions">
-        <button class="action-btn">
+        <button class="action-btn"  onclick="location.href='{{ url_for('mypage_buy') }}'">
           <img src="{{ url_for('static', filename='icons/purchase_his.svg') }}" alt="구매 내역 아이콘" />
           구매 내역
         </button>
-        <button class="action-btn">
+        <button class="action-btn" onclick="location.href='{{ url_for('mypage_sell') }}'">
           <img src="{{ url_for('static', filename='icons/sales_his.png') }}" alt="판매 내역 아이콘" />
           판매 내역
         </button>
-        <button class="action-btn">
+        <button class="action-btn" onclick="location.href='{{ url_for('mypage_like') }}'">
           <img src="{{ url_for('static', filename='icons/heart.svg') }}" alt="찜 아이콘" />
           찜 목록
         </button>
         <button
           type="button" 
           class="action-btn"
-          onclick="location.href='{{ url_for('mypage_buy') }}'"
+          onclick="location.href='{{ url_for('mypage_review') }}'"
         >
           <img src="{{ url_for('static', filename='icons/review.svg') }}" alt="주문 내역 아이콘" />
           작성한 리뷰

@@ -52,7 +52,6 @@ def view_list():
         total=item_counts
     )    
 
-
 @application.route('/view_detail/<name>/')
 def view_item_detail(name):
     print("###name:",name)
@@ -60,6 +59,30 @@ def view_item_detail(name):
     print("###data:",data)
     seller_nickname = DB.get_user_nickname(data.get('seller'))
     return render_template("item_detail.html", name=name, data=data, nickname=seller_nickname)
+
+# 상품 구매  (임시 - 수정해주세요!)
+@application.route("/order_item/<name>/")
+def order_item(name):
+    if 'id' not in session or not session['id']:
+        flash('로그인을 해주세요.')
+        return redirect(url_for('login'))
+
+    user_id = session['id']
+    item_data = DB.get_item_byname(str(name))
+    address = item_data.get("addr", "임시 주소")
+
+    order_id = f"{name}_{user_id}"
+
+    order_data = {
+        "buyerID": user_id,
+        "productID": name,
+        "address": address,
+    }
+
+    DB.insert_order(order_id, order_data)
+    flash("구매가 완료되었습니다.")
+
+    return redirect(url_for("mypage_buy"))
 
 # 상품등록 페이지 반환 (reg_items.html)
 @application.route("/reg_items")
@@ -301,9 +324,10 @@ def mypage_buy():
     data = { o['orderID']: o for o in orders }
     #페이지네이션
     page = request.args.get("page", 0, type=int)
-    per_page = 6
-    per_row = 3
-    row_count = int(per_page / per_row)
+    per_page = 3
+    #per_row = 3
+    #row_count = int(per_page / per_row)
+    total = len(orders)
     start_idx = per_page * page
     end_idx = per_page * (page + 1)
     item_counts = len(data)
@@ -311,20 +335,21 @@ def mypage_buy():
     data_paged = dict(data_list[start_idx:end_idx])
     locals_data = {}
     tot_count = len(data_paged)
+    locals_data['data_0'] = data_paged
 
-    for i in range(row_count):
-        start = i * per_row
-        end = (i + 1) * per_row
+    #for i in range(row_count):
+    #    start = i * per_row
+    #    end = (i + 1) * per_row
 
-        if i == row_count - 1 and tot_count % per_row != 0:
-            current_data = dict(data_list[start_idx + start:])
-        else:
-            current_data = dict(data_list[start_idx + start: start_idx + end])
+    #    if i == row_count - 1 and tot_count % per_row != 0:
+    #        current_data = dict(data_list[start_idx + start:])
+    #    else:
+    #        current_data = dict(data_list[start_idx + start: start_idx + end])
 
-        locals_data[f'data_{i}'] = current_data
+    #    locals_data[f'data_{i}'] = current_data
     #작동 확인용  -> 프론트 구현 후 삭제
-    print("=== mypage_buy: data_list ===")
-    print(data_list)
+    # print("=== mypage_buy: data_list ===")
+    # print(data_list)
     return render_template(
         "mypage/mypage_buy.html",
         # data_0, data_1을 reviews.html에 row1, row2로 전달
@@ -351,27 +376,27 @@ def mypage_sell():
     data = { str(idx): item for idx, item in enumerate(items) }
     #페이지네이션
     page = request.args.get("page", 0, type=int)
-    per_page = 6
-    per_row = 3
-    row_count = int(per_page / per_row)
+    per_page = 3
+    #per_row = 3
+    #row_count = int(per_page / per_row)
     start_idx = per_page * page
     end_idx = per_page * (page + 1)
     item_counts = len(data)
     data_list = list(data.items())        
     data_paged = dict(data_list[start_idx:end_idx])
     locals_data = {}
-    tot_count = len(data_paged)
+    locals_data['data_0'] = data_paged
 
-    for i in range(row_count):
-        start = i * per_row
-        end = (i + 1) * per_row
+    # for i in range(row_count):
+    #    start = i * per_row
+    #    end = (i + 1) * per_row
 
-        if i == row_count - 1 and tot_count % per_row != 0:
-            current_data = dict(data_list[start_idx + start:])
-        else:
-            current_data = dict(data_list[start_idx + start: start_idx + end])
+    #    if i == row_count - 1 and tot_count % per_row != 0:
+    #        current_data = dict(data_list[start_idx + start:])
+    #    else:
+    #        current_data = dict(data_list[start_idx + start: start_idx + end])
 
-        locals_data[f'data_{i}'] = current_data
+    #    locals_data[f'data_{i}'] = current_data
     #작동 확인용  -> 프론트 구현 후 삭제
     print("=== mypage_sell: data_list ===")
     print(data_list)
@@ -383,7 +408,7 @@ def mypage_sell():
         row2=locals_data.get('data_1', {}).items(),
         limit=per_page,
         page=page,
-        page_count=int((item_counts + per_page - 1) / per_page),
+        page_count=max(1, int((item_counts + per_page - 1) / per_page)),
         total=item_counts
     )
 
