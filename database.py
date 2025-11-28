@@ -157,7 +157,7 @@ class DBhandler:
             "review": data['content'],
             "img_path": img_paths,
             "buyerID": data['buyerID'],
-            "productID": data['name'],
+            "productID": data['productID'],
             "timestamp": {".sv": "timestamp"}
         }
 

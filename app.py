@@ -128,7 +128,7 @@ def reg_review():
         pass 
 
     mapped_data = {
-        "name": form_data['name'],      
+        "productID": form_data['productID'],      
         "title": form_data['title'],
         "rating": form_data['rating'],
         "content": form_data['content'],
