@@ -88,6 +88,30 @@ def view_item_detail(item_id):
                             item_id=item_id # 템플릿에서 좋아요/리뷰 링크에 사용할 ID 전달
                     )
 
+# 상품 구매  (임시 - 수정해주세요!)
+@application.route("/order_item/<name>/")
+def order_item(name):
+    if 'id' not in session or not session['id']:
+        flash('로그인을 해주세요.')
+        return redirect(url_for('login'))
+
+    user_id = session['id']
+    item_data = DB.get_item_byname(str(name))
+    address = item_data.get("addr", "임시 주소")
+
+    order_id = f"{name}_{user_id}"
+
+    order_data = {
+        "buyerID": user_id,
+        "productID": name,
+        "address": address,
+    }
+
+    DB.insert_order(order_id, order_data)
+    flash("구매가 완료되었습니다.")
+
+    return redirect(url_for("mypage_buy"))
+
 # 상품등록 페이지 반환 (reg_items.html)
 @application.route("/reg_items")
 def reg_item():
@@ -150,7 +174,8 @@ def reg_review():
         "item_id": form_data['item_id'],
         "title": form_data['title'],
         "reviewStar": form_data['rating'],
-        "reviewContents": form_data['content']
+        "reviewContents": form_data['content'],
+        "buyerID": session['id'] 
     }
     DB.reg_review(mapped_data, img_path)
     
@@ -542,6 +567,8 @@ def mypage_sell_edit():
 @application.route("/mypage_review_edit")
 def mypage_review_edit():
     return render_template("mypage/mypage_review_edit.html")
+
+
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0')

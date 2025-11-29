@@ -245,7 +245,8 @@ class DBhandler:
             "title": data['title'],
             "rate": data['reviewStar'],
             "review": data['reviewContents'],
-            "img_path": img_path
+            "img_path": img_path,
+            "buyerID": data['buyerID']
         }
         # self.db.child("review").child(data['name']).set(review_info)
         self.db.child("review").push(review_info) # .push()를 사용하여 고유 ID 생성
@@ -312,7 +313,8 @@ class DBhandler:
             "buyerID": data['buyerID'], 
             "productID": data['productID'],
             "address": data['address'],
-            "orderDate": pyrebase.database.ServerTimestamp # 서버 타임스탬프
+            "orderDate": {".sv": "timestamp"}
+            #"orderDate": pyrebase.database.ServerTimestamp # 서버 타임스탬프
         }
         self.db.child("Order").child(order_id).set(order_info)
         print("Order data inserted:", order_info)
