@@ -14,6 +14,7 @@
 
         <!-- 카드 -->
         {% for order_id, order in row1 %}
+<<<<<<< HEAD
         <div class="purchase-card" 
              onclick="location.href='{{ url_for('view_item_detail', item_id=order.productID) }}'" 
              style="cursor: pointer;">
@@ -29,25 +30,37 @@
                 {% endif %}
             </div>
 
+=======
+        <div class="purchase-card">
+            <div class="item-image"></div> <!--이미지 경로 추가-->
+>>>>>>> 19e0cc3193fdf5b159e851dd11ddd76730114e60
             <div class="item-content">
                 <div class="item-info">
                     <p class="seller">판매자: {{ order.seller }}</p>
                     <p class="item-name">{{ order.item_name }}</p>
                     <p class="item-price">{{ order.item_price }}원</p>
                 </div>
+<<<<<<< HEAD
                 
                 <button type="button" 
                         onclick="event.stopPropagation(); location.href='{{ url_for('reg_review_init', item_id=order.productID) }}'" 
                         class="review-btn">
                     리뷰 작성
                 </button>
+=======
+                <button type="button" onclick=" location.href='{{ url_for('reg_review_init', name=order.item_name) }}'" class="review-btn">리뷰 작성</button>
+>>>>>>> 19e0cc3193fdf5b159e851dd11ddd76730114e60
             </div>
         </div>
         {% endfor %}
     </div>    
 
     {% else %}
+<<<<<<< HEAD
     <p>구매한 상품이 없습니다.</p>
+=======
+    <p>등록된 상품이 없습니다.</p>
+>>>>>>> 19e0cc3193fdf5b159e851dd11ddd76730114e60
     {% endif %}
 
     <!-- 페이지네이션 -->

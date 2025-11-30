@@ -328,11 +328,22 @@ class DBhandler:
 #----------------------------------------------------------------------------
    #order 정보 insert (스냅샷 데이터 포함)
     def insert_order(self, order_id, data):
+<<<<<<< HEAD
         order_info = data
         # orderID와 날짜 정보만 추가
         order_info["orderID"] = order_id
         order_info["orderDate"] = {".sv": "timestamp"}
 
+=======
+        order_info = {
+            "orderID": order_id,
+            "buyerID": data['buyerID'], 
+            "productID": data['productID'],
+            "address": data['address'],
+            "orderDate": {".sv": "timestamp"}
+            #"orderDate": pyrebase.database.ServerTimestamp # 서버 타임스탬프
+        }
+>>>>>>> 19e0cc3193fdf5b159e851dd11ddd76730114e60
         self.db.child("Order").child(order_id).set(order_info)
         print("Order data inserted:", order_info)
         return True
