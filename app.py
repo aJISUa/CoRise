@@ -101,21 +101,14 @@ def view_item_detail(item_id):
                             item_id=item_id # 템플릿에서 좋아요/리뷰 링크에 사용할 ID 전달
                     )
 
-<<<<<<< HEAD
 # 상품 구매
 @application.route("/order_item/<item_id>/")
 def order_item(item_id):
-=======
-# 상품 구매  (임시 - 수정해주세요!)
-@application.route("/order_item/<name>/")
-def order_item(name):
->>>>>>> 19e0cc3193fdf5b159e851dd11ddd76730114e60
     if 'id' not in session or not session['id']:
         flash('로그인을 해주세요.')
         return redirect(url_for('login'))
 
     user_id = session['id']
-<<<<<<< HEAD
     # name 대신 item_id로 상품 정보 조회
     item_data = DB.get_item_byid(item_id)
     
@@ -216,23 +209,6 @@ def update_item_post(item_id):
     flash("상품 정보가 수정되었습니다.")
     return redirect(url_for('view_item_detail', item_id=item_id))
 
-=======
-    item_data = DB.get_item_byname(str(name))
-    address = item_data.get("addr", "임시 주소")
-
-    order_id = f"{name}_{user_id}"
-
-    order_data = {
-        "buyerID": user_id,
-        "productID": name,
-        "address": address,
-    }
-
-    DB.insert_order(order_id, order_data)
-    flash("구매가 완료되었습니다.")
-
-    return redirect(url_for("mypage_buy"))
->>>>>>> 19e0cc3193fdf5b159e851dd11ddd76730114e60
 
 # 상품등록 페이지 반환 (reg_items.html)
 @application.route("/reg_items")
