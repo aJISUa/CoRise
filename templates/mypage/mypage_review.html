@@ -1,79 +1,115 @@
 {% extends "index.html" %} 
 {% block head %} 
-{{ super() }}
-  <link rel="stylesheet"  href="{{ url_for('static', filename='mypage2.css') }}">
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='mypage2.css') }}">
 {% endblock head %} 
 
 {% block section %}
 
 <main class="mypage-review-container">
-  <h2 class="user-name1"><span class="user-name2"> {{ user_name }} </span> 님이 작성한 리뷰</h2>
+  <h2 class="user-name1">
+    <span class="user-name2">{{ user_name }}</span> 님이 작성한 리뷰
+  </h2>
 
-    <div class="review-list">
+  <div class="review-list">
 
-      {% if total > 0 %}
-        <!-- 카드 1 -->
-        {% for review_id, review in row1 %}
-        <div class="review-card">
-            <div class="review-image">
-              <!-- <img src="" alt=""> -->
-            </div>
-            <div class="review-content">
-              <div class="review-header">
-                <div class="review-title-wrap">
-                  <div class="review-title-row">
-                    <span class="review-title">{{ review.title }}</span>
-                    {% set star = review.rate|int if review.rate is not none else 0 %}
-                      <div class="review-stars">
-                        {{ '★' * star }}{{ '☆' * (5 - star) }}
-                      </div>
-                  </div>
-                </div>
-                <div class="review-product">
-                  <span class="label">상품 :</span>
-                  <span class="name">{{ review_id }}</span>
+    {% if total > 0 %}
+      {% for review_id, review in row1 %}
+      <div class="review-card" data-deleted="{{ '1' if review.is_deleted_product else '0' }}">
+        <div class="review-image">
+          {% if review.img_path %}
+            {% set img = review.img_path[0] if review.img_path is sequence and review.img_path is not string else review.img_path %}
+            <img src="{{ url_for('static', filename='images/' + img) }}" alt="리뷰 이미지">
+          {% endif %}
+        </div>
+
+        <div class="review-content">
+          <div class="review-header">
+            <div class="review-title-wrap">
+              <div class="review-title-row">
+                <span class="review-title">{{ review.title }}</span>
+                {% set r = review.rate if review.rate is not none else (review.rating if review.rating is not none else 0) %}
+                {% set star = r|int %}
+                <div class="review-stars">
+                  {{ '★' * star }}{{ '☆' * (5 - star) }}
                 </div>
               </div>
+            </div>
 
-              <p class="review-text"> {{ review.review }} </p>
-              <div class="btns">
-                <button class="correct-btn">삭제</button>
-                <button class="delete-btn" onclick="location.href='{{ url_for('mypage_review_edit') }}'">수정</button>
-              </div>          
-            </div>  
-        </div>
-        {% endfor %}
+            <div class="review-product">
+              <span class="label">상품 :</span>
+              <span class="name">{{ review.product_name }}
+                {% if review.is_deleted_product %}
+                  <span class="deleted-tag">(판매 종료 상품)</span>
+                {% endif %}
+              </span>
+            </div>
+          </div>
 
-      {% endif %}
-    
-    <!-- 페이지네이션 -->
-    <nav class="pagination">
+          <p class="review-text">
+            {{ (review.review or review.content or '') }}
+          </p>
 
-        <!-- 이전 페이지 버튼 -->
-        {% if page > 0 %}
-        <a class="page-btn" href="{{ url_for('mypage_review', page=page-1) }}">&lsaquo;</a>
-        {% else %}
-        <span class="page-btn" style="opacity:0.4; pointer-events:none;">&lsaquo;</span>
-        {% endif %}
+          <div class="btns">
+            <button class="correct-btn" 
+                    onclick="if(confirm('리뷰를 삭제하시겠습니까?')) { location.href='{{ url_for('delete_review', key=review_id) }}'; }">
+                    삭제
+            </button>
+            <!-- 수정 버튼: key 필요하니까 review_id 넘겨주기 -->
+            <button class="delete-btn"
+                    onclick="location.href='{{ url_for('mypage_review_edit', key=review_id) }}'">
+              수정
+            </button>
+          </div>
+        </div>  
+      </div>
+      {% endfor %}
+    {% else %}
+      <p>작성한 리뷰가 없습니다.</p>
+    {% endif %}
 
-        <!-- 페이지 번호 반복 -->
-        {% for i in range(page_count) %}
-        <a class="page-number {% if i == page %}active{% endif %}" 
-            href="{{ url_for('mypage_review', page=i) }}">
-            {{ i + 1 }}
-        </a>
-        {% endfor %}
+  </div>
 
-        <!-- 다음 페이지 버튼 -->
-        {% if page < page_count - 1 %}
-        <a class="page-btn" href="{{ url_for('mypage_review', page=page+1) }}">&rsaquo;</a>
-        {% else %}
-        <span class="page-btn" style="opacity:0.4; pointer-events:none;">&rsaquo;</span>
-        {% endif %}
+  <!-- 페이지네이션 -->
+  <nav class="pagination">
+    {% if page > 0 %}
+      <a class="page-btn" href="{{ url_for('mypage_review', page=page-1) }}">&lsaquo;</a>
+    {% else %}
+      <span class="page-btn" style="opacity:0.4; pointer-events:none;">&lsaquo;</span>
+    {% endif %}
 
-    </nav>
+    {% for i in range(page_count) %}
+      <a class="page-number {% if i == page %}active{% endif %}"
+         href="{{ url_for('mypage_review', page=i) }}">
+        {{ i + 1 }}
+      </a>
+    {% endfor %}
 
-  </main>
+    {% if page < page_count - 1 %}
+      <a class="page-btn" href="{{ url_for('mypage_review', page=page+1) }}">&rsaquo;</a>
+    {% else %}
+      <span class="page-btn" style="opacity:0.4; pointer-events:none;">&rsaquo;</span>
+    {% endif %}
+  </nav>
+
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.review-card');
+
+  cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('button')) return;
+
+      const isDeleted = card.dataset.deleted === '1';
+      if (isDeleted) {
+        alert('해당 상품은 삭제되어 더 이상 상세 페이지를 볼 수 없습니다.');
+      }
+    });
+  });
+});
+</script>
 
 
 {% endblock section %}

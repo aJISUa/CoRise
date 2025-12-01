@@ -85,29 +85,114 @@
     </div>
 
     {% endblock section %}
-    <script>
-      // TODO: 아이디 중복 JS 추가
-      function checkId() {
-        alert("아이디 중복확인");
-      }
-      // TODO: 닉네임 중복 JS 추가
-      function checkNickname() {
-        alert("닉네임 중복확인");
+    
+  <script>
+    let idChecked = false;
+    let nicknameChecked = false;
+
+    // 아이디 중복 확인
+    function checkId() {
+      const idInput = document.querySelector('input[name="id"]');
+      const userId = idInput.value.trim();
+
+      if (!userId) {
+        alert("아이디를 입력해 주세요.");
+        idInput.focus();
+        return;
       }
 
-      // 비밀번호 확인
-      document.addEventListener('DOMContentLoaded', () => {
-        const form = document.querySelector('form');
-        form.addEventListener('submit', (e) => {
-          const pw  = form.querySelector('input[name="pw"]').value;
-          const pw2 = form.querySelector('input[name="pw_confirm"]').value;
-          if (pw !== pw2) {
-            e.preventDefault();
-            alert('비밀번호가 일치하지 않습니다.');
-            form.querySelector('input[name="pw_confirm"]').focus();
+      fetch("/check_id?id=" + encodeURIComponent(userId))
+        .then((res) => res.json())
+        .then((data) => {
+          // data = { ok: True, available: True/False, message: "..." }
+          if (!data.ok) {
+            alert("오류가 발생했습니다.");
+            idChecked = false;
+            return;
           }
+
+          alert(data.message);
+
+          if (data.available) {
+            // 사용 가능
+            idChecked = true;
+          } else {
+            // 이미 사용 중
+            idChecked = false;
+            idInput.focus();
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("서버 오류가 발생했습니다.");
+          idChecked = false;
         });
+    }
+
+    // 닉네임 중복 확인
+    function checkNickname() {
+      const nickInput = document.querySelector('input[name="nickname"]');
+      const nickname = nickInput.value.trim();
+
+      if (!nickname) {
+        alert("닉네임을 입력해 주세요.");
+        nickInput.focus();
+        return;
+      }
+
+      fetch("/check_nickname?nickname=" + encodeURIComponent(nickname))
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.ok) {
+            alert("오류가 발생했습니다.");
+            nicknameChecked = false;
+            return;
+          }
+
+          alert(data.message);
+
+          if (data.available) {
+            nicknameChecked = true;
+          } else {
+            nicknameChecked = false;
+            nickInput.focus();
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("서버 오류가 발생했습니다.");
+          nicknameChecked = false;
+        });
+    }
+
+    // 아이디/닉네임 수정하면 다시 체크하게 flag 초기화
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.querySelector("form");
+      const idInput = form.querySelector('input[name="id"]');
+      const nickInput = form.querySelector('input[name="nickname"]');
+
+      idInput.addEventListener("input", () => { idChecked = false; });
+      nickInput.addEventListener("input", () => { nicknameChecked = false; });
+
+      // 비밀번호 확인 + 중복확인 안 했으면 submit 막기
+      form.addEventListener("submit", (e) => {
+        const pw  = form.querySelector('input[name="pw"]').value;
+        const pw2 = form.querySelector('input[name="pw_confirm"]').value;
+
+        if (pw !== pw2) {
+          e.preventDefault();
+          alert("비밀번호가 일치하지 않습니다.");
+          form.querySelector('input[name=\"pw_confirm\"]').focus();
+          return;
+        }
+
+        if (!idChecked || !nicknameChecked) {
+          e.preventDefault();
+          alert("아이디와 닉네임 중복 확인을 해 주세요.");
+          return;
+        }
       });
-    </script>
+    });
+  </script>
   </body>
 </html>

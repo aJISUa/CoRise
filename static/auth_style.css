@@ -154,13 +154,57 @@ body {
   gap: 0.4rem;
   font-size: 0.75rem;
   color: #1f1f1f;
+  cursor: pointer;
 }
 
 .login-link {
   font-size: 0.75rem;
   color: #6e6a6a;
   text-decoration: none;
+
+  position: relative;
+  display: inline-block;   
 }
+
+/* 툴팁 기본 상태: 숨김 */
+.login-link .tooltip {
+  font-family: "Pretendard";
+  display: none;
+  position: absolute;
+  bottom: 190%;
+  right: -10px;
+  width: 350px;
+  padding: 20px 20px;
+  background: var(--soft-ivory);
+  color: #000;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 2;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  white-space: normal;
+
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.login-link .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: 10px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--soft-ivory) transparent transparent transparent;
+}
+
+/* hover하면 툴팁 표시 */
+.login-link:hover .tooltip {
+  display: block;
+}
+
+
 
 .login-bottom {
   position: relative;

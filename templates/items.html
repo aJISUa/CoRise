@@ -5,6 +5,111 @@
 {% endblock head %} 
 
 {% block section %}
+<script>
+  $(document).ready(function() {
+    // Flask에서 전달받은 현재 값들을 Select 박스에 반영하여 상태 유지
+    $('#category').val('{{ category }}'); 
+    $('select[name="sort"]').val('{{ sort }}');
+    $('select[name="price"]').val('{{ price_order }}'); // Flask에서 price_order로 전달받음
+    $('#search-query').val('{{ search_query or "" }}');
+
+    // 필터 섹션의 select 요소들에 change 이벤트 리스너 추가(활성화 및 수정)
+    // 기존 onchange="location=this.value"를 제거하고, 이 JS 로직으로 통합 처리
+    $('.filters select').on('change', function() {
+      submitFilters();
+    });
+
+    $('#search-query').on('keypress', function(e) {
+        if (e.which === 13) { // Enter key
+            e.preventDefault(); // 기본 form submit 방지
+            submitFilters();
+        }
+    });
+    function submitFilters() {
+      // 선택된 값들을 가져옴 
+      const category = $('select[name="category"]').val();
+      const sort = $('select[name="sort"]').val();
+      const price_order = $('select[name="price"]').val();
+      const search_query = $('#search-query').val().trim();
+
+      // 현재 페이지 URL을 기반으로 쿼리 매개변수 객체 생성
+      let queryParams = new URLSearchParams(window.location.search);
+      
+      // 필터/정렬 변경 시 페이지를 0으로 리셋
+      queryParams.set('page', 0);
+      
+      if (category && category !== 'all') { 
+          queryParams.set('category', category);
+      } else {
+          queryParams.delete('category');
+      }
+
+      if (sort && sort !== 'latest') { 
+          queryParams.set('sort', sort);
+      } else {
+          queryParams.delete('sort');
+      }
+
+      if (price_order && price_order !== 'low') { 
+          queryParams.set('price', price_order); // app.py의 request.args.get("price")와 일치
+      } else {
+          queryParams.delete('price');
+      }
+
+      if (search_query) { 
+          queryParams.set('q', search_query);
+      } else {
+          queryParams.delete('q');
+      }
+      
+      // 쿼리 파라미터 적용하여 페이지 새로고침
+      window.location.search = queryParams.toString();
+    }
+  });
+
+    function toggleLike(itemId, element) {
+        // 로그인 여부 확인(세션 정보가 없으면 알림)
+        {% if not session['id'] %}
+            alert("로그인이 필요한 기능입니다.");
+            location.href = "{{ url_for('login') }}";
+            return;
+        {% endif %}
+
+        // 현재 아이콘 상태 확인 (채워진 하트인지 아닌지)
+        let icon = $(element);
+        let isLiked = icon.hasClass('fa-heart');
+        
+        // 요청 보낼 URL 결정 (좋아요 상태면 unlike, 아니면 like)
+        let url = isLiked ? '/unlike/' + itemId + '/' : '/like/' + itemId + '/';
+        
+        // AJAX 요청 전송
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+              interested: isLiked ? "N" : "Y"
+            },
+            success: function (response) {
+                // 성공 시 아이콘 스타일 토글 (새로고침 없이 즉시 반영)
+                if (isLiked) {
+                    // 찜 취소: 빨강 채워진 하트 -> 회색 빈 하트
+                    icon.removeClass('fa-heart').addClass('fa-heart-o');
+                    icon.css('color', 'grey');
+                    // alert("찜 목록에서 삭제되었습니다.");
+                } else {
+                    // 찜 하기: 회색 빈 하트 -> 빨강 채워진 하트
+                    icon.removeClass('fa-heart-o').addClass('fa-heart');
+                    icon.css('color', 'red');
+                    // alert("찜 목록에 추가되었습니다.");
+                }
+            },
+            error: function(error) {
+                alert("오류가 발생했습니다. 다시 시도해주세요.");
+            }
+        });
+    }
+</script>
+
 <div class="container">
     <!-- 필터 영역 -->
     <section class="filters">
@@ -13,18 +118,18 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none" aria-hidden="true">
           <path d="M20.4167 21L13.8542 14.7C13.3333 15.1 12.7344 15.4167 12.0573 15.65C11.3802 15.8833 10.6597 16 9.89583 16C8.00347 16 6.40191 15.3708 5.09115 14.1125C3.78038 12.8542 3.125 11.3167 3.125 9.5C3.125 7.68333 3.78038 6.14583 5.09115 4.8875C6.40191 3.62917 8.00347 3 9.89583 3C11.7882 3 13.3898 3.62917 14.7005 4.8875C16.0113 6.14583 16.6667 7.68333 16.6667 9.5C16.6667 10.2333 16.5451 10.925 16.3021 11.575C16.059 12.225 15.7292 12.8 15.3125 13.3L21.875 19.6L20.4167 21ZM9.89583 14C11.1979 14 12.3047 13.5625 13.2161 12.6875C14.1276 11.8125 14.5833 10.75 14.5833 9.5C14.5833 8.25 14.1276 7.1875 13.2161 6.3125C12.3047 5.4375 11.1979 5 9.89583 5C8.59375 5 7.48698 5.4375 6.57552 6.3125C5.66406 7.1875 5.20833 8.25 5.20833 9.5C5.20833 10.75 5.66406 11.8125 6.57552 12.6875C7.48698 13.5625 8.59375 14 9.89583 14Z" fill="#1D1B20"/>
         </svg>
-        <input type="text" placeholder="상품명 검색" />
+        <input type="text" placeholder="상품명 검색" name="q" id="search-query" value="{{ search_query or '' }}"/>
       </div>
 
         <!-- 카테고리 -->
       <label class="select-pill">
-        <select name="category" aria-label="카테고리">
-          <option>카테고리</option>
-          <option>가전</option>
-          <option>의류</option>
-          <option>생활</option>
-          <option>도서</option>
-          <option>기타</option>
+        <select id="category" name="category" aria-label="카테고리">
+          <option value="all">카테고리</option>
+          <option value="가전">가전</option>
+          <option value="의류">의류</option>
+          <option value="생활">생활</option>
+          <option value="도서">도서</option>
+          <option value="기타">기타</option>
         </select>
         <svg class="chev" width="22" height="16" viewBox="0 0 28 19" fill="none">
           <path d="M13.2826 18.1387C13.4826 18.4042 13.8813 18.404 14.0814 18.1387L26.7621 1.30078C27.0102 0.97129 26.7751 0.5 26.3627 0.5H1.00134C0.589257 0.500359 0.354175 0.971424 0.601929 1.30078L13.2826 18.1387Z" fill="#FBFAF4" stroke="black"/>
@@ -34,8 +139,8 @@
       <!-- 최신순 -->
       <label class="select-pill">
         <select name="sort" aria-label="정렬">
-          <option>최신순</option>
-          <option>인기순</option>
+          <option value="latest">최신순</option>
+          <option value="popular">인기순</option>
         </select>
         <svg class="chev" width="22" height="16" viewBox="0 0 28 19" fill="none" aria-hidden="true">
           <path d="M13.2826 18.1387C13.4826 18.4042 13.8813 18.404 14.0814 18.1387L26.7621 1.30078C27.0102 0.97129 26.7751 0.5 26.3627 0.5H1.00134C0.589257 0.500359 0.354175 0.971424 0.601929 1.30078L13.2826 18.1387Z" fill="#FBFAF4" stroke="black"/>
@@ -45,8 +150,8 @@
       <!-- 낮은 가격 순 -->
       <label class="select-pill">
         <select name="price" aria-label="가격 정렬">
-          <option>낮은 가격 순</option>
-          <option>높은 가격 순</option>
+          <option value="low">낮은 가격 순</option>
+          <option value="high">높은 가격 순</option>
         </select>
         <svg class="chev" width="22" height="16" viewBox="0 0 28 19" fill="none" aria-hidden="true">
           <path d="M13.2826 18.1387C13.4826 18.4042 13.8813 18.404 14.0814 18.1387L26.7621 1.30078C27.0102 0.97129 26.7751 0.5 26.3627 0.5H1.00134C0.589257 0.500359 0.354175 0.971424 0.601929 1.30078L13.2826 18.1387Z" fill="#FBFAF4" stroke="black"/>
@@ -57,42 +162,58 @@
   {% if total > 0 %}
   <main class="product-grid">
 
-    <!-- Row 1 -->
+    <!-- Row 1 상품명 부분 변경 -->
     {% for key, value in row1 %}
     <article class="product-card" onclick="location.href='/view_detail/{{ key }}/';" style="cursor: pointer;">
       <div class="hm-thumb">
-          <img src="static/images/{{value.img_path}}" width="140" height="200" alt="{{ key }}">
+        {% set img = value.img_path[0] if value.img_path is sequence and value.img_path is not string else value.img_path %}
+        
+        <img src="{{ url_for('static', filename='images/' + img) }}" width="140" height="200" alt="{{ value.name }}">
       </div>
       <div class="info">
         <div class="text">
-          <p class="product-name">{{ key }}</p>
+          <p class="product-name">{{ value.name }}</p>
           <p class="price">{{ value.price }}원</p>
         </div>
-        <button class="heart">
-          <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-            <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
-          </svg>
-        </button>
+        <div class="heart-container">
+          {% if session['id'] %}
+            {% if key in user_likes %}
+              <i class="fa fa-heart" style="color: red; cursor: pointer; font-size: 24px;" onclick="toggleLike('{{ key }}', this); event.stopPropagation();"></i>
+            {% else %}
+              <i class="fa fa-heart-o" style="color: grey; cursor: pointer; font-size: 24px;" onclick="toggleLike('{{ key }}', this); event.stopPropagation();"></i>
+            {% endif %}
+          {% else %}
+            <i class="fa fa-heart-o" style="color: grey; font-size: 24px;"></i>
+          {% endif %}
+        </div>
       </div>
     </article>
     {% endfor %}
 
-    <!-- Row 2 -->
+    <!-- Row 2 상품명 부분 변경 -->
     {% for key, value in row2 %}
     <article class="product-card" onclick="location.href='/view_detail/{{ key }}/';" style="cursor: pointer;">
       <div class="hm-thumb">
-        <img src="static/images/{{value.img_path}}" width="140" height="200" alt="{{ key }}">
+         {% set img = value.img_path[0] if value.img_path is sequence and value.img_path is not string else value.img_path %}
+        
+        <img src="{{ url_for('static', filename='images/' + img) }}" width="140" height="200" alt="{{ value.name }}">
       </div>
       <div class="info">
         <div class="text">
-          <p class="product-name">{{ key }}</p>
+          <p class="product-name">{{ value.name }}</p>
           <p class="price">{{ value.price }}원</p>
         </div>
-        <button class="heart">
-          <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-            <path d="M41.68 9.22C40.6585 8.19801 39.4456 7.3873 38.1107 6.83417C36.7758 6.28105 35.345 5.99635 33.9 5.99635C32.455 5.99635 31.0242 6.28105 29.6893 6.83417C28.3544 7.3873 27.1415 8.19801 26.12 9.22L24 11.34L21.88 9.22C19.8176 7.15766 17.0167 5.99657 14.1 5.99657C11.1833 5.99657 8.38236 7.15766 6.32001 9.22C4.25766 11.2824 3.09657 14.0833 3.09657 17C3.09657 19.9167 4.25766 22.7176 6.32001 24.78L8.44001 26.9L24 42.46L39.56 26.9L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.22Z" stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round"/>
-          </svg>
-        </button>
+        <div class="heart-container">
+          {% if session['id'] %}
+            {% if key in user_likes %}
+              <i class="fa fa-heart" style="color: red; cursor: pointer; font-size: 24px;" onclick="toggleLike('{{ key }}', this); event.stopPropagation();"></i>
+            {% else %}
+              <i class="fa fa-heart-o" style="color: grey; cursor: pointer; font-size: 24px;" onclick="toggleLike('{{ key }}', this); event.stopPropagation();"></i>
+            {% endif %}
+          {% else %}
+            <i class="fa fa-heart-o" style="color: grey; font-size: 24px;"></i>
+          {% endif %}
+        </div>
       </div>
     </article>
     {% endfor %}
@@ -103,7 +224,13 @@
 
       <!-- 이전 페이지 버튼 -->
       {% if page > 0 %}
-        <a class="page-btn" href="{{ url_for('view_list', page=page-1) }}">&lsaquo;</a>
+        <a class="page-btn"
+          href="{{ url_for('view_list',
+                     page=page-1,
+                     category=category,
+                     sort=sort,
+                     price=price_order,
+                     q=search_query) }}">&lsaquo;</a>
       {% else %}
         <span class="page-btn" style="opacity:0.4; pointer-events:none;">&lsaquo;</span>
       {% endif %}
@@ -111,14 +238,25 @@
       <!-- 페이지 번호 반복 -->
       {% for i in range(page_count) %}
         <a class="page-number {% if i == page %}active{% endif %}" 
-          href="{{ url_for('view_list', page=i) }}">
+          href="{{ url_for('view_list',
+                     page=i,
+                     category=category,
+                     sort=sort,
+                     price=price_order,
+                     q=search_query) }}">
           {{ i + 1 }}
         </a>
       {% endfor %}
 
       <!-- 다음 페이지 버튼 -->
       {% if page < page_count - 1 %}
-        <a class="page-btn" href="{{ url_for('view_list', page=page+1) }}">&rsaquo;</a>
+        <a class="page-btn"
+          href="{{ url_for('view_list',
+                     page=page+1,
+                     category=category,
+                     sort=sort,
+                     price=price_order,
+                     q=search_query) }}">&rsaquo;</a>
       {% else %}
         <span class="page-btn" style="opacity:0.4; pointer-events:none;">&rsaquo;</span>
       {% endif %}
@@ -127,7 +265,7 @@
 
 
   {% else %}
-    <p>등록된 상품이 없습니다.</p>
+    <p>검색된 상품이 없습니다.</p>
   {% endif %}
 
 

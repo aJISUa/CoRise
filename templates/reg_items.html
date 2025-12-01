@@ -42,11 +42,11 @@
           <div class="pc-control">
             <div class="pc-select-wrap">
               <select id="category" name="category" class="pc-input pc-select">
-                <option value="의류" selected>의류</option>
-                <option value="생활">생활</option>
-                <option value="화장품">화장품</option>
-                <option value="도서">도서</option>
                 <option value="기타">기타</option>
+                <option value="가전">가전</option>
+                <option value="의류">의류</option>
+                <option value="생활">생활</option>
+                <option value="도서">도서</option>
               </select>
               <!-- 화살표 -->
               <svg class="pc-select-icon" xmlns="http://www.w3.org/2000/svg" width="21" height="13" viewBox="0 0 21 13" fill="none">
@@ -68,7 +68,7 @@
             </div>
 
             <!-- 프리뷰 슬롯(정적) -->
-            <div class="pc-thumb-grid">
+            <div class="pc-thumb-grid" id="thumb-grid">
               <div class="pc-thumb"></div>
               <div class="pc-thumb"></div>
               <div class="pc-thumb"></div>
@@ -95,4 +95,74 @@
     </main>
   </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const fileInput = document.getElementById('img');
+    const thumbs = document.querySelectorAll('#thumb-grid .pc-thumb');
+
+    // 모든 선택된 파일을 저장하는 배열 (최대 5장)
+    let selectedFiles = [];
+
+    function syncInput() {
+      // selectedFiles 배열을 다시 input.files로 세팅
+      const dt = new DataTransfer();
+      selectedFiles.forEach(f => dt.items.add(f));
+      fileInput.files = dt.files;
+    }
+
+    function renderThumbs() {
+      // 기존 썸네일 지우기
+      thumbs.forEach(t => t.innerHTML = '');
+
+      // 선택된 파일들을 썸네일에 렌더링
+      selectedFiles.forEach((file, index) => {
+        const thumb = thumbs[index];
+        if (!thumb) return;
+
+        const url = URL.createObjectURL(file);
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = file.name;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        img.onload = () => URL.revokeObjectURL(url);
+
+        thumb.appendChild(img);
+      });
+    }
+
+    // 파일 선택 시 (여러 번 눌러도 누적)
+    fileInput.addEventListener('change', function () {
+      const newFiles = Array.from(fileInput.files);
+
+      // 기존 + 새 파일 합치기
+      let merged = selectedFiles.concat(newFiles);
+
+      // 5장을 초과하면 자르고 alert
+      const maxCount = thumbs.length;   // 5
+      if (merged.length > maxCount) {
+        alert('사진은 최대 5장까지만 등록할 수 있습니다.');
+        merged = merged.slice(0, maxCount);
+      }
+
+      selectedFiles = merged;
+      syncInput();
+      renderThumbs();
+    });
+
+    // 썸네일 클릭 시 해당 사진 삭제
+    thumbs.forEach((thumb, index) => {
+      thumb.addEventListener('click', function () {
+        if (!selectedFiles[index]) return;  // 빈 칸이면 무시
+        if (!confirm('이 사진을 삭제할까요?')) return;
+
+        // 배열에서 제거
+        selectedFiles.splice(index, 1);
+        syncInput();
+        renderThumbs();
+      });
+    });
+  });
+  </script>
 {% endblock section %}

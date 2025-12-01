@@ -1,44 +1,61 @@
-<!-- mock page, 백엔드 코드 완료 후 수정 -->
-
 {% extends "index.html" %} 
 {% block head %} 
 {{ super() }}
     <link rel="stylesheet"  href="{{ url_for('static', filename='review_style.css') }}">
+    <link rel="stylesheet"  href="{{ url_for('static', filename='mypage2.css') }}">
 {% endblock head %} 
 
 {% block section %}
+
+{% set current_rating = (data.rate or data.rating or 0)|int %}
+{% set raw_imgs = data.get('image') or data.get('img_path') or [] %}
+
+{% if raw_imgs is string %}
+  {% set imgs = [raw_imgs] %}
+{% elif raw_imgs is sequence %}
+  {% set imgs = raw_imgs %}
+{% else %}
+  {% set imgs = [] %}
+{% endif %}
 
 <h1 class="rvreg-h1">리뷰 수정</h1>
 
 <section class="rvreg-page">
   <section class="rvreg-product-box">
     <div class="rvreg-product-left">
-      <!-- BE: 상품명 가져오기-->
-      <p class="rvreg-product-name">상품 : 라운드넥 가디건</p>
+      <p class="rvreg-product-name">상품 : {{ data.product_name }}</p>
       <p class="rvreg-ask">이 상품 어때요?</p>
-      <div class="rvreg-stars" data-rating="0">
+      <div class="rvreg-stars" data-rating="{{ current_rating }}">
         <span class="star" data-value="1">★</span>
         <span class="star" data-value="2">★</span>
         <span class="star" data-value="3">★</span>
         <span class="star" data-value="4">★</span>
         <span class="star" data-value="5">★</span>
       </div>
-      <!-- BE hidden input: 선택한 별점값 (rating) 보냄 -->
-      <input type="hidden" name="rating" id="rating-input" value="0" />
     </div>
-    <!-- BE: 상품 사진 가져오기-->
-    <div class="rvreg-media" aria-label="상품 이미지 자리"></div>
+
+    <div class="rvreg-media" aria-label="상품 이미지 자리">
+      {% if imgs and imgs[0] %}
+        <img src="{{ url_for('static', filename='images/' + imgs[0]) }}"
+             alt="상품 이미지"
+             class="rvreg-media-img">
+      {% endif %}
+    </div>
   </section>
 
   <form
-    action="/reg_reviews"
+    action="{{ url_for('reg_review') }}"
     method="post"
     enctype="multipart/form-data"
     class="reg-review-form"
   >
+    <input type="hidden" name="review_key" value="{{ key }}">
+    <input type="hidden" name="productID" value="{{ data.productID }}">
+    <input type="hidden" name="rating" id="rating-input" value="{{ current_rating }}">
+    
     <div>
       <label class="rvreg-label" for="title">리뷰 제목</label>
-      <input type="text" id="title" name="title" />
+      <input type="text" id="title" name="title" value="{{ data.title }}"/>
     </div>
 
     <div>
@@ -48,7 +65,7 @@
         name="content"
         rows="6"
         placeholder="구매하신 상품 후기를 남겨 주시면 다른 구매자분들께 큰 도움이 됩니다."
-      ></textarea>
+      >{{ data.review }}</textarea>
     </div>
 
     <div>
@@ -58,11 +75,19 @@
         <span class="photo-hint">*최대 5장까지</span>
       </div>
       <div class="photo-preview-wrap">
-        <div class="photo-box"></div>
-        <div class="photo-box"></div>
-        <div class="photo-box"></div>
-        <div class="photo-box"></div>
-        <div class="photo-box"></div>
+        {% for i in range(5) %}
+          {% set filename = (imgs[i] if imgs and imgs|length > i else '') %}
+          <div class="photo-box"
+              data-existing="{{ '1' if filename else '0' }}"
+              data-filename="{{ filename }}">
+            {% if filename %}
+              <img src="{{ url_for('static', filename='images/' + filename) }}"
+                  alt="리뷰 이미지 {{ i+1 }}"
+                  data-existing="1">
+              <input type="hidden" name="existing_images" value="{{ filename }}">
+            {% endif %}
+          </div>
+        {% endfor %}
       </div>
     </div>
 
@@ -73,28 +98,155 @@
 </section>
 
 <script>
-  const box = document.querySelector(".rvreg-stars");
-  const stars = box.querySelectorAll(".star");
-  const ratingInput = document.getElementById("rating-input");
+document.addEventListener('DOMContentLoaded', () => {
+  const starBox = document.querySelector('.rvreg-stars');
+  const ratingInput = document.getElementById('rating-input');
 
-  stars.forEach((star, i) => {
-    star.onmouseenter = () => {
-      stars.forEach((s, j) => s.classList.toggle("filled", j <= i));
-    };
+  if (starBox && ratingInput) {
+    const stars = Array.from(starBox.querySelectorAll('.star'));
+    let cur = Number(ratingInput.value || starBox.dataset.rating || 0);
 
-    star.onclick = () => {
-      const val = star.dataset.value;
-      ratingInput.value = val;
-      box.dataset.rating = val;
-    };
-  });
+    const paint = v =>
+      stars.forEach(s => s.classList.toggle('filled', Number(s.dataset.value) <= v));
 
-  box.onmouseleave = () => {
-    const current = box.dataset.rating || 0;
-    stars.forEach((s) =>
-      s.classList.toggle("filled", Number(s.dataset.value) <= Number(current))
-    );
+    paint(cur);
+
+    stars.forEach(star => {
+      star.addEventListener('mouseenter', () => paint(Number(star.dataset.value)));
+      star.addEventListener('click', () => {
+        cur = Number(star.dataset.value);
+        ratingInput.value = cur;
+        starBox.dataset.rating = cur;
+      });
+    });
+
+    starBox.addEventListener('mouseleave', () => paint(cur));
+  }
+
+  /* 이미지 */
+  const MAX_IMAGES = 5;
+  const fileInput = document.getElementById('photos');
+  const previewBoxes = Array.from(document.querySelectorAll('.photo-box'));
+  const form = document.querySelector('.reg-review-form');
+  let selectedFiles = []; // 새로 업로드한 파일들만 관리
+
+  // 현재 남아 있는 기존 이미지 개수
+  const getExistingCount = () =>
+    previewBoxes.reduce((cnt, box) => {
+      const img = box.querySelector('img[data-existing="1"]');
+      return cnt + (img ? 1 : 0);
+    }, 0);
+
+  // file input 의 FileList 를 selectedFiles 와 동기화
+  const syncFileInput = () => {
+    const dt = new DataTransfer();
+    selectedFiles.forEach(f => dt.items.add(f));
+    fileInput.files = dt.files;
   };
+
+  // 새로 업로드한 이미지들을 preview 에 다시 그리기
+  const renderNewPreviews = () => {
+    // 먼저 기존의 "새 이미지" 프리뷰들 제거 (기존 이미지(data-existing)는 건들지 않음)
+    previewBoxes.forEach(box => {
+      const newImg = box.querySelector('img[data-new="1"]');
+      if (newImg) newImg.remove();
+    });
+
+    // img 태그가 전혀 없는 박스들만 새 이미지 채우기용으로 사용
+    const emptyBoxes = previewBoxes.filter(box => !box.querySelector('img'));
+
+    selectedFiles.forEach((file, idx) => {
+      if (!emptyBoxes[idx]) return; // 빈 칸이 더 이상 없으면 무시
+
+      const img = document.createElement('img');
+      img.alt = '새 리뷰 이미지';
+      img.dataset.new = '1';
+      img.dataset.index = idx; // selectedFiles 의 인덱스
+      img.src = URL.createObjectURL(file);
+      img.onload = () => URL.revokeObjectURL(img.src); // 메모리 정리용(optional)
+
+      emptyBoxes[idx].appendChild(img);
+    });
+  };
+
+  // 파일 선택 시
+  if (fileInput) {
+    fileInput.addEventListener('change', (e) => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+
+      const existingCount = getExistingCount();
+      const freeSlots = MAX_IMAGES - existingCount - selectedFiles.length;
+
+      if (freeSlots <= 0) {
+        alert('이미지는 최대 5장까지 등록할 수 있습니다.');
+        fileInput.value = '';
+        return;
+      }
+
+      const addable = files.slice(0, freeSlots);
+      if (addable.length < files.length) {
+        alert('이미지는 최대 5장까지 등록할 수 있습니다.');
+      }
+
+      selectedFiles = selectedFiles.concat(addable);
+      syncFileInput();
+      renderNewPreviews();
+
+      // 같은 파일 다시 선택 가능하도록 초기화
+      //fileInput.value = '';
+    });
+  }
+
+  // 프리뷰 박스 클릭 → 삭제 확인
+  previewBoxes.forEach((box) => {
+    box.addEventListener('click', () => {
+      const img = box.querySelector('img');
+      if (!img) return;
+
+      // 1) 기존 이미지 삭제
+      if (img.dataset.existing === '1') {
+        if (!confirm('이 사진을 삭제하시겠습니까?')) return;
+
+        // hidden input(existing_images) 제거
+        const hidden = box.querySelector('input[name="existing_images"]');
+        if (hidden) hidden.remove();
+
+        img.remove();
+        box.dataset.existing = '0';
+        box.dataset.filename = '';
+
+        return;
+      }
+
+      // 2) 새로 추가한 이미지 삭제
+      if (img.dataset.new === '1') {
+        if (!confirm('이 사진을 삭제하시겠습니까?')) return;
+
+        const idx = Number(img.dataset.index);
+        if (!Number.isNaN(idx)) {
+          selectedFiles.splice(idx, 1); // 배열에서 제거
+          syncFileInput();
+          renderNewPreviews(); // 인덱스가 바뀌었으니 다시 그리기
+        }
+      }
+    });
+  });
+  
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      const existingCount = getExistingCount();
+      const newCount = selectedFiles.length;
+      const total = existingCount + newCount;
+
+      if (total === 0) {
+        e.preventDefault();
+        alert('최소 1장의 사진을 등록해야 리뷰를 수정할 수 있습니다.');
+      }
+    });
+  }
+  
+});
 </script>
 
 

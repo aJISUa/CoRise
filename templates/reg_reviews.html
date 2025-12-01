@@ -9,8 +9,7 @@
 <section class="rvreg-page">
   <section class="rvreg-product-box">
     <div class="rvreg-product-left">
-      <!-- BE: 상품명 가져오기-->
-      <p class="rvreg-product-name">상품 : {{name}}</p>
+      <p class="rvreg-product-name">상품 : {{ name }}</p>
       
       <p class="rvreg-ask">이 상품 어때요?</p>
       <div class="rvreg-stars" data-rating="0">
@@ -22,8 +21,15 @@
       </div>
       
     </div>
-    <!-- BE: 상품 사진 가져오기-->
-    <div class="rvreg-media" aria-label="상품 이미지 자리"></div>
+    <div class="rvreg-media" aria-label="상품 이미지 자리">
+      {% if product_img %}
+      <img
+        src="{{ url_for('static', filename='images/' + product_img) }}"
+        alt="{{ name }}"
+        class="rvreg-media-img"
+      >
+      {% endif %}
+    </div>
   </section>
 
   <form
@@ -32,8 +38,7 @@
     enctype="multipart/form-data"
     class="reg-review-form"
   >
-    <input type="hidden" name="name" value="{{ name }}" />
-    <!-- BE hidden input: 선택한 별점값 (rating) 보냄 -->
+    <input type="hidden" name="productID" value="{{ item_id }}" />
     <input type="hidden" name="rating" id="rating-input" value="0" />
 
     <div>
@@ -73,28 +78,96 @@
 </section>
 
 <script>
-  const box = document.querySelector(".rvreg-stars");
-  const stars = box.querySelectorAll(".star");
-  const ratingInput = document.getElementById("rating-input");
+  document.addEventListener('DOMContentLoaded', function () {
+    const starBox = document.querySelector(".rvreg-stars");
+    const ratingInput = document.getElementById("rating-input");
 
-  stars.forEach((star, i) => {
-    star.onmouseenter = () => {
-      stars.forEach((s, j) => s.classList.toggle("filled", j <= i));
-    };
+    if (starBox && ratingInput) {
+      const stars = starBox.querySelectorAll(".star");
 
-    star.onclick = () => {
-      const val = star.dataset.value;
-      ratingInput.value = val;
-      box.dataset.rating = val;
-    };
+      stars.forEach((star, i) => {
+        star.onmouseenter = () => {
+          stars.forEach((s, j) => s.classList.toggle("filled", j <= i));
+        };
+
+        star.onclick = () => {
+          const val = star.dataset.value;
+          ratingInput.value = val;
+          starBox.dataset.rating = val;
+        };
+      });
+
+      starBox.onmouseleave = () => {
+        const current = starBox.dataset.rating || 0;
+        stars.forEach((s) =>
+          s.classList.toggle(
+            "filled",
+            Number(s.dataset.value) <= Number(current)
+          )
+        );
+      };
+    }
+
+    const fileInput = document.getElementById("photos");
+    const photoBoxes = document.querySelectorAll(".photo-preview-wrap .photo-box");
+
+    if (!fileInput || photoBoxes.length === 0) return;
+
+    let selectedFiles = [];
+
+    function syncInput() {
+      const dt = new DataTransfer();
+      selectedFiles.forEach((f) => dt.items.add(f));
+      fileInput.files = dt.files;
+    }
+
+    function renderBoxes() {
+      photoBoxes.forEach((box) => {
+        box.innerHTML = "";
+      });
+
+      selectedFiles.forEach((file, index) => {
+        const box = photoBoxes[index];
+        if (!box) return;
+
+        const url = URL.createObjectURL(file);
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = file.name;
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.objectFit = "cover";
+        img.onload = () => URL.revokeObjectURL(url);
+
+        box.appendChild(img);
+      });
+    }
+
+    fileInput.addEventListener("change", function () {
+      const newFiles = Array.from(fileInput.files);
+      let merged = selectedFiles.concat(newFiles);
+      const maxCount = photoBoxes.length;
+      if (merged.length > maxCount) {
+        alert("사진은 최대 5장까지만 등록할 수 있습니다.");
+        merged = merged.slice(0, maxCount);
+      }
+
+      selectedFiles = merged;
+      syncInput();
+      renderBoxes();
+    });
+    photoBoxes.forEach((box, index) => {
+      box.addEventListener("click", function () {
+        if (!selectedFiles[index]) return;
+        if (!confirm("이 사진을 삭제할까요?")) return;
+
+        selectedFiles.splice(index, 1);
+        syncInput();
+        renderBoxes();
+      });
+    });
   });
-
-  box.onmouseleave = () => {
-    const current = box.dataset.rating || 0;
-    stars.forEach((s) =>
-      s.classList.toggle("filled", Number(s.dataset.value) <= Number(current))
-    );
-  };
 </script>
+
 
 {% endblock section %}

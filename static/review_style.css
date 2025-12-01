@@ -1,4 +1,4 @@
-/* ------------- review.html 리뷰 전체 조회 -------------*/
+/* ------------- reviews.html 리뷰 전체 조회 -------------*/
 .rvall-top {
   background: var(--mint-green);
   border: 1px solid var(--dark-green);
@@ -174,11 +174,18 @@
 
 .rvall-media-placeholder {
   flex-shrink: 0;
-  width: 140px;
+  width: 200px;
   height: 200px;
-  background-color: #e0e0e0;
-  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 5rem;
+}
+
+.rvall-media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .rvall-divider {
@@ -214,6 +221,10 @@
 .page-number.active {
   background: var(--mint-green);
   color: var(--dark-green);
+}
+
+.no-reviews-text {
+  margin-left: 50px;
 }
 
 /* ------------- review_by_item.html 상품별 전체 리뷰 조회 -------------*/
@@ -279,6 +290,10 @@ select.rvbyitem-sort-cat {
   text-align: center;
 }
 
+.norv-text {
+  margin-left: 50px;
+
+}
 /* ------------- reg_review.html 리뷰 등록 -------------*/
 .rvreg-h1 {
   font-family: "Pretendard";
@@ -351,6 +366,14 @@ select.rvbyitem-sort-cat {
   width: 110px;
   height: 110px;
   background: #d9d9d9;
+  overflow: hidden;
+}
+
+.rvreg-media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .reg-review-form {
@@ -408,6 +431,14 @@ textarea {
   height: 50px;
   background: #e1dfdb;
   border-radius: 4px;
+  overflow: hidden;
+}
+
+.photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* button */
@@ -478,11 +509,18 @@ textarea {
   margin-bottom: 0.7rem;
 }
 
-.rvdetail-stars {
-  color: #f3a826;
+.rvdetail-stars .star {
   font-size: 2rem;
   letter-spacing: 0.2rem;
   margin-bottom: 1.2rem;
+}
+
+.rvdetail-stars .star--filled {
+  color: #f3a826;
+}
+
+.rvdetail-stars .star--empty {
+  color: #f3a826;
 }
 
 .rvdetail-title {
@@ -525,4 +563,12 @@ textarea {
   width: 79px;
   height: 79px;
   background: #d9d9d9;
+  overflow: hidden;
+}
+
+.rvdetail-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }

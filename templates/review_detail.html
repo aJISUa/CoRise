@@ -11,26 +11,53 @@
         <div class="rvdetail-avatar"></div>
         <div class="rvdetail-user-name">{{ nickname if nickname else '작성자' }}</div> 
       </div>
-      <div class="rvdetail-product-name">상품: {{ name }}</div> <div class="rvdetail-stars">
-        {% for i in range(data.rate | int) %}
-        <span class="star">★</span>
+      <div class="rvdetail-product-name">상품: {{ name }}</div>
+        <div class="rvdetail-stars">
+        {% set rating = (data.rate or data.rating or 0) | int %}
+        {% for i in range(rating) %}
+          <span class="star star--filled">★</span>
         {% endfor %}
-      </div>
+        {% for i in range(5 - rating) %}
+          <span class="star star--empty">☆</span>
+        {% endfor %}
+        </div>
       <div class="rvdetail-title">{{ data.title }}</div> <p class="rvdetail-text">
         {{ data.review }} </p>
     </div>
 
     <div class="rvdetail-right">
       <div class="rvdetail-img">
-          <img src="{{ url_for('static', filename='images/' + data.img_path) }}" 
-                alt="{{ data.title }}"
-                width="350", height="350">
+          {% if data.img_path %}
+          {% if data.img_path is sequence and data.img_path is not string %}
+            {% set img = data.img_path[0] %}
+          {% else %}
+            {% set img = data.img_path %}
+          {% endif %}
+
+          {% if img %}
+            <img src="{{ url_for('static', filename='images/' + img) }}"
+                 alt="{{ data.title }}"
+                 width="350" height="350">
+          {% endif %}
+        {% endif %}
       </div>
       <div class="rvdetail-thumb-row">
-        <div class="rvdetail-thumb"></div>
-        <div class="rvdetail-thumb"></div>
-        <div class="rvdetail-thumb"></div>
-        <div class="rvdetail-thumb"></div>
+        {% if data.img_path is sequence and data.img_path is not string %}
+          {% set thumbs = data.img_path[1:] %}
+        {% else %}
+          {% set thumbs = [] %}
+        {% endif %}
+
+        {% for i in range(4) %}
+          {% if thumbs|length > i %}
+            <div class="rvdetail-thumb">
+              <img src="{{ url_for('static', filename='images/' + thumbs[i]) }}"
+                   alt="{{ data.title }} thumbnail {{ i+1 }}">
+            </div>
+          {% else %}
+            <div class="rvdetail-thumb"></div>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>

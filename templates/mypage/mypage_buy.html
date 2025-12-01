@@ -14,22 +14,46 @@
 
         <!-- 카드 -->
         {% for order_id, order in row1 %}
-        <div class="purchase-card">
-            <div class="item-image"></div> <!--이미지 경로 추가-->
+        <div class="purchase-card
+            {% if order.is_deleted %} deleted{% endif %}"
+            onclick="handleOrderClick('{{ 'Y' if order.is_deleted else 'N' }}',
+                               '{{ url_for('view_item_detail', item_id=order.productID) }}')"
+            style="cursor: pointer;">
+            
+            <div class="item-image">
+                {% set img = order.item_img[0] if order.item_img is sequence and order.item_img is not string else order.item_img %}
+                
+                {% if img %}
+                    <img src="{{ url_for('static', filename='images/' + img) }}" 
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                {% else %}
+                    <div style="background-color: #f0f0f0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #888;">No Image</div>
+                {% endif %}
+            </div>
+
             <div class="item-content">
                 <div class="item-info">
-                    <p class="seller">판매자: {{ order.seller }}</p>
-                    <p class="item-name">{{ order.item_name }}</p>
+                    <p class="seller">판매자: {{ order.sellerID }}</p>
+                    <p class="item-name">{{ order.item_name }}
+                        {% if order.is_deleted %}
+                            <span class="deleted-tag">(판매 종료)</span>
+                        {% endif %}
+                    </p>
                     <p class="item-price">{{ order.item_price }}원</p>
                 </div>
-                <button type="button" onclick=" location.href='{{ url_for('reg_review_init', name=order.item_name) }}'" class="review-btn">리뷰 작성</button>
+                
+                <button type="button" 
+                        onclick="event.stopPropagation(); location.href='{{ url_for('reg_review_init', item_id=order.productID) }}'" 
+                        class="review-btn">
+                    리뷰 작성
+                </button>
             </div>
         </div>
         {% endfor %}
     </div>    
 
     {% else %}
-    <p>등록된 상품이 없습니다.</p>
+    <p>구매한 상품이 없습니다.</p>
     {% endif %}
 
     <!-- 페이지네이션 -->
@@ -61,7 +85,15 @@
 
 </main>
 
-
+<script>
+    function handleOrderClick(isDeleted, detailUrl) {
+    if (isDeleted === 'Y') {
+      alert('이 상품은 이미 삭제된 상품입니다!');
+      return;
+    }
+    window.location.href = detailUrl;
+  }
+</script>
 
 
 {% endblock section %}

@@ -9,13 +9,16 @@
     <h2><span class="user-name1">{{ user_name }}</span> 님의 판매 내역</h2>
 
     {% if total > 0 %}
-    <!-- 판매 내역 카드 리스트 -->
     <div class="purchase-list1">
 
-        <!-- 카드 1 -->
-        {% for idx, item in row1 %}
+        {% for item_id, item in row1 %}
         <div class="purchase-card1">
-            <div class="item-image1"></div> <!--이미지 경로 추가-->
+            
+            <div class="item-image1">
+                {% set img = item.img_path[0] if item.img_path is sequence and item.img_path is not string else item.img_path %}
+                <img src="{{ url_for('static', filename='images/' + img) }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+            </div> 
+
             <div class="item-content1">
                 <div class="item-info1">
                     <p class="seller1">판매자: {{ user_name }}</p>
@@ -23,8 +26,9 @@
                     <p class="item-price1">{{ item.price }}원</p>
                 </div>
                 <div class="btns">
-                    <button class="correct-btn">삭제</button>
-                    <button class="delete-btn" onclick="location.href='{{ url_for('mypage_sell_edit') }}'">수정</button>
+                    <button class="correct-btn" type="button" onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='/delete/{{ item_id }}'">삭제</button>
+                    
+                    <button class="delete-btn" type="button" onclick="location.href='/edit/{{ item_id }}'">수정</button>
                 </div>
             </div>
         </div>
@@ -35,17 +39,13 @@
     <p>등록된 상품이 없습니다.</p>
     {% endif %}
 
-    <!-- 페이지네이션 -->
     <nav class="pagination">
-
-        <!-- 이전 페이지 버튼 -->
         {% if page > 0 %}
         <a class="page-btn" href="{{ url_for('mypage_sell', page=page-1) }}">&lsaquo;</a>
         {% else %}
         <span class="page-btn" style="opacity:0.4; pointer-events:none;">&lsaquo;</span>
         {% endif %}
 
-        <!-- 페이지 번호 반복 -->
         {% for i in range(page_count) %}
         <a class="page-number {% if i == page %}active{% endif %}" 
             href="{{ url_for('mypage_sell', page=i) }}">
@@ -53,13 +53,11 @@
         </a>
         {% endfor %}
 
-        <!-- 다음 페이지 버튼 -->
         {% if page < page_count - 1 %}
         <a class="page-btn" href="{{ url_for('mypage_sell', page=page+1) }}">&rsaquo;</a>
         {% else %}
         <span class="page-btn" style="opacity:0.4; pointer-events:none;">&rsaquo;</span>
         {% endif %}
-
     </nav>
 
 </main>
